@@ -1,6 +1,11 @@
 
-const temp = require('./lib/main');
-temp.setRootDirectory(__dirname);
-temp.setBigStorage(10000);
+const disk = require('./lib/main');
+const fs = require('fs')
 
-temp.scanAllWithCompare();
+disk.Scan("F:\\Project\\ATV", 100000000)
+
+// disk.Compare();
+
+// let result = fs.readdirSync("F:\\Project") //Scan all item into directory with path pathX
+
+// console.log(result)

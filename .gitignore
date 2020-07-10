@@ -1,0 +1,7 @@
+# log file
+*.log
+node_modules/
+
+# For lock file of yarn or npm
+yarn.lock
+package-lock.json
