@@ -1,0 +1,384 @@
+{
+    "root": {
+        "parent": null,
+        "name": "F:\\Project\\storage\\devpstudio\\storage\\lib",
+        "storage": 540798,
+        "type": "Directory",
+        "child": [
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\lib",
+                "storage": 6385,
+                "type": "Directory",
+                "child": [
+                    {
+                        "parent": null,
+                        "name": "F:\\Project\\storage\\devpstudio\\storage\\lib\\Check.js",
+                        "storage": 6385,
+                        "type": "File",
+                        "child": []
+                    }
+                ]
+            },
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules",
+                "storage": 531949,
+                "type": "Directory",
+                "child": [
+                    {
+                        "parent": null,
+                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\assert-plus",
+                        "storage": 11951,
+                        "type": "Directory",
+                        "child": [
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\assert-plus\\assert.js",
+                                "storage": 6562,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\assert-plus\\package.json",
+                                "storage": 1397,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\assert-plus\\README.md",
+                                "storage": 3992,
+                                "type": "File",
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "parent": null,
+                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown",
+                        "storage": 7830,
+                        "type": "Directory",
+                        "child": [
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown\\CHANGES.md",
+                                "storage": 127,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown\\index.js",
+                                "storage": 2637,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown\\LICENSE",
+                                "storage": 1102,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown\\package.json",
+                                "storage": 1693,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\cooldown\\README.md",
+                                "storage": 2271,
+                                "type": "File",
+                                "child": []
+                            }
+                        ]
+                    },
+                    {
+                        "parent": null,
+                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js",
+                        "storage": 512168,
+                        "type": "Directory",
+                        "child": [
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\.github",
+                                "storage": 819,
+                                "type": "Directory",
+                                "child": [
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\.github\\workflows",
+                                        "storage": 819,
+                                        "type": "Directory",
+                                        "child": [
+                                            {
+                                                "parent": null,
+                                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\.github\\workflows\\npm-publish.yml",
+                                                "storage": 819,
+                                                "type": "File",
+                                                "child": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\.travis.yml",
+                                "storage": 49,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\demo",
+                                "storage": 171245,
+                                "type": "Directory",
+                                "child": [
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\demo\\giant.json",
+                                        "storage": 168512,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\demo\\index.js",
+                                        "storage": 2496,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\demo\\webpack.config.js",
+                                        "storage": 237,
+                                        "type": "File",
+                                        "child": []
+                                    }
+                                ]
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist",
+                                "storage": 45244,
+                                "type": "Directory",
+                                "child": [
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\json-formatter.cjs.js",
+                                        "storage": 13669,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\json-formatter.css",
+                                        "storage": 5827,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\json-formatter.esm.js",
+                                        "storage": 12747,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\json-formatter.umd.js",
+                                        "storage": 12934,
+                                        "type": "File",
+                                        "child": []
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\mocks",
+                                        "storage": 55,
+                                        "type": "Directory",
+                                        "child": [
+                                            {
+                                                "parent": null,
+                                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\mocks\\less.d.ts",
+                                                "storage": 55,
+                                                "type": "File",
+                                                "child": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\test",
+                                        "storage": 12,
+                                        "type": "Directory",
+                                        "child": [
+                                            {
+                                                "parent": null,
+                                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist\\test\\spec.d.ts",
+                                                "storage": 12,
+                                                "type": "File",
+                                                "child": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\index.html",
+                                "storage": 2512,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\LICENSE",
+                                "storage": 1098,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\mocks",
+                                "storage": 20,
+                                "type": "Directory",
+                                "child": [
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\mocks\\less.ts",
+                                        "storage": 20,
+                                        "type": "File",
+                                        "child": []
+                                    }
+                                ]
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\package-lock.json",
+                                "storage": 275681,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\package.json",
+                                "storage": 2427,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\README.md",
+                                "storage": 3100,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\rollup.config.js",
+                                "storage": 728,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\rollup.dev.config.js",
+                                "storage": 752,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\server.js",
+                                "storage": 558,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\test",
+                                "storage": 6864,
+                                "type": "Directory",
+                                "child": [
+                                    {
+                                        "parent": null,
+                                        "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\test\\spec.ts",
+                                        "storage": 6864,
+                                        "type": "File",
+                                        "child": []
+                                    }
+                                ]
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\tsconfig.json",
+                                "storage": 358,
+                                "type": "File",
+                                "child": []
+                            },
+                            {
+                                "parent": null,
+                                "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\webpack.config.js",
+                                "storage": 713,
+                                "type": "File",
+                                "child": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\package-lock.json",
+                "storage": 806,
+                "type": "File",
+                "child": []
+            },
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\README.md",
+                "storage": 1525,
+                "type": "File",
+                "child": []
+            },
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\result",
+                "storage": 0,
+                "type": "Directory",
+                "child": []
+            },
+            {
+                "parent": null,
+                "name": "F:\\Project\\storage\\devpstudio\\storage\\test.js",
+                "storage": 133,
+                "type": "File",
+                "child": []
+            }
+        ]
+    },
+    "array": [
+        {
+            "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\assert-plus",
+            "storage": 11951
+        },
+        {
+            "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\demo",
+            "storage": 171245
+        },
+        {
+            "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js\\dist",
+            "storage": 45177
+        },
+        {
+            "name": "F:\\Project\\storage\\devpstudio\\storage\\node_modules\\json-formatter-js",
+            "storage": 287976
+        }
+    ]
+}
