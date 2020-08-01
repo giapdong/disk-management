@@ -4,7 +4,7 @@ Là một module mình tự chế để quản lý việc phình to dung lượn
 
 ### Cách sử dụng
 
-Demo
+Cài đặt
 
 ```bash
 git clone https://github.com/giapdong/disk-management.git
