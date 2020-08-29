@@ -1,6 +1,8 @@
 # log file
 *.log
 node_modules/
+scan/
+compare/
 
 # For lock file of yarn or npm
 yarn.lock
