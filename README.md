@@ -14,10 +14,10 @@ cd disk-management
 code .
 ```
 
-Tạo 1 <file-name>.js, ở đây mình tạo file test.js
+Tạo 1 `<file-name>`.js, ở đây mình tạo file test.js
 
 ```javascript
-const disk = require("./lib/main.js");
+const disk = require("./lib/index.js");
 const myConst = require("./lib/const.js");
 
 disk.Scan(__dirname, 10000, myConst.ScanMode.OnlyBigDirectory);
@@ -38,7 +38,7 @@ yarn add giapdong/disk-management
 npm install giapdong/disk-management
 ```
 
-Tạo 1 <file-name>.js, ở đây mình tạo file index.js
+Tạo 1 `<file-name>`.js, ở đây mình tạo file index.js
 
 ```javascript
 const disk = require("disk-management");
