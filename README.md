@@ -1,35 +1,8 @@
-# Disk management với Nodejs
+# Disk management with Nodejs
 
-Là một module mình tự chế để quản lý việc phình to dung lượng bất thường.
+Module/CLI application management storage your disk
 
-### Cách sử dụng
-
----
-
-###### Clone từ github
-
-```bash
-git clone https://github.com/giapdong/disk-management.git
-cd disk-management
-code .
-```
-
-Tạo 1 `<file-name>`.js, ở đây mình tạo file test.js
-
-```javascript
-const disk = require("./lib/index.js");
-const myConst = require("./lib/const.js");
-
-disk.Scan(__dirname, 10000, myConst.ScanMode.OnlyBigDirectory);
-```
-
-Run chương trình test
-
-```bash
-node test.js
-```
-
-###### Install là một dependencies trong project
+## Installation
 
 ```bash
 # yarn
@@ -38,7 +11,33 @@ yarn add giapdong/disk-management
 npm install giapdong/disk-management
 ```
 
-Tạo 1 `<file-name>`.js, ở đây mình tạo file index.js
+## Table of Contents
+
+<ul>
+    <li>
+        <li><a href="#importing">Importing</a></li>
+        <a href="#usage">Usage</a>
+        <ul>
+            <li><a href="#clone-from-github">Clone from github</a></li>
+            <li><a href="#install-as-dependencies-in-your-project">Install as dependencies in your project</a></li>
+        </ul>
+    </li>
+    <li><a href="#api">API</a></li>
+</ul>
+
+## Importing
+
+```javascript
+const DiskManagement = require("disk-management");
+```
+
+## Usage
+
+Base guide for application
+
+### Install as dependencies in your project
+
+Create 1 `<file-name>`.js, here we create file run.js
 
 ```javascript
 const disk = require("disk-management");
@@ -48,23 +47,21 @@ const myConst = disk.d_Const;
 diskManagement.Scan(__dirname, 10000, myConst.ScanMode.OnlyBigDirectory);
 ```
 
-Run chương trình
+Run application
 
 ```bash
-node index.js
+node run.js
 ```
 
-### API `Work In Process`
+## API
 
----
+## `Work In Process`
 
 Scan `Function`
 Quét một lượt từ thư mục được truyền vào
 
 Compare `Function`
 So sánh hai lần quét và tìm kiếm sự chênh lệch
-
----
 
 Const
 ScanMode `Enum`
