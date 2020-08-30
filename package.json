@@ -8,5 +8,13 @@
     "express": "^4.17.1",
     "lodash": "^4.17.19",
     "ora": "^4.0.5"
-  }
+  },
+  "bin": {
+    "disk-management": "./bin/cli.js"
+  },
+  "keywords": [
+    "disk-management",
+    "storage",
+    "cli"
+  ]
 }
