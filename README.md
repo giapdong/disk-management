@@ -14,15 +14,21 @@ npm install giapdong/disk-management
 ## Table of Contents
 
 <ul>
+    <li><a href="#importing">Importing</a></li>
     <li>
-        <li><a href="#importing">Importing</a></li>
         <a href="#usage">Usage</a>
         <ul>
-            <li><a href="#clone-from-github">Clone from github</a></li>
-            <li><a href="#install-as-dependencies-in-your-project">Install as dependencies in your project</a></li>
+            <li><a href="#simple-demo">Simple demo</a></li>
         </ul>
     </li>
-    <li><a href="#api">API</a></li>
+    <li>
+        <a href="#api">API</a>
+        <ul>
+            <li><a href="#scan">Scan</a></li>
+            <li><a href="#compare">Compare</a></li>
+            <li><a href="#scanmode">ScanMode</a></li>
+        </ul>
+    </li>
 </ul>
 
 ## Importing
@@ -35,16 +41,14 @@ const DiskManagement = require("disk-management");
 
 Base guide for application
 
-### Install as dependencies in your project
+### Simple demo
 
 Create 1 `<file-name>`.js, here we create file run.js
 
 ```javascript
-const disk = require("disk-management");
-const diskManagement = disk.diskManagement;
-const myConst = disk.d_Const;
+const DiskManagement = require("disk-management");
 
-diskManagement.Scan(__dirname, 10000, myConst.ScanMode.OnlyBigDirectory);
+DiskManagement.Scan(__dirname, 10000, DiskManagement.ScanMode.OnlyBigDirectory);
 ```
 
 Run application
@@ -55,14 +59,25 @@ node run.js
 
 ## API
 
-## `Work In Process`
+### Scan
 
-Scan `Function`
-Quét một lượt từ thư mục được truyền vào
+`DiskManagement.Scan(directory, threshold, mode)`
 
-Compare `Function`
-So sánh hai lần quét và tìm kiếm sự chênh lệch
+@directory: `String` Path to root directory you want scan
 
-Const
-ScanMode `Enum`
-EventType `Enum`
+@threshold: `Number` Minimum number(Bytes) you want application filter your child folder
+
+@[mode](): `ScanMode` Mode to scan
+
+### Compare
+
+`DiskManagement.Compare()`
+Default compare two last time
+
+### ScanMode
+
+Type: `Enum`
+
+Values: `Normal | OnlyBigDirectory`
+
+Description: In `Normal` mode, application will store all infomation of tree directory. Else with `OnlyBigDirectory` mode, application will store only folder with size of `all file in that folder`. For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
