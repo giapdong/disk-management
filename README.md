@@ -58,6 +58,14 @@ const { Scan, ScanMode } = require("disk-management");
 Scan(__dirname, 10000, ScanMode.OnlyBigDirectory);
 ```
 
+Or you need compare change in your disk
+
+```javascript
+const { Compare } = require("disk-management");
+
+Compare(10000);
+```
+
 Run application
 
 ```bash
@@ -98,4 +106,4 @@ We built-in with cli command. See help follow below guide.
 
 If you use yarn as package management, you can install disk-management cli as dependencies in your nodejs application. Run cli follow command: `yarn disk-management`
 
-If you use npm, you need install ** disk-management ** in global. Run cli follow command: `disk-management`
+If you use npm, you need install **disk-management** in global. Run cli follow command: `disk-management`
