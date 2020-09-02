@@ -29,12 +29,19 @@ npm install giapdong/disk-management
             <li><a href="#scanmode">ScanMode</a></li>
         </ul>
     </li>
+    <li><a href="#cli">CLI</a></li>
 </ul>
 
 ## Importing
 
 ```javascript
 const DiskManagement = require("disk-management");
+```
+
+If you need micro function, import with ES6 systax
+
+```javascript
+const { color, ScanMode, Scan, Compare } = require("disk-management");
 ```
 
 ## Usage
@@ -46,9 +53,9 @@ Base guide for application
 Create 1 `<file-name>`.js, here we create file run.js
 
 ```javascript
-const DiskManagement = require("disk-management");
+const { Scan, ScanMode } = require("disk-management");
 
-DiskManagement.Scan(__dirname, 10000, DiskManagement.ScanMode.OnlyBigDirectory);
+Scan(__dirname, 10000, ScanMode.OnlyBigDirectory);
 ```
 
 Run application
@@ -61,7 +68,7 @@ node run.js
 
 ### Scan
 
-`DiskManagement.Scan(directory, threshold, mode)`
+`Scan(directory, threshold, mode)`
 
 @directory: `String` Path to root directory you want scan
 
@@ -71,7 +78,9 @@ node run.js
 
 ### Compare
 
-`DiskManagement.Compare()`
+`DiskManagement.Compare(threshold)`
+
+@threshold: `Number` Minimum file size changed of each File same position
 Default compare two last time
 
 ### ScanMode
@@ -80,7 +89,8 @@ Type: `Enum`
 
 Values: `Normal | OnlyBigDirectory`
 
-Description: In `Normal` mode, application will store all infomation of tree directory. Else with `OnlyBigDirectory` mode, application will store only folder with size of `all file in that folder`. For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
+Description: In `Normal` mode, application will store all infomation of tree directory. Else with `OnlyBigDirectory` mode, application will store only folder with size of `all file in that folder`.
+For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
 
 ## CLI
 

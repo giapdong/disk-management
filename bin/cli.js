@@ -1,15 +1,13 @@
 #!/usr/bin/env node
-// https://www.youtube.com/watch?v=q3IfiUCuZvU
 
 const { program } = require("commander");
 const package = require("../package.json");
 const colors = require("colors");
-const { color, ScanMode, Scan } = require("../index.js");
-const { Compare } = require("../lib");
+const { color, ScanMode, Scan, Compare } = require("../index.js");
 
 colors.setTheme(color);
 const cliVersion = [
-  "Disk management CLI version:".blue,
+  "Disk management latest CLI version:".blue,
   package.version.success,
 ].join(" ");
 
@@ -24,7 +22,7 @@ program
     "Minimum size of directory to evaluate"
   )
   .option("-m, --mode <mode>", "Mode scan 'Normal' | 'OnlyBigDirectory'")
-  .description("Scan your disk")
+  .description("Scan your disk from root")
   .action((cmd) => {
     let root = cmd.root || __dirname;
     let threshold = cmd.threshold || 10000;
