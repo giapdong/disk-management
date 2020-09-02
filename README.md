@@ -67,7 +67,7 @@ node run.js
 
 @threshold: `Number` Minimum number(Bytes) you want application filter your child folder
 
-@[mode](): `ScanMode` Mode to scan
+@[mode](#scanmode): `ScanMode` Mode to scan
 
 ### Compare
 
@@ -81,3 +81,8 @@ Type: `Enum`
 Values: `Normal | OnlyBigDirectory`
 
 Description: In `Normal` mode, application will store all infomation of tree directory. Else with `OnlyBigDirectory` mode, application will store only folder with size of `all file in that folder`. For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
+
+## CLI
+
+We built-in with cli command
+See detail please type: npm disk-management
