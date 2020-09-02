@@ -94,5 +94,8 @@ For example, you have folder with 3 file and 5 folder, we will calcute size of f
 
 ## CLI
 
-We built-in with cli command
-See detail please type: npm disk-management
+We built-in with cli command. See help follow below guide.
+
+If you use yarn as package management, you can install disk-management cli as dependencies in your nodejs application. Run cli follow command: `yarn disk-management`
+
+If you use npm, you need install ** disk-management ** in global. Run cli follow command: `disk-management`
