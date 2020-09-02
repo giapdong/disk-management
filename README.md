@@ -86,7 +86,7 @@ node run.js
 
 ### Compare
 
-`DiskManagement.Compare(threshold)`
+`Compare(threshold)`
 
 @threshold: `Number` Minimum file size changed of each File same position
 Default compare two last time
@@ -98,6 +98,7 @@ Type: `Enum`
 Values: `Normal | OnlyBigDirectory`
 
 Description: In `Normal` mode, application will store all infomation of tree directory. Else with `OnlyBigDirectory` mode, application will store only folder with size of `all file in that folder`.
+
 For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
 
 ## CLI
