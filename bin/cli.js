@@ -3,7 +3,10 @@
 const { program } = require("commander");
 const package = require("../package.json");
 const colors = require("colors");
+const path = require("path");
+const { exec } = require("child_process");
 const { color, ScanMode, Scan, Compare } = require("../index.js");
+const { stderr } = require("process");
 
 colors.setTheme(color);
 const cliVersion = [
@@ -39,6 +42,19 @@ program
   .action((cmd) => {
     let threshold = cmd.threshold || 10000;
     Compare(threshold);
+  });
+program
+  .command("open")
+  .description("Open HTML file for UI/UX application")
+  .action((cmd) => {
+    exec(`npm start`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+    });
   });
 
 program.parse(process.argv);
