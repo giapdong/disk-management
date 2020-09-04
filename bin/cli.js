@@ -16,7 +16,6 @@ const cliVersion = [
 
 program.version(cliVersion, "-v, --version", "output the current version");
 
-program.option("-rs, --roots <directory>", "Select root directory to scan");
 program
   .command("scan")
   .option("-r, --root <directory>", "Start directory application will scan")
@@ -32,6 +31,7 @@ program
     let mode = ScanMode[cmd.mode] || ScanMode.Normal;
     Scan(root, threshold, mode);
   });
+program.helpOption("-h, --help", "output usage information");
 program
   .command("compare")
   .option(
@@ -43,6 +43,7 @@ program
     let threshold = cmd.threshold || 10000;
     Compare(threshold);
   });
+
 program
   .command("open")
   .description("Open HTML file for UI/UX application")

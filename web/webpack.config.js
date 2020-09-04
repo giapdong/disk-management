@@ -1,5 +1,8 @@
 const path = require("path");
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+if (!process.env.CHECK_POINT)
+  require("dotenv-flow").config({ path: __dirname });
 
 module.exports = {
   context: __dirname,
@@ -8,25 +11,34 @@ module.exports = {
   },
   mode: process.env.NODE_ENV || "development",
   entry: {
-    index: path.join(__dirname, "client", "main.js"),
+    index: path.join(__dirname, "public/javascripts/main.js"),
   },
   output: {
-    path: path.join(__dirname, "__build__"),
+    path: path.join(__dirname, "public/dist"),
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
-    publicPath: "/__build__/",
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "client"), // static file
-    compress: true,
-    open: true,
-    port: 10203,
+    publicPath: "/public/dist",
   },
   module: {
-    rules: [{ test: /\.js$/, exclude: /node_modules/, use: ["babel-loader"] }],
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, use: ["babel-loader"] },
+      { test: /\.vue$/, use: ["vue-loader"] },
+      { test: /\.css$/, use: ["vue-style-loader", "css-loader"] },
+      {
+        test: /\.less$/,
+        use: ["vue-style-loader", "css-loader", "less-loader"],
+      },
+    ],
+  },
+  resolve: {
+    alias: {
+      vue$: "vue/dist/vue.esm.js", // sử dụng 'vue/dist/vue.common.js' nếu là webpack 1
+      //vue: 'vue/dist/vue.esm.js',
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],
+  devtool: "inline-source-map",
 };
