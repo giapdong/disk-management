@@ -4,9 +4,8 @@ const { program } = require("commander");
 const package = require("../package.json");
 const colors = require("colors");
 const path = require("path");
-const { exec } = require("child_process");
+const { exec, spawn } = require("child_process");
 const { color, ScanMode, Scan, Compare } = require("../index.js");
-const { stderr } = require("process");
 
 colors.setTheme(color);
 const cliVersion = [
@@ -47,14 +46,10 @@ program
 program
   .command("open")
   .description("Open HTML file for UI/UX application")
-  .action((cmd) => {
-    exec(`npm start`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
+  .action(async (cmd) => {
+    let { stdout, stderr } = await exec(`npm start`);
+    stdout.on("data", (data) => {
+      console.log(data.toString());
     });
   });
 

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 if (!process.env.CHECK_POINT)
   require("dotenv-flow").config({ path: __dirname });
 
@@ -33,10 +34,11 @@ module.exports = {
   resolve: {
     alias: {
       vue$: "vue/dist/vue.esm.js", // sử dụng 'vue/dist/vue.common.js' nếu là webpack 1
-      //vue: 'vue/dist/vue.esm.js',
+      vue: "vue/dist/vue.esm.js",
     },
   },
   plugins: [
+    new VueLoaderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
   ],

@@ -1,9 +1,12 @@
+import Vue from "vue";
+
+import App from "../../pages/index.vue";
+
 import _ from "lodash";
 
-window.onload = async function () {
-  console.log("log in loaded");
-  let data = [1, 2, 3];
-  data = _.map(data, (item) => item);
-  console.log(data);
-  console.log("abcden");
-};
+const app = new Vue({
+  el: "#app",
+  render: (h) => h(App),
+});
+
+export default app;
