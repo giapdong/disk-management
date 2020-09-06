@@ -1,12 +1,13 @@
+.ml-1 {
+  margin-left: 0.25rem;
+}
 body {
-  padding: 50px;
+  color: black;
+  background-color: white;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-a {
-  color: #00b7ff;
-}
-p {
-  color: #ff0062;
-  border: 1px solid blue;
+body .dm-body-content {
+  width: 100%;
+  margin: 0 auto;
 }
 

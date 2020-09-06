@@ -47,8 +47,6 @@ module.exports = {
             options: {
               publicPath: "/public/dist",
               esModule: true,
-              hmr: process.env.NODE_ENV === "development",
-              reloadAll: true,
             },
           },
           "css-loader",
@@ -63,8 +61,6 @@ module.exports = {
             options: {
               publicPath: "/public/dist",
               esModule: true,
-              hmr: process.env.NODE_ENV === "development",
-              reloadAll: true,
             },
           },
           "css-loader",
