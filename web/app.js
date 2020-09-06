@@ -24,6 +24,14 @@ if (process.env.NODE_ENV == "development") {
       index: "public/dist/index.html",
     })
   );
+  // Step 3: Attach the hot middleware to the compiler & the server
+  app.use(
+    require("webpack-hot-middleware")(compiler, {
+      log: console.log,
+      path: "/__webpack_hmr",
+      heartbeat: 10 * 1000,
+    })
+  );
 }
 
 app.use(morgan("dev"));

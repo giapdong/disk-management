@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+const hotMiddlewareScript =
+  "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true";
 if (!process.env.CHECK_POINT)
   require("dotenv-flow").config({ path: path.join(__dirname, "enviroments") });
 
@@ -15,8 +17,14 @@ module.exports = {
   // devtool: "inline-source-map",
   mode: process.env.NODE_ENV || "production",
   entry: {
-    index: path.join(__dirname, "public/javascripts/main.js"),
-    style: path.join(__dirname, "public/stylesheets/style.less"),
+    index: [
+      path.join(__dirname, "public/javascripts/main.js"),
+      hotMiddlewareScript,
+    ],
+    style: [
+      path.join(__dirname, "public/stylesheets/style.less"),
+      hotMiddlewareScript,
+    ],
   },
   output: {
     path: path.join(__dirname, "public/dist"),
