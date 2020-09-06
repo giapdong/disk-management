@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack --config ./web/webpack.config.js --watch",
+    "dev": "webpack --config ./web/webpack.dev.js --watch",
     "start": "nodemon ./web/bin/www",
-    "build": "webpack --config ./web/webpack.config.js",
+    "build": "webpack --config ./web/webpack.prod.js",
     "web:dev": "concurrently 'npm:dev' 'npm:start'"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.1",
     "lodash": "^4.17.19",
+    "mini-css-extract-plugin": "^0.11.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "open": "^7.2.1",

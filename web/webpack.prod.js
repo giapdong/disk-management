@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 if (!process.env.CHECK_POINT)
   require("dotenv-flow").config({ path: path.join(__dirname, "enviroments") });
 
@@ -12,7 +12,6 @@ module.exports = {
   node: {
     __dirname: true,
   },
-  // devtool: "inline-source-map",
   mode: process.env.NODE_ENV || "production",
   entry: {
     index: path.join(__dirname, "public/javascripts/main.js"),
@@ -39,10 +38,38 @@ module.exports = {
         },
       },
       { test: /\.vue$/, use: ["vue-loader"] },
-      { test: /\.css$/, use: ["vue-style-loader", "css-loader"] },
+      {
+        test: /\.css$/,
+        use: [
+          "vue-style-loader",
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "/public/dist",
+              esModule: true,
+              hmr: process.env.NODE_ENV === "development",
+              reloadAll: true,
+            },
+          },
+          "css-loader",
+        ],
+      },
       {
         test: /\.less$/,
-        use: ["vue-style-loader", "css-loader", "less-loader"],
+        use: [
+          "vue-style-loader",
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: "/public/dist",
+              esModule: true,
+              hmr: process.env.NODE_ENV === "development",
+              reloadAll: true,
+            },
+          },
+          "css-loader",
+          "less-loader",
+        ],
       },
     ],
   },
@@ -54,15 +81,19 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new CleanWebpackPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+      ignoreOrder: false,
+    }),
     new HtmlWebpackPlugin({
       title: "Disk management",
       template: "index-template.html",
       alwaysWriteToDisk: true,
     }),
-    new HtmlWebpackHarddiskPlugin(),
   ],
   optimization: {
     splitChunks: {

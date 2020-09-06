@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const ResponseFormat = require("response-format");
 const webpackDevMiddleWare = require("webpack-dev-middleware");
 
-const config = require("./webpack.config.js");
+const config = require("./webpack.dev.js");
 const compiler = webpack(config);
 const app = express();
 if (!process.env.CHECK_POINT)
