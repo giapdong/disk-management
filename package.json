@@ -1,6 +1,6 @@
 {
   "name": "disk-management",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "main": "index.js",
   "license": "MIT",
   "author": "Giap Dong",
