@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+const path = require("path");
+const colors = require("colors");
 const { program } = require("commander");
 const package = require("../package.json");
-const colors = require("colors");
-const path = require("path");
 const { exec, spawn } = require("child_process");
 const { color, ScanMode, Scan, Compare } = require("../index.js");
 
@@ -47,7 +47,12 @@ program
   .command("open")
   .description("Open HTML file for UI/UX application")
   .action(async (cmd) => {
-    let { stdout, stderr } = await exec(`npm start`);
+    let packageStart = package.scripts.start.split(" ");
+    let pathServer = packageStart[1];
+    let pathAbsoluteServer = path.resolve(__dirname, "../", pathServer);
+    let commandExec = `npx ${packageStart[0]} ${pathAbsoluteServer}`;
+
+    let { stdout, stderr } = await exec(commandExec);
     stdout.on("data", (data) => {
       console.log(data.toString());
     });
