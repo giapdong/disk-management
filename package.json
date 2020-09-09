@@ -62,5 +62,12 @@
   "bugs": {
     "url": "https://github.com/giapdong/disk-management/issues"
   },
-  "homepage": "https://github.com/giapdong/disk-management#readme"
+  "homepage": "https://github.com/giapdong/disk-management#readme",
+  "files": [
+    "bin",
+    "web",
+    "lib",
+    "dist/*.js",
+    "types/*.d.ts"
+  ]
 }

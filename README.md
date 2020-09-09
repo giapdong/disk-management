@@ -6,9 +6,9 @@ Module/CLI application management storage your disk
 
 ```bash
 # yarn
-yarn add giapdong/disk-management
+$ yarn add disk-management
 #npm
-npm install giapdong/disk-management
+$ npm install disk-management
 ```
 
 ## Table of Contents
@@ -108,3 +108,9 @@ We built-in with cli command. See help follow below guide.
 If you use yarn as package management, you can install disk-management cli as dependencies in your nodejs application. Run cli follow command: `yarn disk-management`
 
 If you use npm, you need install **disk-management** in global. Run cli follow command: `disk-management`
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2020, Giap Dong
