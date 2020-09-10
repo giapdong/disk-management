@@ -1,27 +1,27 @@
 <template>
-  <div class="dm">
-    <section class="ant-layout">
-      <header class="ant-layout-header">
-        <div class="dm-body-content">
-          <div class="dm-header-logo">
-            <img src="/images/icon.svg" alt="Logo disk management" />
-            <span class="ml-1">Disk management</span>
-          </div>
-          <div class="dm-header-menu">
-            <span class="ml-1">Disk management</span>
-            <npmIcon />
-            <a-icon class="ml-1" type="github" @click="gotoGithub" />
-          </div>
+  <section class="ant-layout app">
+    <header class="ant-layout-header">
+      <div class="app-container-content">
+        <div class="app-header-logo">
+          <img src="/images/icon.svg" alt="Logo disk management" />
+          <span class="ml-1">Disk management</span>
         </div>
-      </header>
-      <main class="ant-layout-content">
-        <button class="ant-btn ant-btn-primary ml-1">Button</button>
-      </main>
-      <footer class="ant-layout-footer">
-        ©COPYRIGHT BY DevP Studio 2020
-      </footer>
-    </section>
-  </div>
+        <div class="app-header-menu">
+          <span class="ml-1">Disk management</span>
+          <npmIcon />
+          <a-icon class="ml-1" type="github" @click="gotoGithub" />
+        </div>
+      </div>
+    </header>
+    <main class="ant-layout-content p-1">
+      <button class="ant-btn ant-btn-primary ml-1">Button</button>
+    </main>
+    <footer class="ant-layout-footer">
+      <div class="app-container-content">
+        <span class="text-bold">©COPYRIGHT BY DevP Studio 2020</span>
+      </div>
+    </footer>
+  </section>
 </template>
 
 <script>
@@ -46,13 +46,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dm {
+.app {
   .ant-layout-header {
     top: 0px;
     z-index: 10;
     position: sticky;
+    background: #2b3a42;
 
-    .dm-body-content {
+    .app-container-content {
       height: 100%;
       display: flex;
       color: white;
@@ -60,7 +61,7 @@ export default {
       background: #2b3a42;
       justify-content: space-between;
 
-      .dm-header-logo {
+      .app-header-logo {
         height: 100%;
         display: flex;
         width: fit-content;
@@ -71,7 +72,7 @@ export default {
         }
       }
 
-      .dm-header-menu {
+      .app-header-menu {
         width: fit-content;
       }
     }
@@ -79,17 +80,19 @@ export default {
 
   .ant-layout-content {
     color: black;
-    height: 1000px;
-    min-height: 120px;
-    line-height: 120px;
+    height: calc(100vh - 150px);
     background-color: white;
   }
 
   .ant-layout-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
     background-color: white;
+
+    .app-container-content {
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: center;
+      background-color: white;
+    }
   }
 }
 </style>
