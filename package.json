@@ -10,7 +10,7 @@
     "build": "webpack --config ./web/webpack.prod.js",
     "web:dev": "concurrently 'npm:dev' 'npm:start'"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "ant-design-vue": "^1.6.5",

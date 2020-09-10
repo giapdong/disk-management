@@ -1,7 +1,7 @@
 <template>
   <div class="dm">
-    <a-layout>
-      <a-layout-header>
+    <section class="ant-layout">
+      <header class="ant-layout-header">
         <div class="dm-body-content">
           <div class="dm-header-logo">
             <img src="/images/icon.svg" alt="Logo disk management" />
@@ -9,23 +9,29 @@
           </div>
           <div class="dm-header-menu">
             <span class="ml-1">Disk management</span>
+            <npmIcon />
             <a-icon class="ml-1" type="github" @click="gotoGithub" />
           </div>
         </div>
-      </a-layout-header>
-      <a-layout-content>
-        <a-button class="ml-1" type="danger">Button</a-button>
-      </a-layout-content>
-      <a-layout-footer>
+      </header>
+      <main class="ant-layout-content">
+        <button class="ant-btn ant-btn-primary ml-1">Button</button>
+      </main>
+      <footer class="ant-layout-footer">
         ©COPYRIGHT BY DevP Studio 2020
-      </a-layout-footer>
-    </a-layout>
+      </footer>
+    </section>
   </div>
 </template>
 
 <script>
+import npmIcon from "../components/npmIcon.vue";
+
 export default {
   name: "dashboard",
+  components: {
+    npmIcon,
+  },
   created() {
     const data = [1, 2, 3, 4];
     const find = _.filter(data, (item) => item >= 3);
