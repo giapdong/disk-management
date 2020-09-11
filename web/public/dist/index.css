@@ -1,19 +1,19 @@
-i[data-v-a7254648] {
+i[data-v-64e47c99] {
   cursor: pointer;
   box-sizing: border-box;
 }
-i svg[data-v-a7254648] {
+i svg[data-v-64e47c99] {
   height: 20px;
   width: 30px;
 }
 
-.app .ant-layout-header[data-v-8e245e16] {
+.app .ant-layout-header[data-v-2a183b29] {
   top: 0px;
   z-index: 10;
   position: sticky;
   background: #2b3a42;
 }
-.app .ant-layout-header .app-container-content[data-v-8e245e16] {
+.app .ant-layout-header .app-container-content[data-v-2a183b29] {
   height: 100%;
   display: flex;
   color: white;
@@ -21,27 +21,27 @@ i svg[data-v-a7254648] {
   background: #2b3a42;
   justify-content: space-between;
 }
-.app .ant-layout-header .app-container-content .app-header-logo[data-v-8e245e16] {
+.app .ant-layout-header .app-container-content .app-header-logo[data-v-2a183b29] {
   height: 100%;
   display: flex;
   width: fit-content;
   flex-direction: row;
 }
-.app .ant-layout-header .app-container-content .app-header-logo img[data-v-8e245e16] {
+.app .ant-layout-header .app-container-content .app-header-logo img[data-v-2a183b29] {
   height: 90%;
 }
-.app .ant-layout-header .app-container-content .app-header-menu[data-v-8e245e16] {
+.app .ant-layout-header .app-container-content .app-header-menu[data-v-2a183b29] {
   width: fit-content;
 }
-.app .ant-layout-content[data-v-8e245e16] {
+.app .ant-layout-content[data-v-2a183b29] {
   color: black;
   height: calc(100vh - 150px);
   background-color: white;
 }
-.app .ant-layout-footer[data-v-8e245e16] {
+.app .ant-layout-footer[data-v-2a183b29] {
   background-color: white;
 }
-.app .ant-layout-footer .app-container-content[data-v-8e245e16] {
+.app .ant-layout-footer .app-container-content[data-v-2a183b29] {
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;

@@ -1,18 +1,19 @@
 const path = require("path");
 const morgan = require("morgan");
-const webpack = require("webpack");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const ResponseFormat = require("response-format");
-const webpackDevMiddleWare = require("webpack-dev-middleware");
 
-const config = require("./webpack.dev.js");
-const compiler = webpack(config);
 const app = express();
 if (!process.env.CHECK_POINT)
   require("dotenv-flow").config({ path: path.join(__dirname, "enviroments") });
 
 if (process.env.NODE_ENV == "development") {
+  const webpack = require("webpack");
+  const config = require("./webpack.dev.js");
+  const compiler = webpack(config);
+  const webpackDevMiddleWare = require("webpack-dev-middleware");
+
   //middle ware for webpack
   app.use(
     webpackDevMiddleWare(compiler, {
