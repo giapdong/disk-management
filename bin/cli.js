@@ -50,13 +50,33 @@ program
   .command("open")
   .description("Open webapp for UI/UX application")
   .action(async (cmd) => {
-    let packageStart = package.scripts.start.split(" ");
-    let pathAbsoluteServer = path.resolve(__dirname, "../", packageStart[1]);
-    let commandExec = `npx ${packageStart[0]} ${pathAbsoluteServer}`;
+    const { spawn } = require("child_process");
 
-    let { stdout, stderr } = await exec(commandExec);
-    stdout.on("data", (data) => {
-      console.log(data.toString());
+    let startScript = package.scripts.start.split(/\s+/);
+    let rawScript = startScript.slice(1);
+    rawScript = rawScript.map(
+      (item) =>
+        item
+          .replace(/[:']/g, " ")
+          .trim()
+          .split(/\s+/)[1]
+    );
+    rawScript = rawScript.map((item) => ({
+      name: item,
+      script: package.scripts[item].split(/\s+/),
+    }));
+    rawScript = rawScript.map((item) => {
+      item.script[0] = item.script[0] == "nodemon" ? "node" : item.script[0];
+      item.script[1] = path.resolve(__dirname, "..", item.script[1]);
+      item.script = item.script.join(" ");
+      return item;
+    });
+
+    rawScript.forEach((element) => {
+      var child = spawn(element.script, { shell: true });
+      child.stdout.on("data", (data) => {
+        console.log(`[${element.name}]`.success, data.toString());
+      });
     });
   });
 

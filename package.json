@@ -1,14 +1,14 @@
 {
   "name": "disk-management",
-  "version": "0.2.10",
+  "version": "0.3.0",
   "description": "Module/application for management your disk",
   "main": "index.js",
   "license": "MIT",
   "author": "Giap Dong",
   "scripts": {
-    "start": "concurrently 'npm:api-start' 'npm:client-start'",
-    "api-start": "nodemon ./webapp/api/bin/www",
-    "client-start": "node ./webapp/client/bin/www",
+    "start": "concurrently 'npm:api' 'npm:client'",
+    "api": "nodemon ./webapp/api/bin/www",
+    "client": "node ./webapp/client/bin/www",
     "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js"
   },
   "dependencies": {
