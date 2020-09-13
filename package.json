@@ -6,8 +6,10 @@
   "license": "MIT",
   "author": "Giap Dong",
   "scripts": {
-    "start": "nodemon ./web/bin/www",
-    "build": "cross-env NODE_ENV=production webpack --config ./web/webpack.prod.js"
+    "start": "concurrently 'npm:api-start' 'npm:client-start'",
+    "api-start": "nodemon ./webapp/api/bin/www",
+    "client-start": "node ./webapp/client/bin/www",
+    "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js"
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -63,10 +65,8 @@
   },
   "homepage": "https://github.com/giapdong/disk-management#readme",
   "files": [
-    "bin",
-    "web",
+    "bin/*.js",
     "lib",
-    "dist/*.js",
-    "types/*.d.ts"
+    "web"
   ]
 }

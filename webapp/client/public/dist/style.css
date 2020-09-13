@@ -24225,16 +24225,16 @@ h1 {
   margin-left: 0.25rem;
 }
 body {
-  color: white;
+  color: black;
   background-color: white;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 body .app-container-content {
   width: 100%;
-  margin: 0 auto;
   -webkit-box-align: center;
   align-items: center;
   max-width: 1024px;
   padding: 0.6em 1em;
+  margin: 0 auto;
 }
 

@@ -5,14 +5,14 @@
  */
 
 var app = require("../app.js");
-var debug = require("debug")("web:server");
+var debug = require("debug")("webapp:server");
 var http = require("http");
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "10203");
+var port = normalizePort(process.env.API_PORT || "10204");
 app.set("port", port);
 
 /**
@@ -83,5 +83,5 @@ function onListening() {
   var addr = server.address();
   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
   debug("Listening on " + bind);
-  console.log("onListening!");
+  console.log("API listening!");
 }

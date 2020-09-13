@@ -14,7 +14,7 @@
       </div>
     </header>
     <main class="ant-layout-content p-1">
-      <button class="ant-btn ant-btn-primary ml-1">Button</button>
+      <button class="ant-btn ant-btn-primary ml-1">Check button</button>
     </main>
     <footer class="ant-layout-footer">
       <div class="app-container-content">
