@@ -51,8 +51,7 @@ program
   .description("Open webapp for UI/UX application")
   .action(async (cmd) => {
     let packageStart = package.scripts.start.split(" ");
-    let pathServer = packageStart[1];
-    let pathAbsoluteServer = path.resolve(__dirname, "../", pathServer);
+    let pathAbsoluteServer = path.resolve(__dirname, "../", packageStart[1]);
     let commandExec = `npx ${packageStart[0]} ${pathAbsoluteServer}`;
 
     let { stdout, stderr } = await exec(commandExec);

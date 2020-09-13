@@ -15,7 +15,7 @@ module.exports = {
     __dirname: true,
   },
   devtool: "inline-source-map",
-  mode: process.env.NODE_ENV || "development",
+  mode: "development",
   entry: {
     index: [
       path.join(__dirname, "public/javascripts/main.js"),
@@ -90,7 +90,6 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",

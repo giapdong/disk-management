@@ -1,19 +1,17 @@
 {
   "name": "disk-management",
-  "version": "0.2.9",
+  "version": "0.2.10",
+  "description": "Module/application for management your disk",
   "main": "index.js",
   "license": "MIT",
   "author": "Giap Dong",
   "scripts": {
-    "dev": "webpack --config ./web/webpack.dev.js --watch",
     "start": "nodemon ./web/bin/www",
-    "build": "webpack --config ./web/webpack.prod.js",
-    "web:dev": "concurrently 'npm:dev' 'npm:start'"
+    "build": "cross-env NODE_ENV=production webpack --config ./web/webpack.prod.js"
   },
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^6.1.0",
-    "concurrently": "^5.3.0",
     "cookie-parser": "^1.4.5",
     "debug": "^4.1.1",
     "dotenv-flow": "^3.2.0",
@@ -31,6 +29,7 @@
     "ant-design-vue": "^1.6.5",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
     "express-generator": "^4.16.1",
     "html-webpack-harddisk-plugin": "^1.0.2",

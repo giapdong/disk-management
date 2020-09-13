@@ -4,15 +4,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-if (!process.env.CHECK_POINT)
-  require("dotenv-flow").config({ path: path.join(__dirname, "enviroments") });
 
 module.exports = {
   context: __dirname,
   node: {
     __dirname: true,
   },
-  mode: process.env.NODE_ENV || "production",
+  mode: "production",
   entry: {
     index: path.join(__dirname, "public/javascripts/main.js"),
     style: path.join(__dirname, "public/stylesheets/style.less"),
@@ -21,7 +19,6 @@ module.exports = {
     path: path.join(__dirname, "public/dist"),
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
-    // publicPath: `${process.env.BASE_CLIENT_URL}:${process.env.PORT}/public/dist`,
     publicPath: "/public/dist",
   },
   module: {
@@ -78,8 +75,6 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css",
