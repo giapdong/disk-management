@@ -2,18 +2,21 @@
 
 const path = require("path");
 const colors = require("colors");
-const { program } = require("commander");
 const package = require("../package.json");
-const { exec, spawn } = require("child_process");
+const { exec } = require("child_process");
+const { program } = require("commander");
 const { color, ScanMode, Scan, Compare } = require("../index.js");
 
 colors.setTheme(color);
 const cliVersion = [
-  "Disk management latest CLI version:".blue,
+  "Disk management current CLI version:".blue,
   package.version.success,
+  "\nView latest version in registry: ",
+  "npm view disk-management version".blue,
 ].join(" ");
 
-program.version(cliVersion, "-v, --version", "output the current version");
+program.version(cliVersion, "-v, --version", "Print version infomation");
+program.helpOption("-h, --help", "For more information on a command");
 
 program
   .command("scan")
@@ -30,7 +33,7 @@ program
     let mode = ScanMode[cmd.mode] || ScanMode.Normal;
     Scan(root, threshold, mode);
   });
-program.helpOption("-h, --help", "output usage information");
+
 program
   .command("compare")
   .option(
@@ -45,7 +48,7 @@ program
 
 program
   .command("open")
-  .description("Open HTML file for UI/UX application")
+  .description("Open webapp for UI/UX application")
   .action(async (cmd) => {
     let packageStart = package.scripts.start.split(" ");
     let pathServer = packageStart[1];
