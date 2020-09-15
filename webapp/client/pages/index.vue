@@ -1,5 +1,5 @@
 <template>
-  <section class="ant-layout app">
+  <section class="ant-layout app h-100 bg-white">
     <header class="ant-layout-header">
       <div class="app-container-content">
         <div class="app-header-logo">
@@ -8,16 +8,21 @@
         </div>
         <div class="app-header-menu">
           <span class="ml-1">Disk management</span>
-          <npmIcon />
+          <NPMicon />
           <a-icon class="ml-1" type="github" @click="gotoGithub" />
         </div>
       </div>
     </header>
-    <main class="ant-layout-content p-1">
-      <button class="ant-btn ant-btn-primary ml-1">Check button</button>
+    <main class="ant-row ant-layout-content app-container-content p-1">
+      <div class="ant-col ant-col-4 h-100">
+        <LeftBar />
+      </div>
+      <div class="ant-col ant-col-20 h-100">
+        <MainContent />
+      </div>
     </main>
-    <footer class="ant-layout-footer">
-      <div class="app-container-content">
+    <footer class="ant-layout-footer bg-white">
+      <div class="app-container-content h-100">
         <span class="text-bold">©COPYRIGHT BY DevP Studio 2020</span>
       </div>
     </footer>
@@ -25,12 +30,16 @@
 </template>
 
 <script>
-import npmIcon from "../components/npmIcon.vue";
+import NPMicon from "@/components/icon/NPMicon.vue";
+import LeftBar from "@/components/LeftBar/index.vue";
+import MainContent from "@/components/MainContent/index.vue";
 
 export default {
   name: "dashboard",
   components: {
-    npmIcon,
+    NPMicon,
+    LeftBar,
+    MainContent,
   },
   created() {
     const data = [1, 2, 3, 4];
@@ -46,6 +55,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "mixin";
 .app {
   .ant-layout-header {
     top: 0px;
@@ -80,18 +90,17 @@ export default {
 
   .ant-layout-content {
     color: black;
-    height: calc(100vh - 150px);
-    background-color: white;
+    height: calc(80% - 64px);
   }
 
   .ant-layout-footer {
-    background-color: white;
+    padding: 0px !important;
+    height: calc(20% - 64px);
 
     .app-container-content {
       border-top: 1px solid rgba(0, 0, 0, 0.3);
       display: flex;
       justify-content: center;
-      background-color: white;
     }
   }
 }

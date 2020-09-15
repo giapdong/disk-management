@@ -6,8 +6,16 @@ const readPartation = async () => {
   console.log("stderr: ", stderr);
 };
 
+const readOS = async () => {
+  const os = require("os");
+  console.log(os.platform());
+  console.log(os.release());
+  console.log(os);
+};
+
 const test = async (req, res) => {
-  readPartation();
+  // readPartation();
+  readOS();
   return res.json({ message: "Test!" });
 };
 

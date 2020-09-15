@@ -69,6 +69,8 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js", // sử dụng 'vue/dist/vue.common.js' nếu là webpack 1
       // vue: "vue/dist/vue.esm.js",
+      mixin: path.resolve(__dirname, "public/stylesheets/mixin.less"),
+      "@": __dirname,
     },
   },
   plugins: [

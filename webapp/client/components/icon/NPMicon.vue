@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "npmIcon",
+  name: "NPMicon",
   methods: {
     gotoNpm() {
       window.open("https://www.npmjs.com/package/disk-management");
