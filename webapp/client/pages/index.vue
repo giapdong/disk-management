@@ -15,7 +15,7 @@
     </header>
     <main class="ant-row ant-layout-content app-container-content p-1">
       <div class="ant-col ant-col-4 h-100">
-        <LeftBar />
+        <LeftBar :partition="partition" />
       </div>
       <div class="ant-col ant-col-20 h-100">
         <MainContent />
@@ -41,10 +41,10 @@ export default {
     LeftBar,
     MainContent,
   },
-  created() {
-    const data = [1, 2, 3, 4];
-    const find = _.filter(data, (item) => item >= 3);
-    console.log(find);
+  data() {
+    return {
+      partition: [{ name: "C", usage: 150, total: 191.2 }],
+    };
   },
   methods: {
     gotoGithub() {
