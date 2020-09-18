@@ -71,7 +71,7 @@
     "bin/*.js",
     "lib",
     "webapp/api/*",
-    "webapp/client/bin",
-    "webapp/client/dist"
+    "webapp/client/bin/*",
+    "webapp/client/dist/*"
   ]
 }
