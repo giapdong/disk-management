@@ -1,22 +1,15 @@
-const readPartation = async () => {
-  const { exec } = require("child_process");
-  const { stdout, stderr } = await exec("wmic logicaldisk get caption");
-
-  console.log("stdout: ", stdout);
-  console.log("stderr: ", stderr);
-};
-
-const readOS = async () => {
-  const os = require("os");
-  console.log(os.platform());
-  console.log(os.release());
-  console.log(os);
-};
+const { readSystemPartition } = require("../../index.js");
+const Format = require("response-format");
 
 const test = async (req, res) => {
-  // readPartation();
-  readOS();
-  return res.json({ message: "Test!" });
+  console.log("query: ", req.query);
+  console.log("body: ", req.body);
+  res.json({ message: "Test!", method: req.method });
 };
 
-module.exports = { test };
+const getSystemPartition = async (req, res) => {
+  let data = await readSystemPartition();
+  res.json(Format.success("Get info partition success", data));
+};
+
+module.exports = { test, getSystemPartition };

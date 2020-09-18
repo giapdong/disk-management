@@ -3,6 +3,7 @@
     <Partition
       v-for="(item, index) in partition"
       :key="index"
+      :index="index"
       :data-source="item"
     />
   </div>
@@ -24,6 +25,8 @@ export default {
 
 <style lang="less" scoped>
 .app-left-bar {
-  border-top: 1px solid red;
+  & .app-partition:not(:first-child) {
+    margin-top: 0.25rem;
+  }
 }
 </style>

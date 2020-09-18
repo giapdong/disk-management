@@ -22,7 +22,7 @@ if (process.env.NODE_ENV == "development") {
         colors: true,
         chunks: false,
       },
-      index: "public/dist/index.html",
+      index: "dist/index.html",
     })
   );
   // Attach the hot middleware to the compiler & the server
@@ -36,10 +36,9 @@ if (process.env.NODE_ENV == "development") {
 }
 
 app.use(morgan("dev"));
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "dist")));
 app.use("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "public/dist/index.html"));
+  res.sendFile(path.join(__dirname, "dist/index.html"));
 });
 
 module.exports = app;

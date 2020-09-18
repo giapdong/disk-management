@@ -7,12 +7,12 @@
           <span class="ml-1">Disk management</span>
         </div>
         <div class="app-header-menu">
-          <span class="ml-1">Disk management</span>
           <NPMicon />
           <a-icon class="ml-1" type="github" @click="gotoGithub" />
         </div>
       </div>
     </header>
+
     <main class="ant-row ant-layout-content app-container-content p-1">
       <div class="ant-col ant-col-4 h-100">
         <LeftBar :partition="partition" />
@@ -21,6 +21,7 @@
         <MainContent />
       </div>
     </main>
+
     <footer class="ant-layout-footer bg-white">
       <div class="app-container-content h-100">
         <span class="text-bold">©COPYRIGHT BY DevP Studio 2020</span>
@@ -43,12 +44,20 @@ export default {
   },
   data() {
     return {
-      partition: [{ name: "C", usage: 150, total: 191.2 }],
+      partition: [],
     };
+  },
+  async created() {
+    let { data } = await this.$request.get("os/partition");
+    this.partition = data.data;
+    this.$root.$on("selectDisk", this.onSelectDisk);
   },
   methods: {
     gotoGithub() {
       window.open("https://github.com/giapdong/disk-management");
+    },
+    onSelectDisk(diskid) {
+      console.log("listen select at ", diskid);
     },
   },
 };

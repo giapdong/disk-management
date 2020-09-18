@@ -11,14 +11,15 @@ module.exports = {
   },
   mode: "production",
   entry: {
-    index: path.join(__dirname, "public/javascripts/main.js"),
-    style: path.join(__dirname, "public/stylesheets/style.less"),
+    index: path.join(__dirname, "src/javascripts/main.js"),
+    style: path.join(__dirname, "src/stylesheets/style.less"),
+    icon: path.join(__dirname, "src/images/icon.svg"),
   },
   output: {
-    path: path.join(__dirname, "public/dist"),
+    path: path.join(__dirname, "dist"),
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
-    publicPath: "/public/dist",
+    publicPath: "/dist",
   },
   module: {
     rules: [
@@ -41,7 +42,6 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: "/public/dist",
               esModule: true,
             },
           },
@@ -55,12 +55,24 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: "/public/dist",
               esModule: true,
             },
           },
           "css-loader",
           "less-loader",
+        ],
+      },
+      {
+        test: /\.(png|jpg|svg)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "images/",
+              publicPath: "images/",
+            },
+          },
         ],
       },
     ],
@@ -69,7 +81,7 @@ module.exports = {
     alias: {
       vue$: "vue/dist/vue.esm.js", // sử dụng 'vue/dist/vue.common.js' nếu là webpack 1
       // vue: "vue/dist/vue.esm.js",
-      mixin: path.resolve(__dirname, "public/stylesheets/mixin.less"),
+      mixin: path.resolve(__dirname, "src/stylesheets/mixin.less"),
       "@": __dirname,
     },
   },

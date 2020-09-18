@@ -1,12 +1,12 @@
 <template>
-  <div class="app-partition ant-col p-1 w-100">
+  <div class="app-partition ant-col p-1 w-100" @click="onSelectDisk">
     <div class="ant-row">
       <a-icon class="mr-1" type="hdd" /><span class="text-bold"
-        >Disk0 ({{ dataSource.name }})</span
+        >Disk{{ index }} {{ dataSource.deviceid }}</span
       >
     </div>
     <div class="ant-row mt-1">
-      {{ `${dataSource.usage}GB/${dataSource.total}GB` }}
+      {{ `${usage}GB/${total}GB` }}
     </div>
     <div class="app-process ant-row mt-1 h-100">
       <div :style="stylePartition" :class="colorPartition"></div>
@@ -19,10 +19,11 @@ export default {
   name: "Partition",
   props: {
     dataSource: Object,
+    index: Number,
   },
   computed: {
     percent() {
-      return (this.dataSource.usage / this.dataSource.total) * 100;
+      return (1 - this.dataSource.freespace / this.dataSource.size) * 100;
     },
     stylePartition() {
       return {
@@ -36,9 +37,18 @@ export default {
         ? "bg-warning"
         : "bg-success";
     },
+    usage() {
+      let used = this.dataSource.size - this.dataSource.freespace;
+      return this._.round(used / 1024 ** 3, 2);
+    },
+    total() {
+      return this._.round(this.dataSource.size / 1024 ** 3, 2);
+    },
   },
-  created() {
-    console.log(this.dataSource);
+  methods: {
+    onSelectDisk() {
+      this.$root.$emit("selectDisk", this.dataSource.deviceid);
+    },
   },
 };
 </script>
