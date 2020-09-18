@@ -1,6 +1,6 @@
 {
   "name": "disk-management",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Module/application for management your disk",
   "main": "index.js",
   "license": "MIT",
