@@ -3,7 +3,7 @@
     <header class="ant-layout-header">
       <div class="app-container-content">
         <div class="app-header-logo">
-          <img src="/images/icon.svg" alt="Logo disk management" />
+          <img src="dist/images/icon.svg" alt="Logo disk management" />
           <span class="ml-1">Disk management</span>
         </div>
         <div class="app-header-menu">

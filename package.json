@@ -6,10 +6,10 @@
   "license": "MIT",
   "author": "Giap Dong",
   "scripts": {
-    "start": "concurrently 'npm:api' 'npm:client'",
-    "api": "nodemon ./webapp/api/bin/www",
-    "client": "node ./webapp/client/bin/www",
-    "build": "webpack --config ./webapp/client/webpack.prod.js"
+    "dev": "cross-env NODE_ENV=development concurrently 'npm:api' 'npm:client'",
+    "api": "cross-env NODE_ENV=development nodemon ./webapp/api/bin/www",
+    "client": "cross-env NODE_ENV=development node ./webapp/client/bin/www",
+    "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -34,6 +34,7 @@
     "babel-loader": "^8.1.0",
     "babel-polyfill": "^6.26.0",
     "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
     "express-generator": "^4.16.1",
     "file-loader": "^6.1.0",
@@ -72,6 +73,7 @@
     "lib",
     "webapp/api/*",
     "webapp/client/bin/*",
-    "webapp/client/dist/*"
+    "webapp/client/dist/*",
+    "webapp/client/app.js"
   ]
 }

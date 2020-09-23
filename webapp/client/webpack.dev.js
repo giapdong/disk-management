@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const MyPlugin = require("./src/plugin/index.js");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -118,6 +119,7 @@ module.exports = {
     new HtmlWebpackHarddiskPlugin({
       outputPath: path.resolve(__dirname, "dist"),
     }),
+    new MyPlugin(),
   ],
   optimization: {
     splitChunks: {

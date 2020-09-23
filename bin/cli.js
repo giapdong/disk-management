@@ -52,7 +52,7 @@ program
   .action(async (cmd) => {
     const { spawn } = require("child_process");
 
-    let startScript = package.scripts.start.split(/\s+/);
+    let startScript = package.scripts.dev.split(/\s+/);
     let rawScript = startScript.slice(1);
     rawScript = rawScript.map(
       (item) =>
