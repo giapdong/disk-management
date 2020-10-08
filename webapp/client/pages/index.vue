@@ -15,7 +15,7 @@
 
     <main class="ant-row ant-layout-content app-container-content p-1">
       <div class="ant-col ant-col-4 h-100">
-        <LeftBar :partition="partition" />
+        <LeftBar />
       </div>
       <div class="ant-col ant-col-20 h-100">
         <MainContent />
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import NPMicon from "@/components/icon/NPMicon.vue";
 import LeftBar from "@/components/LeftBar/index.vue";
 import MainContent from "@/components/MainContent/index.vue";
@@ -42,22 +43,15 @@ export default {
     LeftBar,
     MainContent,
   },
-  data() {
-    return {
-      partition: [],
-    };
-  },
   async created() {
-    let { data } = await this.$request.get("os/partition");
-    this.partition = data.data;
-    this.$root.$on("selectDisk", this.onSelectDisk);
+    this.getPartition();
   },
   methods: {
+    ...mapActions({
+      getPartition: "getPartition",
+    }),
     gotoGithub() {
       window.open("https://github.com/giapdong/disk-management");
-    },
-    onSelectDisk(diskid) {
-      console.log("listen select at ", diskid);
     },
   },
 };

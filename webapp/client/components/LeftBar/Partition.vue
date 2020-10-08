@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Partition",
   props: {
@@ -46,8 +47,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      selectDisk: "selectDisk",
+    }),
     onSelectDisk() {
-      this.$root.$emit("selectDisk", this.dataSource.deviceid);
+      this.selectDisk(this.dataSource.deviceid);
     },
   },
 };

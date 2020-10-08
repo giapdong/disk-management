@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import Partition from "@/components/LeftBar/Partition.vue";
 
 export default {
@@ -17,8 +18,10 @@ export default {
   components: {
     Partition,
   },
-  props: {
-    partition: Array,
+  computed: {
+    ...mapState({
+      partition: (state) => state.partition,
+    }),
   },
 };
 </script>
