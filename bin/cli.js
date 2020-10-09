@@ -15,6 +15,7 @@ const cliVersion = [
   "npm view disk-management version".blue,
 ].join(" ");
 
+program.name("disk-management");
 program.version(cliVersion, "-v, --version", "Print version infomation");
 program.helpOption("-h, --help", "For more information on a command");
 

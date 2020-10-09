@@ -1,7 +1,7 @@
 <template>
-  <div class="app-main-content w-100 h-100 p-2">
+  <div class="app-main-content w-100 h-100 px-2">
     <div v-if="partitionSelected" class="app-main-content-board w-100 h-100">
-      center
+      <div class="ant-row"><MainContentHeader /></div>
     </div>
     <div v-else class="app-main-content-empty w-100 h-100">
       <img src="dist/images/icon.svg" alt="Logo disk management" />
@@ -11,8 +11,13 @@
 
 <script>
 import { mapState } from "vuex";
+import MainContentHeader from "@/components/MainContent/MainContentHeader.vue";
+
 export default {
   name: "MainContent",
+  components: {
+    MainContentHeader,
+  },
   computed: {
     ...mapState({
       partitionSelected: (state) => state.partitionSelected,
@@ -37,10 +42,6 @@ export default {
       width: 30%;
       height: 30%;
     }
-  }
-
-  &-board {
-    border: 1px solid red;
   }
 }
 </style>

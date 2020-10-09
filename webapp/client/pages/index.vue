@@ -2,9 +2,19 @@
   <section class="ant-layout app h-100 bg-white">
     <header class="ant-layout-header">
       <div class="app-container-content">
-        <div class="app-header-logo">
-          <img src="dist/images/icon.svg" alt="Logo disk management" />
-          <span class="ml-1">Disk management</span>
+        <div class="app-header-logo" @click="gotoHome">
+          <div class="ant-col-12">
+            <div class="ant-col-4 h-100 app-header-logo-icon">
+              <img
+                class="h-100 w-100"
+                src="dist/images/icon.svg"
+                alt="Logo disk management"
+              />
+            </div>
+            <div class="ant-col-20 h-100 px-1 app-header-logo-title">
+              <span>Disk management</span>
+            </div>
+          </div>
         </div>
         <div class="app-header-menu">
           <NPMicon />
@@ -53,6 +63,9 @@ export default {
     gotoGithub() {
       window.open("https://github.com/giapdong/disk-management");
     },
+    gotoHome() {
+      this.$store.state.partitionSelected = null;
+    },
   },
 };
 </script>
@@ -79,9 +92,17 @@ export default {
         display: flex;
         width: fit-content;
         flex-direction: row;
+        cursor: pointer;
 
-        img {
-          height: 90%;
+        &-icon {
+          display: flex;
+        }
+
+        &-title {
+          display: flex;
+          align-items: center;
+          font-size: 1.2rem;
+          font-weight: bold;
         }
       }
 
