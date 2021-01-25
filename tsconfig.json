@@ -6,9 +6,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@api/*": ["./api/*"]
+      "@api/*": ["./api/*"],
+      "@client/*": ["./client/*"],
+      "@lib/*": ["./lib/*"],
+      "@root/*": ["./*"]
     },
-    "outDir": "./build/api",
+    "outDir": "./build",
     "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
     "module": "commonjs",
     "target": "es2019",
@@ -24,6 +27,6 @@
     "moduleResolution": "Node",
     "types": ["node"]
   },
-  "include": ["types/*.d.ts", "api"],
+  "include": ["types/*.d.ts", "api", "lib", "client"],
   "exclude": ["node_modules", "build", "webpack.*"]
 }

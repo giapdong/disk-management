@@ -10,7 +10,7 @@
     "api": "cross-env NODE_ENV=development nodemon ./webapp/api/bin/www",
     "client": "cross-env NODE_ENV=development node ./webapp/client/bin/www",
     "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js",
-    "build:api": "tsc -p ./tsconfig.api.json",
+    "build:api": "tsc",
     "serve:api": "node build/api/index.js"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
     "lodash": "^4.17.19",
+    "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "open": "^7.2.1",
@@ -83,5 +84,11 @@
     "webapp/client/dist/*",
     "webapp/client/app.js",
     "types/*.d.ts"
-  ]
+  ],
+  "_moduleAliases": {
+    "@root": "./build",
+    "@api": "./build/api",
+    "@lib": "./build/lib",
+    "@client": "./build/client"
+  }
 }
