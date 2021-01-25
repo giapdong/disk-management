@@ -30,6 +30,8 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "@tsconfig/node12": "^1.0.7",
+    "@types/node": "^14.14.22",
     "ant-design-vue": "^1.6.5",
     "babel-loader": "^8.1.0",
     "babel-polyfill": "^6.26.0",
@@ -61,6 +63,7 @@
     "storage",
     "cli"
   ],
+  "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/giapdong/disk-management.git"
@@ -75,6 +78,7 @@
     "webapp/api/*",
     "webapp/client/bin/*",
     "webapp/client/dist/*",
-    "webapp/client/app.js"
+    "webapp/client/app.js",
+    "types/*.d.ts"
   ]
 }
