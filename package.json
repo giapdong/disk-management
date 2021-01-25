@@ -6,13 +6,13 @@
   "license": "MIT",
   "author": "Giap Dong",
   "scripts": {
-    "start": "concurrently 'npm:api' 'npm:client'",
-    "api": "nodemon ./webapp/api/bin/www",
-    "client": "node ./webapp/client/bin/www",
-    "build": "webpack --config ./webapp/client/webpack.prod.js"
+    "dev": "cross-env NODE_ENV=development concurrently 'npm:api' 'npm:client'",
+    "api": "cross-env NODE_ENV=development nodemon ./webapp/api/bin/www",
+    "client": "cross-env NODE_ENV=development node ./webapp/client/bin/www",
+    "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "colors": "^1.4.0",
     "commander": "^6.1.0",
     "concurrently": "^5.3.0",
@@ -30,10 +30,13 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "@tsconfig/node12": "^1.0.7",
+    "@types/node": "^14.14.22",
     "ant-design-vue": "^1.6.5",
     "babel-loader": "^8.1.0",
     "babel-polyfill": "^6.26.0",
     "clean-webpack-plugin": "^3.0.0",
+    "cross-env": "^7.0.2",
     "css-loader": "^4.3.0",
     "express-generator": "^4.16.1",
     "file-loader": "^6.1.0",
@@ -46,6 +49,7 @@
     "vue-loader": "^15.9.3",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.12",
+    "vuex": "^3.5.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.2",
@@ -59,6 +63,7 @@
     "storage",
     "cli"
   ],
+  "typings": "types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/giapdong/disk-management.git"
@@ -72,6 +77,8 @@
     "lib",
     "webapp/api/*",
     "webapp/client/bin/*",
-    "webapp/client/dist/*"
+    "webapp/client/dist/*",
+    "webapp/client/app.js",
+    "types/*.d.ts"
   ]
 }

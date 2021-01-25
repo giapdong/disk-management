@@ -1,5 +1,9 @@
 <template>
-  <div class="app-partition ant-col p-1 w-100" @click="onSelectDisk">
+  <div
+    class="app-partition ant-col p-1 w-100"
+    @click="onSelectDisk"
+    :style="border"
+  >
     <div class="ant-row">
       <a-icon class="mr-1" type="hdd" /><span class="text-bold"
         >Disk{{ index }} {{ dataSource.deviceid }}</span
@@ -15,6 +19,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Partition",
   props: {
@@ -22,6 +27,9 @@ export default {
     index: Number,
   },
   computed: {
+    ...mapState({
+      partitionSelected: (state) => state.partitionSelected,
+    }),
     percent() {
       return (1 - this.dataSource.freespace / this.dataSource.size) * 100;
     },
@@ -44,10 +52,22 @@ export default {
     total() {
       return this._.round(this.dataSource.size / 1024 ** 3, 2);
     },
+    border() {
+      return this.partitionSelected == this.dataSource.deviceid
+        ? { border: "2px solid #4410c7" }
+        : { border: "1px solid #bfc0c0" };
+    },
   },
   methods: {
+    ...mapActions({
+      selectDisk: "selectDisk",
+    }),
     onSelectDisk() {
-      this.$root.$emit("selectDisk", this.dataSource.deviceid);
+      this.selectDisk(
+        this.partitionSelected == this.dataSource.deviceid
+          ? null
+          : this.dataSource.deviceid
+      );
     },
   },
 };
@@ -56,7 +76,6 @@ export default {
 <style lang="less" scoped>
 .app-partition {
   cursor: pointer;
-  border: 1px solid rgba(192, 192, 192, 0.3);
 
   .app-process {
     height: 20px;

@@ -15,6 +15,7 @@ const cliVersion = [
   "npm view disk-management version".blue,
 ].join(" ");
 
+program.name("disk-management");
 program.version(cliVersion, "-v, --version", "Print version infomation");
 program.helpOption("-h, --help", "For more information on a command");
 
@@ -51,26 +52,23 @@ program
   .description("Open webapp for UI/UX application")
   .action(async (cmd) => {
     const { spawn } = require("child_process");
+    let pathAPI = "../webapp/api/bin/www";
+    let pathClient = "../webapp/client/bin/www";
 
-    let startScript = package.scripts.start.split(/\s+/);
-    let rawScript = startScript.slice(1);
-    rawScript = rawScript.map(
-      (item) =>
-        item
-          .replace(/[:']/g, " ")
-          .trim()
-          .split(/\s+/)[1]
-    );
+    let rawScript = [
+      {
+        name: "API",
+        script: path.join(__dirname, pathAPI),
+      },
+      {
+        name: "Client",
+        script: path.join(__dirname, pathClient),
+      },
+    ];
     rawScript = rawScript.map((item) => ({
-      name: item,
-      script: package.scripts[item].split(/\s+/),
+      name: item.name,
+      script: `node ${item.script}`,
     }));
-    rawScript = rawScript.map((item) => {
-      item.script[0] = item.script[0] == "nodemon" ? "node" : item.script[0];
-      item.script[1] = path.resolve(__dirname, "..", item.script[1]);
-      item.script = item.script.join(" ");
-      return item;
-    });
 
     rawScript.forEach((element) => {
       var child = spawn(element.script, { shell: true });
