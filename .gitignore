@@ -9,8 +9,8 @@ yarn.lock
 package-lock.json
 
 # For develop
-app.test.js
-app.test.ts
+app_test.js
+app_test.ts
 
 # Enviroment file
 .env

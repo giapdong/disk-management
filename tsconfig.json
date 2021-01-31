@@ -27,6 +27,6 @@
     "moduleResolution": "Node",
     "types": ["node"]
   },
-  "include": ["types", "api", "lib", "client", "index.d.ts"],
+  "include": ["types", "api", "lib", "client", "*.ts"],
   "exclude": ["node_modules", "build", "webpack.*"]
 }
