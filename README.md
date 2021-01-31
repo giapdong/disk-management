@@ -1,3 +1,13 @@
+<!-- Inspired from 'word-wrap', 'ts-mocha'  -->
+
+[![Latest Stable Version](https://img.shields.io/npm/v/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+[![NPM Downloads](https://img.shields.io/npm/dt/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+[![NPM Downloads](https://img.shields.io/npm/dm/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+
+[![Dependency Status](https://img.shields.io/david/piotrwitek/disk-management.svg)](https://david-dm.org/piotrwitek/disk-management)
+[![peerDependency Status](https://img.shields.io/david/peer/piotrwitek/disk-management.svg)](https://david-dm.org/piotrwitek/disk-management#info=devDependencies)
+[![LICENSE](https://img.shields.io/npm/l/disk-management.svg?sanitize=true)](https://www.npmjs.com/package/disk-management)
+
 # Disk management with Nodejs
 
 Module/CLI application management storage your disk
