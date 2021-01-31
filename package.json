@@ -1,6 +1,6 @@
 {
   "name": "disk-management",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Module/application for management your disk",
   "main": "index.js",
   "license": "MIT",
@@ -10,8 +10,9 @@
     "api": "cross-env NODE_ENV=development nodemon ./webapp/api/bin/www",
     "client": "cross-env NODE_ENV=development node ./webapp/client/bin/www",
     "build": "cross-env NODE_ENV=production webpack --config ./webapp/client/webpack.prod.js",
-    "build:api": "tsc",
-    "serve:api": "node build/api/index.js"
+    "build:ts": "tsc",
+    "serve:api": "node build/api/index.js",
+    "dev:ts": "npm run build:ts && npm run serve:api"
   },
   "dependencies": {
     "axios": "^0.21.1",

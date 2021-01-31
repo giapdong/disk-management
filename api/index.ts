@@ -1,4 +1,4 @@
 import "module-alias/register";
-import { PI } from "@root/lib/bean/NodeHierachy";
+import * as Scan from "@api/module.scan";
 
-console.log("Hi typescript", PI);
+Scan.action();
