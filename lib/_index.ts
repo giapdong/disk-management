@@ -30,35 +30,34 @@ export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMod
   spinner.succeed("[1/4] Scanning");
 
   console.log(HierachyTree.name, HierachyTree.storage);
+  console.timeEnd("Disk-management-scanner");
   // emitter.emit(EventType.ScanDone);
 }
 
+/* ****************************************************************************************************** */
+/* ****************************************************************************************************** */
+/* ****************************************************************************************************** */
+
 async function scanHierachyNode(rootNode: Hierachy) {
-  let dirInfo;
   spinner.text = rootNode.name;
   try {
-    dirInfo = await FS_TOOLS.lsCommandPromise(rootNode.name);
-  } catch (error) {
-    dirInfo = error;
-    console.log(error);
-  }
-
-  if (dirInfo && dirInfo.name != Error.name) {
-    let promise: any[] = [];
+    let dirInfo: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
     let data: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, dirInfo);
 
-    data?.map(item => {
-      promise.push(actionEachItem(rootNode, item.path, item.stats));
+    let promise: any[] = data?.map(item => {
+      return actionEachNodeItem(rootNode, item.path, item.stats);
     });
 
     await Promise.all(promise);
+  } catch (error) {
+    console.log(error);
   }
 }
 
-async function actionEachItem(rootNode: Hierachy, pathToNode: string, stat: Stats): Promise<void> {
-  if (stat && stat.constructor.name != Error.name) {
-    let type = stat.isFile() ? TypeNodeHierachy.File : TypeNodeHierachy.Directory;
-    let node = new Hierachy(rootNode, pathToNode, 0, type);
+async function actionEachNodeItem(rootNode: Hierachy, pathToNode: string, stat: Stats): Promise<void> {
+  if (stat) {
+    let type: TypeNodeHierachy = stat.isFile() ? TypeNodeHierachy.File : TypeNodeHierachy.Directory;
+    let node: Hierachy = new Hierachy(rootNode, pathToNode, 0, type);
 
     rootNode.child.push(node);
 
