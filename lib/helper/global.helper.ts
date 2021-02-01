@@ -1,3 +1,8 @@
+/**
+ * Pretty unit storage
+ *
+ * @param {number} bytes Size of folder/file with bytes unit
+ */
 export function bytesToSize(bytes: number) {
   // from https://gist.github.com/lanqy/5193417
   const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -8,6 +13,10 @@ export function bytesToSize(bytes: number) {
   return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]} (${bytes.toLocaleString()} ${sizes[0]})`;
 }
 
+/**
+ * Return string like YYYY-MM-DD_HH.MM.SS from Date.now()
+ *
+ */
 export function getDateByFormat() {
   let now = new Date(Date.now());
   let year = now.getFullYear();
