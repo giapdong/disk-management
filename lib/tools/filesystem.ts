@@ -37,6 +37,23 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
   }
 }
 
+/**
+ * Write file using Promise
+ *
+ * @param {String} path Path to directory contain file
+ * @param {JSON} data Stringtify of Object
+ */
+export async function writeFilePromise(path: string, data: any, options = "utf-8") {
+  return new Promise((resolve, reject) => {
+    try {
+      fs.writeFileSync(path, data, options);
+      resolve(1);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
