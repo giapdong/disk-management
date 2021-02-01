@@ -5,7 +5,7 @@ import path from "path";
 /**
  * Simulation ls command familiar in UNIX, LINUX system
  *
- * @param pathToDir Path to node in filesystem
+ * @param {string} pathToDir Path to node in filesystem
  */
 export async function lsCommandPromise(pathToDir: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
@@ -16,15 +16,15 @@ export async function lsCommandPromise(pathToDir: string): Promise<string[]> {
 }
 
 /**
- * Read stat of element in dir
+ * Get directory status of element in dir
  *
  * @param pathToDir Path to one DIRECTORY in filesystem
  * @param dirInfo List item that dir contrain it
  */
 export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): Promise<StatsNode[]> {
   try {
-    let promise: any[] = [];
-    dirInfo.map(element => {
+    let promise: Promise<StatsNode>[] = [];
+    dirInfo.forEach(element => {
       promise.push(readStatPromise(path.join(pathToDir, element)));
     });
     let listStat: StatsNode[] = await Promise.all(promise);
@@ -49,6 +49,7 @@ export async function writeFilePromise(path: string, data: any, options = "utf-8
       fs.writeFileSync(path, data, options);
       resolve(1);
     } catch (error) {
+      console.log(error);
       reject(error);
     }
   });
@@ -60,9 +61,9 @@ export async function writeFilePromise(path: string, data: any, options = "utf-8
 /* ********************************************************************************************************* */
 
 /**
- * Read info of FILE or DIRECTORY in filesystem
+ * Get status of FILE or DIRECTORY in filesystem
  *
- * @param pathToNode Path to node in filesystem
+ * @param {string} pathToNode Path to node in filesystem
  */
 async function readStatPromise(pathToNode: string): Promise<StatsNode> {
   return new Promise((resolve, reject) => {
