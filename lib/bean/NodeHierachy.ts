@@ -1,4 +1,4 @@
-import { TypeNodeHierachy } from "@root/types";
+import { TypeNodeHierachy } from "@lib/interface";
 
 export class Hierachy {
   parent: Hierachy | null;

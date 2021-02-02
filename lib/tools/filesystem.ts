@@ -1,4 +1,4 @@
-import { StatsNode } from "@root/types";
+import { StatsNode } from "@lib/interface";
 import fs from "fs";
 import path from "path";
 

@@ -2,7 +2,7 @@ import fs, { Stats } from "fs";
 import path from "path";
 import colors from "colors";
 import ora from "ora";
-import { BigNode, ScanMode, StatsNode, TypeNodeHierachy, color } from "@root/types";
+import { BigNode, ScanMode, StatsNode, TypeNodeHierachy, color } from "@lib/interface";
 import { Hierachy } from "@lib/bean/NodeHierachy";
 import { bytesToSize, getDateByFormat } from "@lib/helper/global.helper";
 import * as CompareHelper from "@lib/helper/compare.helper";
@@ -35,5 +35,7 @@ export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMod
 }
 
 export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
+  let listScanFile: string[] = await CompareHelper.getListScanFile(scanDir);
+  CompareHelper.resolveData(scanDir, listScanFile, threshold);
   console.log("in 3 param");
 }
