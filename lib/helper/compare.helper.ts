@@ -2,6 +2,8 @@ import ora from "ora";
 import fs from "fs";
 import path from "path";
 import { BigNode } from "@lib/interface";
+import { getDateByFormat } from "./global.helper";
+import { writeFilePromise } from "@lib/tools/filesystem";
 
 export async function Compare(threshold: number): Promise<void>;
 export async function Compare(threshold: number, pathToSourceFile: string): Promise<void>;
@@ -30,7 +32,7 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   return result;
 }
 
-export async function resolveData(pathToScanDir: string, listScanFile: string[], threshold: number) {
+export function resolveData(pathToSourceFile: string, pathToTargetFile: string, threshold: number) {
   const spinner = ora({
     text: "[2/3] Resolving result",
     spinner: {
@@ -39,14 +41,12 @@ export async function resolveData(pathToScanDir: string, listScanFile: string[],
     }
   });
   spinner.start();
-  let path1 = path.join(pathToScanDir, listScanFile[listScanFile.length - 2]); // older
-  let path2 = path.join(pathToScanDir, listScanFile[listScanFile.length - 1]); // newer
 
-  let data1 = fs.readFileSync(path1, "utf-8");
-  let data2 = fs.readFileSync(path2, "utf-8");
+  let dataSource = fs.readFileSync(pathToSourceFile, "utf-8");
+  let dataTarget = fs.readFileSync(pathToTargetFile, "utf-8");
 
-  let json1 = JSON.parse(data1).big_directory as BigNode[];
-  let json2 = JSON.parse(data2).big_directory as BigNode[];
+  let json1 = JSON.parse(dataSource).big_directory as BigNode[];
+  let json2 = JSON.parse(dataTarget).big_directory as BigNode[];
 
   let listBigNode: string[] = json1.map(item => item.path).concat(json2.map(item => item.path));
   listBigNode = [...new Set(listBigNode)];
@@ -72,4 +72,51 @@ export async function resolveData(pathToScanDir: string, listScanFile: string[],
   spinner.succeed("[2/3] Resolving result");
 
   return listChangeStatus;
+}
+
+export function detectParameterCompare(
+  pathToScanDir: string,
+  listFileScaned: string[],
+  pathToSourceFile: string | undefined,
+  pathToTargetFile: string | undefined
+) {
+  let result = {
+    pathToSourceFile: "",
+    pathToTargetFile: ""
+  };
+
+  if (pathToSourceFile) result.pathToSourceFile = pathToSourceFile;
+  else {
+    let olderScanFile: string = listFileScaned[listFileScaned.length - 2];
+    result.pathToSourceFile = path.join(pathToScanDir, olderScanFile);
+  }
+
+  if (pathToTargetFile) result.pathToTargetFile = pathToTargetFile;
+  else {
+    let newestScanFile: string = listFileScaned[listFileScaned.length - 1];
+    result.pathToTargetFile = path.join(pathToScanDir, newestScanFile);
+  }
+
+  return result;
+}
+
+export async function storeResult(compareDir: string, data: any) {
+  const spinner = ora({
+    text: "[3/3] Writting result",
+    spinner: {
+      interval: 80,
+      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+    }
+  });
+  spinner.start();
+
+  if (!fs.existsSync(compareDir)) fs.mkdirSync(compareDir);
+
+  let pathJSON = path.join(compareDir, getDateByFormat() + ".log");
+  var json = JSON.stringify(data, null, 4);
+
+  await writeFilePromise(pathJSON, json);
+
+  spinner.info("Done" + " Saved 1 new log file.");
+  spinner.succeed("[2/3] Resolving result");
 }
