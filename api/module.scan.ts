@@ -1,4 +1,4 @@
-import { Hierachy } from "@lib/bean/NodeHierachy";
+import { Hierachy } from "@lib/bean/node-hierachy";
 import { TypeNodeHierachy } from "@root/index";
 
 export const PI = 4.4;

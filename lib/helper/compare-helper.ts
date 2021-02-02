@@ -2,7 +2,7 @@ import ora from "ora";
 import fs from "fs";
 import path from "path";
 import { BigNode } from "@lib/interface";
-import { getDateByFormat } from "./global.helper";
+import { getDateByFormat } from "./global-helper";
 import { writeFilePromise } from "@lib/tools/filesystem";
 
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {

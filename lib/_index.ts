@@ -1,9 +1,9 @@
 import path from "path";
 import { BigNode, ScanMode } from "@lib/interface";
-import { Hierachy } from "@lib/bean/NodeHierachy";
-import { getDateByFormat } from "@lib/helper/global.helper";
-import * as CompareHelper from "@lib/helper/compare.helper";
-import * as ScanHelper from "@lib/helper/scan.helper";
+import { Hierachy } from "@lib/bean/node-hierachy";
+import { getDateByFormat } from "@lib/helper/global-helper";
+import * as CompareHelper from "@lib/helper/compare-helper";
+import * as ScanHelper from "@lib/helper/scan-helper";
 
 const scanDir = path.join(__dirname, "..", "scan");
 const compareDir = path.join(__dirname, "..", "compare");
