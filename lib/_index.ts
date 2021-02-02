@@ -5,6 +5,7 @@ import ora from "ora";
 import { BigNode, ScanMode, StatsNode, TypeNodeHierachy, color } from "@root/types";
 import { Hierachy } from "@lib/bean/NodeHierachy";
 import { bytesToSize, getDateByFormat } from "@lib/helper/global.helper";
+import * as CompareHelper from "@lib/helper/compare.helper";
 import * as ScanHelper from "@lib/helper/scan.helper";
 import * as FS_TOOLS from "@lib/tools/filesystem";
 
@@ -31,4 +32,8 @@ export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMod
   await ScanHelper.writeResultToFile(scanDir, pathJSON, obj);
 
   console.timeEnd("Disk-management-scanner");
+}
+
+export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
+  console.log("in 3 param");
 }
