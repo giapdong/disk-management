@@ -19,10 +19,3 @@ export interface BigNode {
   path: string;
   storage: number;
 }
-
-export const color = {
-  success: "green",
-  warn: "yellow",
-  debug: "blue",
-  error: "red"
-};

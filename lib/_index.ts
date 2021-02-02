@@ -1,15 +1,9 @@
-import fs, { Stats } from "fs";
 import path from "path";
-import colors from "colors";
-import ora from "ora";
-import { BigNode, ScanMode, StatsNode, TypeNodeHierachy, color } from "@lib/interface";
+import { BigNode, ScanMode } from "@lib/interface";
 import { Hierachy } from "@lib/bean/NodeHierachy";
-import { bytesToSize, getDateByFormat } from "@lib/helper/global.helper";
+import { getDateByFormat } from "@lib/helper/global.helper";
 import * as CompareHelper from "@lib/helper/compare.helper";
 import * as ScanHelper from "@lib/helper/scan.helper";
-import * as FS_TOOLS from "@lib/tools/filesystem";
-
-colors.setTheme(color);
 
 const scanDir = path.join(__dirname, "..", "scan");
 const compareDir = path.join(__dirname, "..", "compare");

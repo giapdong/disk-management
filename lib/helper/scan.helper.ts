@@ -87,11 +87,11 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
     // JSON.stringify(obj, null, 4)
     await FS_TOOLS.writeFilePromise(pathJSON, JSON.stringify(obj));
 
-    spinner.info("Finish" + " Saved 1 new log file.");
+    spinner.info("Finish! Saved 1 new log file.");
     spinner.succeed("[4/4] Writting result");
   } catch (error) {
     console.log(error);
-    spinner.info("Failed" + " Write file log return with Errror");
+    spinner.info("Failed! Write file log return with Error");
     spinner.fail("[4/4] Writting result");
   }
 }
