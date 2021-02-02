@@ -5,14 +5,6 @@ import { BigNode } from "@lib/interface";
 import { getDateByFormat } from "./global.helper";
 import { writeFilePromise } from "@lib/tools/filesystem";
 
-export async function Compare(threshold: number): Promise<void>;
-export async function Compare(threshold: number, pathToSourceFile: string): Promise<void>;
-export async function Compare(threshold: number, pathToSourceFile: string, pathToTargetFile: string): Promise<void>;
-
-export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
-  console.log("in compare function");
-}
-
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
   const spinner = ora({
     text: "[1/3] Reading result",
@@ -32,7 +24,7 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   return result;
 }
 
-export function resolveData(pathToSourceFile: string, pathToTargetFile: string, threshold: number) {
+export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: string, threshold: number) {
   const spinner = ora({
     text: "[2/3] Resolving result",
     spinner: {

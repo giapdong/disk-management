@@ -28,6 +28,9 @@ export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMod
   console.timeEnd("Disk-management-scanner");
 }
 
+export async function Compare(threshold: number): Promise<void>;
+export async function Compare(threshold: number, pathToSourceFile: string): Promise<void>;
+export async function Compare(threshold: number, pathToSourceFile: string, pathToTargetFile: string): Promise<void>;
 export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
   console.time("Disk-management-compare");
 
@@ -35,7 +38,7 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
   if (!listScanFile.length) return;
 
   let paramCompare = CompareHelper.detectParameterCompare(scanDir, listScanFile, pathToSourceFile, pathToTargetFile);
-  let listChangeStatus = CompareHelper.resolveData(
+  let listChangeStatus = CompareHelper.resolveCompareData(
     paramCompare.pathToSourceFile,
     paramCompare.pathToTargetFile,
     threshold
