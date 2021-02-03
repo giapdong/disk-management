@@ -1,3 +1,5 @@
+import ora from "ora";
+
 /**
  * Pretty unit storage
  *
@@ -26,4 +28,17 @@ export function getDateByFormat() {
   let minutes = ("00" + now.getMinutes()).slice(-2);
   let second = ("00" + now.getSeconds()).slice(-2);
   return `${year}-${month}-${date}_${hour}.${minutes}.${second}`;
+}
+
+/**
+ * Return spinner with dots options
+ */
+export function genDotsSpinner(text: string) {
+  return ora({
+    text: text,
+    spinner: {
+      interval: 80,
+      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+    }
+  });
 }

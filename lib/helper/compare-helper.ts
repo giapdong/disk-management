@@ -1,37 +1,24 @@
-import ora from "ora";
 import fs from "fs";
 import path from "path";
 import { BigNode } from "@lib/interface";
-import { getDateByFormat } from "./global-helper";
-import { writeFilePromise } from "@lib/tools/filesystem";
+import { getDateByFormat, genDotsSpinner } from "./global-helper";
+import { lsCommandPromise, writeFilePromise } from "@lib/tools/filesystem";
 
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
-  const spinner = ora({
-    text: "[1/3] Reading result",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[1/3] Reading result");
   spinner.start();
-  let result: string[] = fs.readdirSync(pathToScanDir); //Scan all file log in scanDir
+  let listScanFile: string[] = await lsCommandPromise(pathToScanDir);
 
-  if (result.length < 2) {
+  if (listScanFile.length < 2) {
     spinner.fail(`[1/3] Failed, too little log file in ${pathToScanDir}`);
     return [];
   }
   spinner.succeed("[1/3] Reading result");
-  return result;
+  return listScanFile;
 }
 
 export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: string, threshold: number) {
-  const spinner = ora({
-    text: "[2/3] Resolving result",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[2/3] Resolving result");
   spinner.start();
 
   let dataSource = fs.readFileSync(pathToSourceFile, "utf-8");
@@ -93,13 +80,7 @@ export function detectParameterCompare(
 }
 
 export async function storeResult(compareDir: string, data: any) {
-  const spinner = ora({
-    text: "[3/3] Writting result",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[3/3] Writting result");
   spinner.start();
 
   if (!fs.existsSync(compareDir)) fs.mkdirSync(compareDir);

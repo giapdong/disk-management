@@ -2,8 +2,8 @@ import fs, { Stats } from "fs";
 import * as FS_TOOLS from "@lib/tools/filesystem";
 import { Hierachy } from "@lib/bean/node-hierachy";
 import { BigNode, StatsNode, TypeNodeHierachy } from "@lib/interface";
-import ora, { Ora } from "ora";
-import { bytesToSize } from "@lib/helper/global-helper";
+import { Ora } from "ora";
+import { bytesToSize, genDotsSpinner } from "@lib/helper/global-helper";
 
 /**
  * Scan in filesystem
@@ -11,13 +11,7 @@ import { bytesToSize } from "@lib/helper/global-helper";
  * @param rootPath Path pass by argument
  */
 export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
-  const spinner = ora({
-    text: "[1/4] Scanning",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[1/4] Scanning");
 
   let HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
   spinner.start();
@@ -35,13 +29,7 @@ export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
  * @param threshold Threshold wanna filter
  */
 export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, threshold: number): Promise<BigNode[]> {
-  const spinner = ora({
-    text: "[2/4] Scanning big directory",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[2/4] Scanning big directory");
   spinner.start();
   let listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
   spinner.info(`[2/4] ${listBigNode.length} directory contrain total file file size >= ${threshold}`);
@@ -56,13 +44,7 @@ export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, thresho
  * @param rootHierachy Root Hierachy
  */
 export async function removeParentInHierachy(rootHierachy: Hierachy): Promise<Hierachy> {
-  const spinner = ora({
-    text: "[3/4] Formatting data",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[3/4] Formatting data");
 
   spinner.start();
   removeParent(rootHierachy);
@@ -71,13 +53,7 @@ export async function removeParentInHierachy(rootHierachy: Hierachy): Promise<Hi
 }
 
 export async function writeResultToFile(scanDir: string, pathJSON: string, obj: any) {
-  const spinner = ora({
-    text: "[4/4] Writting result",
-    spinner: {
-      interval: 80,
-      frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
-    }
-  });
+  const spinner = genDotsSpinner("[4/4] Writting result");
   spinner.start();
 
   try {
