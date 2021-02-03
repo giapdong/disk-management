@@ -1,9 +1,9 @@
 import fs, { Stats } from "fs";
-import * as FS_TOOLS from "@lib/tools/filesystem";
-import { Hierachy } from "@lib/bean/node-hierachy";
-import { BigNode, StatsNode, TypeNodeHierachy } from "@lib/interface";
+import * as FS_TOOLS from "@disk/lib/tools/filesystem";
+import { Hierachy } from "@disk/lib/bean/node-hierachy";
+import { BigNode, StatsNode, TypeNodeHierachy } from "@disk/lib/interface";
 import { Ora } from "ora";
-import { bytesToSize, genDotsSpinner } from "@lib/helper/global-helper";
+import { bytesToSize, genDotsSpinner } from "@disk/lib/helper/global-helper";
 
 /**
  * Scan in filesystem

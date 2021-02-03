@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { BigNode, IOptionsCompare } from "@lib/interface";
+import { BigNode, IOptionsCompare } from "@disk/lib/interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
-import { lsCommandPromise, writeFilePromise } from "@lib/tools/filesystem";
+import { lsCommandPromise, writeFilePromise } from "@disk/lib/tools/filesystem";
 
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
   const spinner = genDotsSpinner("[1/3] Reading result");

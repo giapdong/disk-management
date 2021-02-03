@@ -90,9 +90,6 @@
     "types/*.d.ts"
   ],
   "_moduleAliases": {
-    "@root": "./build",
-    "@api": "./build/api",
-    "@lib": "./build/lib",
-    "@client": "./build/client"
+    "@disk": "./build"
   }
 }
