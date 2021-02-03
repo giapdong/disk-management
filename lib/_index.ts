@@ -1,3 +1,4 @@
+import "module-alias/register";
 import path from "path";
 import { BigNode, IOptionsCompare, ScanMode } from "@lib/interface";
 import { Hierachy } from "@lib/bean/node-hierachy";
@@ -5,10 +6,10 @@ import { getDateByFormat } from "@lib/helper/global-helper";
 import * as CompareHelper from "@lib/helper/compare-helper";
 import * as ScanHelper from "@lib/helper/scan-helper";
 
-const scanDir = path.join(__dirname, "..", "scan");
-const compareDir = path.join(__dirname, "..", "compare");
+const scanDir = path.join("@lib", "..", "scan");
+const compareDir = path.join("@lib", "..", "compare");
 
-export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMode.Normal) {
+export async function Scan(root = "@lib", threshold = 1000000, mode = ScanMode.Normal) {
   console.time("Disk-management-scanner");
 
   let HierachyTree: Hierachy = await ScanHelper.scanInFileSystem(root);

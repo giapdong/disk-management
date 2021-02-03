@@ -1,5 +1,5 @@
 import { Hierachy } from "@lib/bean/node-hierachy";
-import { TypeNodeHierachy } from "@root/index";
+import { TypeNodeHierachy } from "@root/lib/interface";
 
 export const PI = 4.4;
 export function action() {
