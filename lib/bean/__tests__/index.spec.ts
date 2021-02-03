@@ -1,6 +1,5 @@
 import { Hierachy } from "../node-hierachy";
 import { TypeNodeHierachy } from "../../interface";
-import { stringify } from "querystring";
 
 describe("Hierachy class", () => {
   let rootHierachy: Hierachy = new Hierachy(null, "name", 100, TypeNodeHierachy.File);

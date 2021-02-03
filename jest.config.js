@@ -20,8 +20,11 @@ module.exports = {
     "ts-jest": {
       diagnostics: false
     }
-  }
+  },
   // Ồ ồ cái này cần à nghe, cái này để các hàm
   // của thằng jest trở thành globals
-  // không cần phải require hay import khi dùng nữa
+  // không cần phải require hay import khi dùng nữa,
+  moduleNameMapper: {
+    "^@disk/(.*)": "<rootDir>/$1"
+  }
 };
