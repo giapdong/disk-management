@@ -7,8 +7,8 @@ import { lsCommandPromise, writeFilePromise } from "@lib/tools/filesystem";
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
   const spinner = genDotsSpinner("[1/3] Reading result");
   spinner.start();
-  let listScanFile: string[] = await lsCommandPromise(pathToScanDir);
 
+  let listScanFile: string[] = await lsCommandPromise(pathToScanDir);
   if (listScanFile.length < 2) {
     spinner.fail(`[1/3] Failed, too little log file in ${pathToScanDir}`);
     return [];
@@ -49,7 +49,6 @@ export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: s
   });
 
   spinner.succeed("[2/3] Resolving result");
-
   return listChangeStatus;
 }
 

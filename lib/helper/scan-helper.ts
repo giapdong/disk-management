@@ -12,9 +12,9 @@ import { bytesToSize, genDotsSpinner } from "@lib/helper/global-helper";
  */
 export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
   const spinner = genDotsSpinner("[1/4] Scanning");
+  spinner.start();
 
   let HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
-  spinner.start();
   await scanHierachyNode(spinner, HierachyTree);
   spinner.info(`Total storage: ${bytesToSize(HierachyTree.storage)}`);
   spinner.succeed("[1/4] Scanning");
@@ -31,6 +31,7 @@ export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
 export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, threshold: number): Promise<BigNode[]> {
   const spinner = genDotsSpinner("[2/4] Scanning big directory");
   spinner.start();
+
   let listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
   spinner.info(`[2/4] ${listBigNode.length} directory contrain total file file size >= ${threshold}`);
   spinner.succeed("[2/4] Scanning big directory");
@@ -45,7 +46,6 @@ export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, thresho
  */
 export async function removeParentInHierachy(rootHierachy: Hierachy): Promise<Hierachy> {
   const spinner = genDotsSpinner("[3/4] Formatting data");
-
   spinner.start();
   removeParent(rootHierachy);
   spinner.succeed("[3/4] Formatting data");
