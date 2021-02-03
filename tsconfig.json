@@ -22,8 +22,8 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "moduleResolution": "Node",
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "include": ["types", "api", "lib", "client", "*.ts"],
-  "exclude": ["node_modules", "build", "webpack.*"]
+  "exclude": ["node_modules", "build", "webpack.*", "**/*.spec.ts", "**/*.test.ts"]
 }
