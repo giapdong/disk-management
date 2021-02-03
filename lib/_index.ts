@@ -1,5 +1,5 @@
 import path from "path";
-import { BigNode, ScanMode } from "@lib/interface";
+import { BigNode, IOptionsCompare, ScanMode } from "@lib/interface";
 import { Hierachy } from "@lib/bean/node-hierachy";
 import { getDateByFormat } from "@lib/helper/global-helper";
 import * as CompareHelper from "@lib/helper/compare-helper";
@@ -34,15 +34,16 @@ export async function Compare(threshold: number, pathToSourceFile: string, pathT
 export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
   console.time("Disk-management-compare");
 
-  let listScanFile: string[] = await CompareHelper.getListScanFile(scanDir);
-  if (!listScanFile.length) return;
-
-  let paramCompare = CompareHelper.detectParameterCompare(scanDir, listScanFile, pathToSourceFile, pathToTargetFile);
-  let listChangeStatus = CompareHelper.resolveCompareData(
-    paramCompare.pathToSourceFile,
-    paramCompare.pathToTargetFile,
-    threshold
+  let paramCompare: IOptionsCompare | null = await CompareHelper.detectOptionsCompare(
+    threshold,
+    scanDir,
+    pathToSourceFile,
+    pathToTargetFile
   );
+  if (!paramCompare) return;
+  console.log(paramCompare);
+
+  let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
 
   await CompareHelper.storeResult(compareDir, listChangeStatus);
   console.timeEnd("Disk-management-compare");

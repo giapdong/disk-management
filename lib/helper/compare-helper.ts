@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { BigNode } from "@lib/interface";
+import { BigNode, IOptionsCompare } from "@lib/interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
 import { lsCommandPromise, writeFilePromise } from "@lib/tools/filesystem";
 
@@ -17,12 +17,12 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   return listScanFile;
 }
 
-export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: string, threshold: number) {
+export function resolveCompareData(compareOptions: IOptionsCompare) {
   const spinner = genDotsSpinner("[2/3] Resolving result");
   spinner.start();
 
-  let dataSource = fs.readFileSync(pathToSourceFile, "utf-8");
-  let dataTarget = fs.readFileSync(pathToTargetFile, "utf-8");
+  let dataSource = fs.readFileSync(compareOptions.pathToSourceFile, "utf-8");
+  let dataTarget = fs.readFileSync(compareOptions.pathToTargetFile, "utf-8");
 
   let json1 = JSON.parse(dataSource).big_directory as BigNode[];
   let json2 = JSON.parse(dataTarget).big_directory as BigNode[];
@@ -38,13 +38,13 @@ export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: s
 
     if (nodeInJSON1 && nodeInJSON2) {
       let change: number = nodeInJSON1?.storage - nodeInJSON2?.storage;
-      if (Math.abs(change) > threshold) listChangeStatus.push({ name: node, change: change });
+      if (Math.abs(change) > compareOptions.threshold) listChangeStatus.push({ name: node, change: change });
     } else if (nodeInJSON1 || nodeInJSON2) {
       let change: number = 0;
       if (nodeInJSON1) change = nodeInJSON1.storage;
       if (nodeInJSON2) change = nodeInJSON2.storage;
 
-      if (Math.abs(change) > threshold) listChangeStatus.push({ name: node, change: change });
+      if (Math.abs(change) > compareOptions.threshold) listChangeStatus.push({ name: node, change: change });
     }
   });
 
@@ -52,30 +52,30 @@ export function resolveCompareData(pathToSourceFile: string, pathToTargetFile: s
   return listChangeStatus;
 }
 
-export function detectParameterCompare(
+export async function detectOptionsCompare(
+  threshold: number,
   pathToScanDir: string,
-  listFileScaned: string[],
   pathToSourceFile: string | undefined,
   pathToTargetFile: string | undefined
-) {
-  let result = {
-    pathToSourceFile: "",
-    pathToTargetFile: ""
-  };
+): Promise<IOptionsCompare | null> {
+  let optionsCompare: IOptionsCompare = { threshold, pathToSourceFile: "", pathToTargetFile: "" };
 
-  if (pathToSourceFile) result.pathToSourceFile = pathToSourceFile;
+  let listScanFile: string[] = await getListScanFile(pathToScanDir);
+  if (!listScanFile.length) return null;
+
+  if (pathToSourceFile) optionsCompare.pathToSourceFile = pathToSourceFile;
   else {
-    let olderScanFile: string = listFileScaned[listFileScaned.length - 2];
-    result.pathToSourceFile = path.join(pathToScanDir, olderScanFile);
+    let olderScanFile: string = listScanFile[listScanFile.length - 2];
+    optionsCompare.pathToSourceFile = path.join(pathToScanDir, olderScanFile);
   }
 
-  if (pathToTargetFile) result.pathToTargetFile = pathToTargetFile;
+  if (pathToTargetFile) optionsCompare.pathToTargetFile = pathToTargetFile;
   else {
-    let newestScanFile: string = listFileScaned[listFileScaned.length - 1];
-    result.pathToTargetFile = path.join(pathToScanDir, newestScanFile);
+    let newestScanFile: string = listScanFile[listScanFile.length - 1];
+    optionsCompare.pathToTargetFile = path.join(pathToScanDir, newestScanFile);
   }
 
-  return result;
+  return optionsCompare;
 }
 
 export async function storeResult(compareDir: string, data: any) {

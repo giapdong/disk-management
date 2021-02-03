@@ -19,3 +19,9 @@ export interface BigNode {
   path: string;
   storage: number;
 }
+
+export interface IOptionsCompare {
+  threshold: number;
+  pathToSourceFile: string;
+  pathToTargetFile: string;
+}
