@@ -45,12 +45,10 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
  */
 export async function writeFilePromise(path: string, data: any, options = "utf-8") {
   return new Promise((resolve, reject) => {
-    try {
-      fs.writeFileSync(path, data, options);
+    fs.writeFile(path, data, options, error => {
+      if (error) return reject(error);
       resolve(1);
-    } catch (error) {
-      reject(error);
-    }
+    });
   });
 }
 
