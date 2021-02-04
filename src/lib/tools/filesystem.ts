@@ -1,4 +1,4 @@
-import { StatsNode } from "@disk/lib/interface";
+import { StatsNode } from "../interface";
 import fs from "fs";
 import path from "path";
 

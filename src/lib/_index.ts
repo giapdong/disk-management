@@ -1,13 +1,13 @@
-import "module-alias/register";
+// import "module-alias/register";
 import path from "path";
-import { BigNode, IOptionsCompare, ScanMode } from "@disk/lib/interface";
-import { Hierachy } from "@disk/lib/bean/node-hierachy";
-import { getDateByFormat } from "@disk/lib/helper/global-helper";
-import * as CompareHelper from "@disk/lib/helper/compare-helper";
-import * as ScanHelper from "@disk/lib/helper/scan-helper";
+import { BigNode, IOptionsCompare, ScanMode } from "./interface";
+import { Hierachy } from "./bean/node-hierachy";
+import { getDateByFormat } from "./helper/global-helper";
+import * as CompareHelper from "./helper/compare-helper";
+import * as ScanHelper from "./helper/scan-helper";
 
-const scanDir = path.join(__dirname, "..", "scan");
-const compareDir = path.join(__dirname, "..", "compare");
+const scanDir = path.join(__dirname, "..", "..", "scan");
+const compareDir = path.join(__dirname, "..", "..", "compare");
 
 export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMode.Normal) {
   console.time("Disk-management-scanner");
