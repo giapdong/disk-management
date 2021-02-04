@@ -7,7 +7,7 @@ import path from "path";
  *
  * @param {string} pathToDir Path to node in filesystem
  */
-export async function lsCommandPromise(pathToDir: string): Promise<string[]> {
+export function lsCommandPromise(pathToDir: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
     fs.readdir(pathToDir, "utf-8", function(err, data) {
       return err ? reject(err) : resolve(data);
@@ -27,11 +27,14 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
     dirInfo.forEach(element => {
       promise.push(readStatPromise(path.join(pathToDir, element)));
     });
+
     let listStat: StatsNode[] = await Promise.all(promise);
     return listStat;
   } catch (error) {
     console.log(error);
     let newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
+    if (!newDirInfo.length) return [];
+
     let listStat: StatsNode[] = await readStatDirPromise(pathToDir, newDirInfo);
     return listStat;
   }
@@ -43,7 +46,7 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
  * @param {String} path Path to directory contain file
  * @param {JSON} data Stringtify of Object
  */
-export async function writeFilePromise(path: string, data: any, options = "utf-8") {
+export function writeFilePromise(path: string, data: any, options = "utf-8") {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, data, options, error => {
       if (error) return reject(error);
