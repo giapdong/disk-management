@@ -4,6 +4,7 @@ import { Hierachy } from "../bean/node-hierachy";
 import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
 import { Ora } from "ora";
 import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
+import colors from "colors";
 
 /**
  * Scan in filesystem
@@ -63,7 +64,7 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
     // JSON.stringify(obj, null, 4)
     await FS_TOOLS.writeFilePromise(pathJSON, JSON.stringify(obj));
 
-    spinner.info("Finish! Saved 1 new log file.");
+    spinner.info(colors.green("Finish!") + " Saved 1 new log file.");
     spinner.succeed("[4/4] Writting result");
   } catch (error) {
     console.log(error);

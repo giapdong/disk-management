@@ -300,7 +300,7 @@ async function Compare(threshold = 1000000) {
   let result = fs.readdirSync(scanDir); //Scan all file log in scanDir
 
   if (result.length < 2) {
-    spinner.fail(`[1/3] ${"Failed, too little log file in".error} ${scanDir}`);
+    spinner.fail(`[1/3] ${colors.red("Failed, too little log file in")} ${scanDir}`);
     return;
   }
   spinner.succeed("[1/3] Reading result");

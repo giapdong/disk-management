@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import colors from "colors";
 import { BigNode, ChangeNode, IOptionsCompare } from "../interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
 import { lsCommandPromise, writeFilePromise } from "../tools/filesystem";
@@ -48,7 +49,7 @@ export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[
     } else if (nodeInJSON1 || nodeInJSON2) {
       let change: number = 0;
       if (nodeInJSON1) change = nodeInJSON1.storage;
-      if (nodeInJSON2) change = nodeInJSON2.storage;
+      if (nodeInJSON2) change = -nodeInJSON2.storage;
 
       if (Math.abs(change) > compareOptions.threshold) listChangeStatus.push({ name: node, change: change });
     }
@@ -102,6 +103,6 @@ export async function storeResult(compareDir: string, data: any) {
     throw error;
   }
 
-  spinner.info("Done" + " Saved 1 new log file.");
-  spinner.succeed("[2/3] Resolving result");
+  spinner.info(colors.green("Done!") + " Saved 1 new log file.");
+  spinner.succeed("[3/3] Writting result");
 }
