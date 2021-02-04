@@ -13,8 +13,19 @@ jest.mock("ora", () => {
 });
 
 describe("Compare helper", () => {
+  const scanDir = path.join(__dirname, "../../../../scan");
+  let sourceFile = path.join(scanDir, "source-log.test");
+  let targetFile = path.join(scanDir, "target-log.test");
+
+  test("Init data into scan folder", async () => {
+    if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
+    let json = JSON.stringify({ big_directory: [] });
+    await writeFilePromise(sourceFile, json);
+    await writeFilePromise(targetFile, json);
+  });
+
   describe("getListScanFile()", () => {
-    test("getListScanFile() successfully", async () => {
+    test("getListScanFile() success", async () => {
       let data = await getListScanFile(path.join(__dirname, ".."));
       expect(Array.isArray(data)).toBeTruthy();
       expect(data.length).toEqual(4);
@@ -29,17 +40,7 @@ describe("Compare helper", () => {
   });
 
   describe("resolveCompareData()", () => {
-    test("resolveCompareData() successfully", async () => {
-      const scanDir = path.join(__dirname, "../../../../scan");
-      if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
-
-      let json = JSON.stringify({ big_directory: [] });
-      let sourceFile = path.join(scanDir, "source-log.test");
-      let targetFile = path.join(scanDir, "target-log.test");
-
-      await writeFilePromise(sourceFile, json);
-      await writeFilePromise(targetFile, json);
-
+    test("resolveCompareData() success", async () => {
       let compareOptions: IOptionsCompare = {
         threshold: 1000,
         pathToSourceFile: sourceFile,
@@ -53,13 +54,37 @@ describe("Compare helper", () => {
         expect(typeof shouldChangeNode.name).toEqual("string");
         expect(typeof shouldChangeNode.change).toEqual("number");
       }
-
-      try {
-        fs.unlinkSync(sourceFile);
-        fs.unlinkSync(targetFile);
-      } catch (err) {
-        console.error(err);
-      }
     });
+  });
+
+  describe("detectOptionsCompare()", () => {
+    test("detectOptionsCompare() 2 param", async () => {
+      let compareOptions: IOptionsCompare = await detectOptionsCompare(1000, scanDir, undefined, undefined);
+      expect(compareOptions).not.toBeNull();
+      expect(typeof compareOptions.threshold).toBe("number");
+      expect(typeof compareOptions.pathToSourceFile).toBe("string");
+      expect(typeof compareOptions.pathToTargetFile).toBe("string");
+    });
+
+    test("detectOptionsCompare() 3 param", async () => {
+      let compareOptions: IOptionsCompare = await detectOptionsCompare(1000, scanDir, "hihi", undefined);
+      expect(compareOptions).not.toBeNull();
+      expect(typeof compareOptions.threshold).toBe("number");
+      expect(typeof compareOptions.pathToSourceFile).toBe("string");
+      expect(typeof compareOptions.pathToTargetFile).toBe("string");
+    });
+
+    test("detectOptionsCompare() 4 param", async () => {
+      let compareOptions: IOptionsCompare = await detectOptionsCompare(1000, scanDir, "hihi", "ahihi");
+      expect(compareOptions).not.toBeNull();
+      expect(typeof compareOptions.threshold).toBe("number");
+      expect(typeof compareOptions.pathToSourceFile).toBe("string");
+      expect(typeof compareOptions.pathToTargetFile).toBe("string");
+    });
+  });
+
+  test("Remove test file in scan folder", async () => {
+    fs.unlinkSync(sourceFile);
+    fs.unlinkSync(targetFile);
   });
 });

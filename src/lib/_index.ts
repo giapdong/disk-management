@@ -34,14 +34,13 @@ export async function Compare(threshold: number, pathToSourceFile: string, pathT
 export async function Compare(threshold: number, pathToSourceFile?: string, pathToTargetFile?: string): Promise<void> {
   console.time("Disk-management-compare");
 
-  let paramCompare: IOptionsCompare | null = await CompareHelper.detectOptionsCompare(
-    threshold,
-    scanDir,
-    pathToSourceFile,
-    pathToTargetFile
-  );
-  if (!paramCompare) return;
-  console.log(paramCompare);
+  let paramCompare: IOptionsCompare;
+  try {
+    paramCompare = await CompareHelper.detectOptionsCompare(threshold, scanDir, pathToSourceFile, pathToTargetFile);
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 
   let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
 

@@ -12,7 +12,6 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   try {
     listScanFile = await lsCommandPromise(pathToScanDir);
   } catch (error) {
-    console.log(error);
     throw error;
   }
 
@@ -64,15 +63,14 @@ export async function detectOptionsCompare(
   pathToScanDir: string,
   pathToSourceFile: string | undefined,
   pathToTargetFile: string | undefined
-): Promise<IOptionsCompare | null> {
+): Promise<IOptionsCompare> {
   let optionsCompare: IOptionsCompare = { threshold, pathToSourceFile: "", pathToTargetFile: "" };
   let listScanFile: string[];
 
   try {
     listScanFile = await getListScanFile(pathToScanDir);
   } catch (error) {
-    console.log(error);
-    return null;
+    throw error;
   }
 
   if (pathToSourceFile) optionsCompare.pathToSourceFile = pathToSourceFile;
