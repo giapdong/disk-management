@@ -49,7 +49,6 @@ export async function writeFilePromise(path: string, data: any, options = "utf-8
       fs.writeFileSync(path, data, options);
       resolve(1);
     } catch (error) {
-      console.log(error);
       reject(error);
     }
   });

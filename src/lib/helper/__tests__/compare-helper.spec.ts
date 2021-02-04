@@ -83,6 +83,12 @@ describe("Compare helper", () => {
     });
   });
 
+  test("storeResult()", async () => {
+    const compareDir = path.join(__dirname, "../../../../compare");
+    if (!fs.existsSync(compareDir)) fs.mkdirSync(compareDir);
+    await storeResult(compareDir, { name: "giapdong" });
+  });
+
   test("Remove test file in scan folder", async () => {
     fs.unlinkSync(sourceFile);
     fs.unlinkSync(targetFile);

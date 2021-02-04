@@ -96,8 +96,11 @@ export async function storeResult(compareDir: string, data: any) {
 
   let pathJSON = path.join(compareDir, getDateByFormat() + ".log");
   var json = JSON.stringify(data, null, 4);
-
-  await writeFilePromise(pathJSON, json);
+  try {
+    await writeFilePromise(pathJSON, json);
+  } catch (error) {
+    throw error;
+  }
 
   spinner.info("Done" + " Saved 1 new log file.");
   spinner.succeed("[2/3] Resolving result");
