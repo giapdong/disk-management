@@ -25,3 +25,8 @@ export interface IOptionsCompare {
   pathToSourceFile: string;
   pathToTargetFile: string;
 }
+
+export interface ChangeNode {
+  name: string;
+  change: number;
+}

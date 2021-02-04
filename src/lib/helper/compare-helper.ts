@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { BigNode, IOptionsCompare } from "../interface";
+import { BigNode, ChangeNode, IOptionsCompare } from "../interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
 import { lsCommandPromise, writeFilePromise } from "../tools/filesystem";
 
@@ -24,7 +24,7 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   return listScanFile;
 }
 
-export function resolveCompareData(compareOptions: IOptionsCompare) {
+export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[] {
   const spinner = genDotsSpinner("[2/3] Resolving result");
   spinner.start();
 
@@ -37,7 +37,7 @@ export function resolveCompareData(compareOptions: IOptionsCompare) {
   let listBigNode: string[] = json1.map(item => item.path).concat(json2.map(item => item.path));
   listBigNode = [...new Set(listBigNode)];
 
-  let listChangeStatus: any[] = [];
+  let listChangeStatus: ChangeNode[] = [];
 
   listBigNode.forEach(node => {
     let nodeInJSON1 = json1.find(item => item.path == node);
