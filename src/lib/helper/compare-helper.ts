@@ -4,7 +4,7 @@ import { BigNode, IOptionsCompare } from "../interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
 import { lsCommandPromise, writeFilePromise } from "../tools/filesystem";
 
-export async function getListScanFile(pathToScanDir: string): Promise<string[] | null> {
+export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
   const spinner = genDotsSpinner("[1/3] Reading result");
   spinner.start();
 
@@ -13,12 +13,12 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[] |
     listScanFile = await lsCommandPromise(pathToScanDir);
   } catch (error) {
     console.log(error);
-    return null;
+    throw error;
   }
 
   if (listScanFile.length < 2) {
     spinner.fail(`[1/3] Failed, too little log file in ${pathToScanDir}`);
-    return null;
+    throw new Error(`[1/3] Failed, too little log file in ${pathToScanDir}`);
   }
   spinner.succeed("[1/3] Reading result");
   return listScanFile;
@@ -66,9 +66,14 @@ export async function detectOptionsCompare(
   pathToTargetFile: string | undefined
 ): Promise<IOptionsCompare | null> {
   let optionsCompare: IOptionsCompare = { threshold, pathToSourceFile: "", pathToTargetFile: "" };
+  let listScanFile: string[];
 
-  let listScanFile: string[] | null = await getListScanFile(pathToScanDir);
-  if (listScanFile == null) return null;
+  try {
+    listScanFile = await getListScanFile(pathToScanDir);
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 
   if (pathToSourceFile) optionsCompare.pathToSourceFile = pathToSourceFile;
   else {

@@ -14,7 +14,7 @@
     "serve:api": "node build/api/index.js",
     "dev:ts": "npm run build:ts && npm run serve:api",
     "run-example-api:ts": "ts-node examples/api-module.ts",
-    "test": "jest --detectOpenHandles"
+    "test:ts": "jest --detectOpenHandles"
   },
   "dependencies": {
     "axios": "^0.21.1",

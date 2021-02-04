@@ -15,14 +15,11 @@ describe("Compare helper", () => {
     expect(Array.isArray(data)).toBeTruthy();
     expect(data.length).toEqual(4);
     expect(data.includes("__tests__")).toBeTruthy();
-
-    if (data && data.length) {
-      expect(typeof data[0]).toBe("string");
-    }
+    expect(typeof data[0]).toBe("string");
   });
 
   test("getListScanFile() failed", async () => {
-    let listScanFile = await getListScanFile(__dirname + "nothing");
-    expect(listScanFile).toBeNull();
+    let listScanFile = getListScanFile(__dirname + "nothing");
+    await expect(listScanFile).rejects.toThrowError(/^ENOENT/);
   });
 });
