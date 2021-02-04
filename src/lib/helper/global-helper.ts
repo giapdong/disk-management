@@ -8,7 +8,7 @@ import ora from "ora";
 export function bytesToSize(bytes: number) {
   // from https://gist.github.com/lanqy/5193417
   const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-  if (bytes === 0 || isNaN(bytes)) return "n/a";
+  if (bytes === 0 || isNaN(bytes) || bytes < 0) return "n/a";
 
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   if (i === 0) return `${bytes} ${sizes[i]}`;
