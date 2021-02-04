@@ -1,4 +1,3 @@
-// import "module-alias/register";
 import path from "path";
 import { BigNode, IOptionsCompare, ScanMode } from "./interface";
 import { Hierachy } from "./bean/node-hierachy";
