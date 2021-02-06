@@ -22,7 +22,7 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "moduleResolution": "Node",
-    "types": ["node", "jest"]
+    "types": ["node", "jest", "express", "cors"]
   },
   "include": ["types", "src/api", "src/lib", "client", "*.ts"],
   "exclude": ["node_modules", "build", "webpack.*", "**/*.spec.ts", "**/*.test.ts"]
