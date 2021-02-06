@@ -13,6 +13,7 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   try {
     listScanFile = await lsCommandPromise(pathToScanDir);
   } catch (error) {
+    spinner.fail(error.message);
     throw error;
   }
 

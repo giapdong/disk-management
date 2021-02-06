@@ -13,7 +13,7 @@
     "build:ts": "tsc",
     "serve:api": "node build/api/index.js",
     "dev:ts": "npm run build:ts && npm run serve:api",
-    "run-example-api:ts": "ts-node examples/api-module.ts",
+    "example:ts": "ts-node examples/lib.example.ts",
     "test:ts": "jest --detectOpenHandles"
   },
   "dependencies": {
