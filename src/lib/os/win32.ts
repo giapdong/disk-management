@@ -29,16 +29,13 @@ export function readPartition(): Promise<PartitionNode[]> {
   });
 }
 
-function caseToPartitionNode(partition: any): PartitionNode | null {
-  let canCasing: boolean = true;
-
-  if (!Object.prototype.hasOwnProperty.call(partition, "deviceid")) canCasing = false;
-  if (!Object.prototype.hasOwnProperty.call(partition, "freespace")) canCasing = false;
-  if (!Object.prototype.hasOwnProperty.call(partition, "size")) canCasing = false;
-
-  if (!canCasing) return null;
+export function caseToPartitionNode(partition: any): PartitionNode | null {
+  if (!Object.prototype.hasOwnProperty.call(partition, "deviceid")) return null;
+  if (!Object.prototype.hasOwnProperty.call(partition, "freespace")) return null;
+  if (!Object.prototype.hasOwnProperty.call(partition, "size")) return null;
+  if (isNaN(+partition.freespace)) return null;
+  if (isNaN(+partition.size)) return null;
 
   let node: PartitionNode = { deviceid: partition.deviceid, freespace: +partition.freespace, size: +partition.size };
-
   return node;
 }
