@@ -4,6 +4,8 @@ import { Hierachy } from "./bean/node-hierachy";
 import { getDateByFormat } from "./helper/global-helper";
 import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
+import os from "os";
+import * as win32 from "./os/win32";
 
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
@@ -46,4 +48,19 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
 
   await CompareHelper.storeResult(compareDir, listChangeStatus);
   console.timeEnd("Disk-management-compare");
+}
+
+export function readSystemPartition() {
+  return new Promise(async (resolve, reject) => {
+    switch (os.platform()) {
+      case "win32": {
+        let data = await win32.readPartition();
+        resolve(data);
+        break;
+      }
+      default:
+        resolve(null);
+        break;
+    }
+  });
 }

@@ -30,3 +30,9 @@ export interface ChangeNode {
   name: string;
   change: number;
 }
+
+export interface PartitionNode {
+  deviceid: string;
+  size: number;
+  freespace: number;
+}
