@@ -9,7 +9,7 @@ import path from "path";
  */
 export function lsCommandPromise(pathToDir: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    fs.readdir(pathToDir, "utf-8", function(err, data) {
+    fs.readdir(pathToDir, "utf-8", function (err, data) {
       return err ? reject(err) : resolve(data);
     });
   });
@@ -23,14 +23,13 @@ export function lsCommandPromise(pathToDir: string): Promise<string[]> {
  */
 export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): Promise<StatsNode[]> {
   try {
-    let promise: Promise<StatsNode>[] = [];
-    dirInfo.forEach(element => {
-      promise.push(readStatPromise(path.join(pathToDir, element)));
+    let promise: Promise<StatsNode>[];
+    promise = dirInfo.map(element => {
+      return readStatPromise(path.join(pathToDir, element));
     });
-
-    let listStat: StatsNode[] = await Promise.all(promise);
-    return listStat;
+    return await Promise.all(promise);
   } catch (error) {
+    // Catch NodeJS.ErrnoException error
     console.log(error);
     let newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
     if (!newDirInfo.length) return [];
@@ -66,7 +65,7 @@ export function writeFilePromise(path: string, data: any, options = "utf-8") {
  */
 async function readStatPromise(pathToNode: string): Promise<StatsNode> {
   return new Promise((resolve, reject) => {
-    fs.stat(pathToNode, function(err, data) {
+    fs.stat(pathToNode, function (err, data) {
       let nodeStat: StatsNode = { path: pathToNode, stats: data };
       return err ? reject(err) : resolve(nodeStat);
     });
