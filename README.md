@@ -119,6 +119,10 @@ If you use yarn as package management, you can install disk-management cli as de
 
 If you use npm, you need install **disk-management** in global. Run cli follow command: `disk-management`
 
+# Issues
+
+If you using npm version 5.6.0 or appear [Not support version 10.15.x](https://github.com/nodejs/help/issues/1877) [Cannot install ts-node-dev](https://github.com/wclr/ts-node-dev/issues/224). Please upgrage to newest version npm
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
