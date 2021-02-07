@@ -1,5 +1,5 @@
-const diskConst = require("./lib/const.js");
-const partition = require("./lib/partition.js");
-const diskManagement = require("./lib/index.js");
+"use strict";
+const lib = require("./build/lib/index");
+const interfaces = require("./build/lib/interface/index");
 
-module.exports = { ...diskConst, ...diskManagement, ...partition };
+module.exports = { ...lib, ...interfaces };

@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiRouter = void 0;
+const express_1 = require("express");
+const test_api_1 = require("./api/test.api");
+const system_partition_api_1 = require("./api/system-partition.api");
+const router = express_1.Router();
+router.use("/api", new test_api_1.TestRouter().getRouter());
+router.use("/api", new system_partition_api_1.SystemPartition().getRouter());
+exports.ApiRouter = router;

@@ -4,9 +4,9 @@
   "display": "Node 12",
 
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@root/*": ["./*"]
+      "@disk/*": ["./src/*"]
     },
     "outDir": "./build",
     "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
@@ -22,8 +22,8 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "moduleResolution": "Node",
-    "types": ["node"]
+    "types": ["node", "jest", "express", "cors"]
   },
-
-  "exclude": ["node_modules", "build", "webpack.*"]
+  "include": ["types", "src/api", "src/lib", "client", "*.ts"],
+  "exclude": ["node_modules", "build", "webpack.*", "**/*.spec.ts", "**/*.test.ts"]
 }

@@ -1,14 +1,23 @@
+<!-- Inspired from 'word-wrap', 'ts-mocha'  -->
+
+[![Latest Stable Version](https://img.shields.io/npm/v/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+[![NPM Downloads](https://img.shields.io/npm/dt/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+[![NPM Downloads](https://img.shields.io/npm/dm/disk-management.svg)](https://www.npmjs.com/package/disk-management)
+
+[![Dependency Status](https://img.shields.io/david/piotrwitek/disk-management.svg)](https://david-dm.org/piotrwitek/disk-management)
+[![peerDependency Status](https://img.shields.io/david/peer/piotrwitek/disk-management.svg)](https://david-dm.org/piotrwitek/disk-management#info=devDependencies)
+[![LICENSE](https://img.shields.io/npm/l/disk-management.svg?sanitize=true)](https://www.npmjs.com/package/disk-management)
+
 # Disk management with Nodejs
 
 Module/CLI application management storage your disk
 
+Typescript code-base
+
 ## Installation
 
 ```bash
-# yarn
-$ yarn add disk-management
-#npm
-$ npm install disk-management
+npm install disk-management # Or yarn add disk-management
 ```
 
 ## Table of Contents
@@ -30,6 +39,7 @@ $ npm install disk-management
         </ul>
     </li>
     <li><a href="#cli">CLI</a></li>
+    <li><a href="#issues">Issues</a></li>
 </ul>
 
 ## Importing
@@ -41,7 +51,7 @@ const DiskManagement = require("disk-management");
 If you need micro function, import with ES6 systax
 
 ```javascript
-const { color, ScanMode, Scan, Compare } = require("disk-management");
+const { ScanMode, Scan, Compare } = require("disk-management");
 ```
 
 ## Usage
@@ -76,20 +86,23 @@ node run.js
 
 ### Scan
 
-`Scan(directory, threshold, mode)`
+`Scan(directory?, threshold?, mode?)`
 
-@directory: `String` Path to root directory you want scan
-
-@threshold: `Number` Minimum number(Bytes) you want application filter your child folder
-
-@[mode](#scanmode): `ScanMode` Mode to scan
+| Parameter | Type     | Description                                                         | Default Value                                                                       |
+| --------- | -------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| directory | string   | Path to root directory you want scan                                | \_\_dirname of this module (most case it has value: ./node_modules/disk-management) |
+| threshold | number   | Minimum number(Bytes) you want application filter your child folder | 1000000                                                                             |
+| mode      | ScanMode | [ScanMode](#scanmode) Mode you want scan                            | ScanMode.Normal                                                                     |
 
 ### Compare
 
-`Compare(threshold)`
+`Compare(threshold?, pathToSourceFile?, pathToTargetFile?)`
 
-@threshold: `Number` Minimum file size changed of each File same position
-Default compare two last time
+| Parameter        | Type   | Description                                           | Default Value             |
+| ---------------- | ------ | ----------------------------------------------------- | ------------------------- |
+| threshold        | number | Minimum file size changed of each File same position  | 1000000                   |
+| pathToSourceFile | string | Path to source file you want compare with target file | 2nd from last in scan dir |
+| pathToTargetFile | string | Path to target file you want compare                  | 1nd from last in scan dir |
 
 ### ScanMode
 
@@ -108,6 +121,10 @@ We built-in with cli command. See help follow below guide.
 If you use yarn as package management, you can install disk-management cli as dependencies in your nodejs application. Run cli follow command: `yarn disk-management`
 
 If you use npm, you need install **disk-management** in global. Run cli follow command: `disk-management`
+
+# Issues
+
+If you using npm version 5.6.0 or appear [Not support version 10.15.x](https://github.com/nodejs/help/issues/1877) [Cannot install ts-node-dev](https://github.com/wclr/ts-node-dev/issues/224). Please upgrage to newest version npm
 
 ## License
 
