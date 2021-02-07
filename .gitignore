@@ -13,6 +13,3 @@ app_test
 
 # Enviroment file
 .env
-
-# Temporate ignore build folder
-build/

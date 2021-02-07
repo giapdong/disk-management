@@ -52,7 +52,7 @@
   },
   "homepage": "https://github.com/giapdong/disk-management#readme",
   "files": [
-    "src",
+    "build",
     "bin/*.js",
     "types/*.d.ts"
   ]
