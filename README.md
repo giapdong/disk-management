@@ -12,13 +12,12 @@
 
 Module/CLI application management storage your disk
 
+Typescript code-base
+
 ## Installation
 
 ```bash
-# yarn
-$ yarn add disk-management
-#npm
-$ npm install disk-management
+npm install disk-management # Or yarn add disk-management
 ```
 
 ## Table of Contents
@@ -40,6 +39,7 @@ $ npm install disk-management
         </ul>
     </li>
     <li><a href="#cli">CLI</a></li>
+    <li><a href="#issues">Issues</a></li>
 </ul>
 
 ## Importing
@@ -51,7 +51,7 @@ const DiskManagement = require("disk-management");
 If you need micro function, import with ES6 systax
 
 ```javascript
-const { color, ScanMode, Scan, Compare } = require("disk-management");
+const { ScanMode, Scan, Compare } = require("disk-management");
 ```
 
 ## Usage
@@ -86,20 +86,23 @@ node run.js
 
 ### Scan
 
-`Scan(directory, threshold, mode)`
+`Scan(directory?, threshold?, mode?)`
 
-@directory: `String` Path to root directory you want scan
-
-@threshold: `Number` Minimum number(Bytes) you want application filter your child folder
-
-@[mode](#scanmode): `ScanMode` Mode to scan
+| Parameter | Type     | Description                                                         | Default Value                                                                       |
+| --------- | -------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| directory | string   | Path to root directory you want scan                                | \_\_dirname of this module (most case it has value: ./node_modules/disk-management) |
+| threshold | number   | Minimum number(Bytes) you want application filter your child folder | 1000000                                                                             |
+| mode      | ScanMode | [ScanMode](#scanmode) Mode you want scan                            | ScanMode.Normal                                                                     |
 
 ### Compare
 
-`Compare(threshold)`
+`Compare(threshold?, pathToSourceFile?, pathToTargetFile?)`
 
-@threshold: `Number` Minimum file size changed of each File same position
-Default compare two last time
+| Parameter        | Type   | Description                                           | Default Value             |
+| ---------------- | ------ | ----------------------------------------------------- | ------------------------- |
+| threshold        | number | Minimum file size changed of each File same position  | 1000000                   |
+| pathToSourceFile | string | Path to source file you want compare with target file | 2nd from last in scan dir |
+| pathToTargetFile | string | Path to target file you want compare                  | 1nd from last in scan dir |
 
 ### ScanMode
 
