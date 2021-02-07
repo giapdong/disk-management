@@ -8,7 +8,6 @@
   "scripts": {
     "dev:api": "cross-env NODE_ENV=development ts-node-dev src/api/app.ts",
     "build:ts": "tsc",
-    "example:ts": "ts-node-dev examples/lib.example.ts",
     "test:ts": "jest --detectOpenHandles"
   },
   "dependencies": {
