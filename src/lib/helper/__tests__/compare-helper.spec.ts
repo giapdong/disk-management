@@ -28,7 +28,7 @@ describe("Compare helper", () => {
     test("getListScanFile() success", async () => {
       let data = await getListScanFile(path.join(__dirname, ".."));
       expect(Array.isArray(data)).toBeTruthy();
-      expect(data.length).toEqual(4);
+      expect(data.length).toEqual(5);
       expect(data.includes("__tests__")).toBeTruthy();
       expect(typeof data[0]).toBe("string");
     });
