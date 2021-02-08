@@ -50,7 +50,7 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
   console.timeEnd("Disk-management-compare");
 }
 
-export function readSystemPartition() {
+export function readSystemPartition(): Promise<any> {
   return new Promise(async (resolve, reject) => {
     switch (os.platform()) {
       case "win32": {
