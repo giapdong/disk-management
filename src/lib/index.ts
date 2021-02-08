@@ -10,7 +10,14 @@ import * as win32 from "./os/win32";
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
 
-export async function Scan(root = __dirname, threshold = 1000000, mode = ScanMode.Normal) {
+export async function Scan(root: string): Promise<void>;
+export async function Scan(root: string, threshold: number): Promise<void>;
+export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<void>;
+export async function Scan(
+  root: string = __dirname,
+  threshold: number = 1000000,
+  mode: ScanMode = ScanMode.Normal
+): Promise<void> {
   console.time("Disk-management-scanner");
 
   let HierachyTree: Hierachy = await ScanHelper.scanInFileSystem(root);
