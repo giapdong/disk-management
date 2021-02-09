@@ -1,6 +1,6 @@
 import Queue from "../queue";
 
-describe("Queue", () => {
+describe("Queue structure", () => {
   let queue = new Queue<number>();
 
   test("isEmpty() when created", () => {

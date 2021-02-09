@@ -25,7 +25,7 @@ describe("Scan helper", () => {
 
   test("scanInFileSystem()", async () => {
     expect(rootHierachy).not.toBeNull();
-    expect(rootHierachy.child.length).toBe(6);
+    expect(rootHierachy.child.length).toBe(4);
   });
 
   test("scanBigDirectoryInHierachy()", async () => {
