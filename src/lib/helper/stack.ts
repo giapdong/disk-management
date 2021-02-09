@@ -1,4 +1,4 @@
-export default class Queue<T> {
+export default class Stack<T> {
   private data: T[];
 
   constructor() {
@@ -9,16 +9,16 @@ export default class Queue<T> {
     return this.data.length == 0;
   }
 
-  enqueue(newItem: T): number {
+  push(newItem: T): number {
     return this.data.push(newItem);
   }
 
-  dequeue(): T | undefined {
-    return this.data.shift();
+  pop(): T | undefined {
+    return this.data.pop();
   }
 
   peek(): T | undefined {
-    return !this.isEmpty() ? this.data[0] : undefined;
+    return !this.isEmpty() ? this.data[this.data.length - 1] : undefined;
   }
 
   clear(): void {
