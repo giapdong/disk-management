@@ -9,8 +9,13 @@ export default class Stack<T> {
     return this.data.length == 0;
   }
 
-  push(newItem: T): number {
-    return this.data.push(newItem);
+  push(newItem: T): number;
+  push(rangeValue: T[]): number;
+  push(newItem: T | T[]): number {
+    if (Array.isArray(newItem)) this.data = this.data.concat(newItem);
+    else this.data.push(newItem);
+
+    return this.size();
   }
 
   pop(): T | undefined {

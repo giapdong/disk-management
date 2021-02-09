@@ -21,6 +21,11 @@ describe("Queue", () => {
     expect(queue.size()).toBe(2);
   });
 
+  test("enqueue() with array", () => {
+    expect(queue.enqueue([102, 103, 104, 105])).toBe(6);
+    expect(queue.size()).toBe(6);
+  });
+
   test("peek() should return 100", () => {
     expect(queue.peek()).toBe(100);
   });

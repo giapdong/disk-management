@@ -9,8 +9,13 @@ export default class Queue<T> {
     return this.data.length == 0;
   }
 
-  enqueue(newItem: T): number {
-    return this.data.push(newItem);
+  enqueue(newItem: T): number;
+  enqueue(newRange: T[]): number;
+  enqueue(newItem: T | T[]): number {
+    if (Array.isArray(newItem)) this.data = this.data.concat(newItem);
+    else this.data = this.data.concat(newItem);
+
+    return this.size();
   }
 
   dequeue(): T | undefined {
