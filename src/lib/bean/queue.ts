@@ -12,9 +12,7 @@ export default class Queue<T> {
   enqueue(newItem: T): number;
   enqueue(newRange: T[]): number;
   enqueue(newItem: T | T[]): number {
-    if (Array.isArray(newItem)) this.data = this.data.concat(newItem);
-    else this.data = this.data.concat(newItem);
-
+    this.data = this.data.concat(newItem);
     return this.size();
   }
 
