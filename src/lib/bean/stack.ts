@@ -12,9 +12,7 @@ export default class Stack<T> {
   push(newItem: T): number;
   push(rangeValue: T[]): number;
   push(newItem: T | T[]): number {
-    if (Array.isArray(newItem)) this.data = this.data.concat(newItem);
-    else this.data.push(newItem);
-
+    this.data = this.data.concat(newItem);
     return this.size();
   }
 
@@ -23,6 +21,8 @@ export default class Stack<T> {
   }
 
   peek(): T | undefined {
+    // For best performance
+    // Ref: https://stackoverflow.com/questions/3216013/get-the-last-item-in-an-array
     return !this.isEmpty() ? this.data[this.data.length - 1] : undefined;
   }
 
