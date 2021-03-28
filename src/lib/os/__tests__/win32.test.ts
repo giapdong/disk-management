@@ -29,7 +29,7 @@ describe("win32 os tools", () => {
     expect(result).toBeNull();
   });
 
-  test("castToPartitionNode() convert failed", async () => {
+  test("readSystemPartition() must contain system partition", async () => {
     let partitionInfo: PartitionNode[] = await new win32().readSystemPartition();
     expect(Array.isArray(partitionInfo)).toBeTruthy();
     expect(partitionInfo.length).toBeTruthy();
