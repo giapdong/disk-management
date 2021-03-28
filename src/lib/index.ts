@@ -5,7 +5,8 @@ import { getDateByFormat } from "./helper/global-helper";
 import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
 import os from "os";
-import * as win32 from "./os/win32";
+import { win32 } from "./os/win32";
+import { darwin } from "./os/darwin";
 
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
@@ -61,10 +62,15 @@ export function readSystemPartition(): Promise<any> {
   return new Promise(async (resolve, reject) => {
     switch (os.platform()) {
       case "win32": {
-        let data = await win32.readPartition();
-        resolve(data);
-        break;
+        const data = await new win32().readSystemPartition();
+        return resolve(data);
       }
+
+      case "darwin": {
+        const data = await new darwin().readSystemPartition();
+        return resolve(data);
+      }
+
       default:
         resolve(null);
         break;
