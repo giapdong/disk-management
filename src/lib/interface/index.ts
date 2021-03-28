@@ -34,7 +34,7 @@ export interface ChangeNode {
 }
 
 export interface PartitionNode {
-  deviceid: string;
+  caption: string;
   size: number;
   freespace: number;
 }

@@ -9,7 +9,7 @@ describe("win32 os tools", () => {
   }
   test("castToPartitionNode() convert success", () => {
     let partition = {
-      deviceid: "C",
+      caption: "C",
       freespace: "10",
       size: "11"
     };
@@ -21,7 +21,7 @@ describe("win32 os tools", () => {
 
   test("castToPartitionNode() convert failed", () => {
     let partition = {
-      deviceid: "C",
+      caption: "C",
       freespace: "ahihi",
       size: "ahihi"
     };

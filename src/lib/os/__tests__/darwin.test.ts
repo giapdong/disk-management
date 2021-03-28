@@ -13,7 +13,7 @@ describe("darwin os tools", () => {
     expect(Array.isArray(partitionInfo)).toBeTruthy();
     expect(partitionInfo.length).toBeTruthy();
 
-    const rootMountOn = partitionInfo.find((item: PartitionNode) => item.deviceid === "/");
+    const rootMountOn = partitionInfo.find((item: PartitionNode) => item.caption === "/");
     expect(rootMountOn).toBeTruthy();
     expect(rootMountOn?.size).toBeTruthy();
   });

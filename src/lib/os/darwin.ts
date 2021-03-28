@@ -29,9 +29,9 @@ export class darwin extends DiskSystem {
           const usedSize = parseInt(arr[2]);
           const freespace = parseInt(arr[3]);
           const size = freespace + usedSize;
-          const deviceid = arr[5];
+          const caption = arr[5];
 
-          return { deviceid, size, freespace };
+          return { caption, size, freespace };
         });
         resolve(partitions);
       });

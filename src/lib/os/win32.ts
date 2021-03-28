@@ -39,6 +39,6 @@ export function castToPartitionNode(partition: any): PartitionNode | null {
   if (isNaN(+partition.freespace)) return null;
   if (isNaN(+partition.size)) return null;
 
-  let node: PartitionNode = { deviceid: partition.deviceid, freespace: +partition.freespace, size: +partition.size };
+  let node: PartitionNode = { caption: partition.deviceid, freespace: +partition.freespace, size: +partition.size };
   return node;
 }
