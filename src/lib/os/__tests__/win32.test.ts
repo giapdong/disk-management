@@ -1,7 +1,12 @@
+import os from "os";
 import { PartitionNode } from "../../interface";
 import { caseToPartitionNode, readPartition } from "../win32";
 
 describe("win32 os tools", () => {
+  if (os.platform() != "win32") {
+    test("Success", () => expect(1).toEqual(1));
+    return;
+  }
   test("caseToPartitionNode() convert success", () => {
     let partition = {
       deviceid: "C",
