@@ -7,30 +7,25 @@ describe("win32 os tools", () => {
     test("Success", () => expect(1).toEqual(1));
     return;
   }
+
   test("castToPartitionNode() convert success", () => {
-    let partition = {
-      caption: "C",
-      freespace: "10",
-      size: "11"
-    };
-    let result: PartitionNode = castToPartitionNode(partition) as PartitionNode;
+    const partition = ["C", "10", "11"];
+    const result: PartitionNode = castToPartitionNode(partition) as PartitionNode;
     expect(result).not.toBeNull();
     expect(result.freespace).toBe(10);
     expect(result.size).toBe(11);
   });
 
   test("castToPartitionNode() convert failed", () => {
-    let partition = {
-      caption: "C",
-      freespace: "ahihi",
-      size: "ahihi"
-    };
-    let result = castToPartitionNode(partition);
-    expect(result).toBeNull();
+    const partition = ["C", "ahihi", "ahihi"];
+    const result = castToPartitionNode(partition);
+
+    expect(isNaN(result.freespace)).toBeTruthy();
+    expect(isNaN(result.size)).toBeTruthy();
   });
 
   test("readSystemPartition() must contain system partition", async () => {
-    let partitionInfo: PartitionNode[] = await new win32().readSystemPartition();
+    const partitionInfo: PartitionNode[] = await new win32().readSystemPartition();
     expect(Array.isArray(partitionInfo)).toBeTruthy();
     expect(partitionInfo.length).toBeTruthy();
   });
