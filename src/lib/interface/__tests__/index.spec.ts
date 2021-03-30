@@ -61,13 +61,13 @@ describe("Interface test", () => {
   });
 
   test("PartitionNode interface", () => {
-    const partition: PartitionNode = { deviceid: "C", freespace: 2000, size: 5000 };
+    const partition: PartitionNode = { caption: "C", freespace: 2000, size: 5000 };
 
-    expect(typeof partition.deviceid).toEqual("string");
+    expect(typeof partition.caption).toEqual("string");
     expect(typeof partition.size).toEqual("number");
     expect(typeof partition.freespace).toEqual("number");
 
-    expect(partition.deviceid).toEqual("C");
+    expect(partition.caption).toEqual("C");
     expect(partition.size).toEqual(5000);
     expect(partition.freespace).toEqual(2000);
   });
