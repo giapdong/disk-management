@@ -29,7 +29,8 @@ const global_helper_1 = require("./helper/global-helper");
 const CompareHelper = __importStar(require("./helper/compare-helper"));
 const ScanHelper = __importStar(require("./helper/scan-helper"));
 const os_1 = __importDefault(require("os"));
-const win32 = __importStar(require("./os/win32"));
+const win32_1 = require("./os/win32");
+const darwin_1 = require("./os/darwin");
 const scanDir = path_1.default.join(__dirname, "..", "..", "scan");
 const compareDir = path_1.default.join(__dirname, "..", "..", "compare");
 async function Scan(root = __dirname, threshold = 1000000, mode = interface_1.ScanMode.Normal) {
@@ -67,9 +68,12 @@ function readSystemPartition() {
     return new Promise(async (resolve, reject) => {
         switch (os_1.default.platform()) {
             case "win32": {
-                let data = await win32.readPartition();
-                resolve(data);
-                break;
+                const data = await new win32_1.win32().readSystemPartition();
+                return resolve(data);
+            }
+            case "darwin": {
+                const data = await new darwin_1.darwin().readSystemPartition();
+                return resolve(data);
             }
             default:
                 resolve(null);

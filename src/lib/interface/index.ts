@@ -1,5 +1,6 @@
 import { Stats } from "fs";
 
+// enum type
 export enum TypeNodeHierachy {
   File,
   Directory
@@ -10,6 +11,7 @@ export enum ScanMode {
   OnlyBigDirectory = 2
 }
 
+// interface
 export interface StatsNode {
   path: string;
   stats: Stats;
@@ -32,7 +34,7 @@ export interface ChangeNode {
 }
 
 export interface PartitionNode {
-  deviceid: string;
+  caption: string;
   size: number;
   freespace: number;
 }

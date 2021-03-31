@@ -5,7 +5,7 @@ export class Hierachy {
   name: string;
   storage: number;
   type: TypeNodeHierachy;
-  child: Array<any>;
+  child: Array<Hierachy>;
 
   constructor(parent: Hierachy | null, name: string, storage: number, type: TypeNodeHierachy) {
     this.parent = parent;

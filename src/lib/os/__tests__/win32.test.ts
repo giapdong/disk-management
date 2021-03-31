@@ -1,31 +1,31 @@
+import os from "os";
 import { PartitionNode } from "../../interface";
-import { caseToPartitionNode, readPartition } from "../win32";
+import { castToPartitionNode, win32 } from "../win32";
 
 describe("win32 os tools", () => {
-  test("caseToPartitionNode() convert success", () => {
-    let partition = {
-      deviceid: "C",
-      freespace: "10",
-      size: "11"
-    };
-    let result: PartitionNode = caseToPartitionNode(partition) as PartitionNode;
+  if (os.platform() != "win32") {
+    test("Success", () => expect(1).toEqual(1));
+    return;
+  }
+
+  test("castToPartitionNode() convert success", () => {
+    const partition = ["C", "10", "11"];
+    const result: PartitionNode = castToPartitionNode(partition) as PartitionNode;
     expect(result).not.toBeNull();
     expect(result.freespace).toBe(10);
     expect(result.size).toBe(11);
   });
 
-  test("caseToPartitionNode() convert failed", () => {
-    let partition = {
-      deviceid: "C",
-      freespace: "ahihi",
-      size: "ahihi"
-    };
-    let result = caseToPartitionNode(partition);
-    expect(result).toBeNull();
+  test("castToPartitionNode() convert failed", () => {
+    const partition = ["C", "ahihi", "ahihi"];
+    const result = castToPartitionNode(partition);
+
+    expect(isNaN(result.freespace)).toBeTruthy();
+    expect(isNaN(result.size)).toBeTruthy();
   });
 
-  test("caseToPartitionNode() convert failed", async () => {
-    let partitionInfo: PartitionNode[] = await readPartition();
+  test("readSystemPartition() must contain system partition", async () => {
+    const partitionInfo: PartitionNode[] = await new win32().readSystemPartition();
     expect(Array.isArray(partitionInfo)).toBeTruthy();
     expect(partitionInfo.length).toBeTruthy();
   });

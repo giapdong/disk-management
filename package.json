@@ -1,6 +1,6 @@
 {
   "name": "disk-management",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Module/application for management your disk",
   "main": "index.js",
   "license": "MIT",
@@ -51,8 +51,10 @@
     "url": "https://github.com/giapdong/disk-management/issues"
   },
   "homepage": "https://github.com/giapdong/disk-management#readme",
+  "types": "index.d.ts",
   "files": [
     "build",
-    "bin/*.js"
+    "bin/*.js",
+    "index.d.ts"
   ]
 }
