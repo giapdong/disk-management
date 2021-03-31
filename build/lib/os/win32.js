@@ -1,43 +1,49 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.caseToPartitionNode = exports.readPartition = void 0;
+exports.win32 = exports.castToPartitionNode = exports.parseData = exports.execCommand = void 0;
 const child_process_1 = require("child_process");
-function readPartition() {
-    return new Promise(async (resolve, reject) => {
-        var _a;
-        const getPartition = child_process_1.exec("wmic logicaldisk get deviceid, freespace, size");
-        (_a = getPartition.stdout) === null || _a === void 0 ? void 0 : _a.on("data", (data) => {
-            let rawDataPartition = data.split("\r\r\n").filter((item) => item);
-            let tablePartition = rawDataPartition.map((item) => item.trim().split(/\s+/gm));
-            let headerTable = tablePartition.length ? tablePartition.shift() : [];
-            headerTable = headerTable ? headerTable : [];
-            headerTable = headerTable.map((item) => item.toLowerCase());
-            let listPartition = new Array();
-            tablePartition.forEach((partition) => {
-                let temp = Object.fromEntries(partition.map((value, index) => {
-                    return [headerTable[index], value];
-                }));
-                let node = caseToPartitionNode(temp);
-                if (node)
-                    listPartition.push(node);
-            });
-            resolve(listPartition);
+const ASystem_1 = require("../inheritable/ASystem");
+function execCommand(command) {
+    return new Promise((resolve, reject) => {
+        child_process_1.exec(command, (error, stdout) => {
+            if (error)
+                return reject(error);
+            try {
+                resolve(stdout);
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     });
 }
-exports.readPartition = readPartition;
-function caseToPartitionNode(partition) {
-    if (!Object.prototype.hasOwnProperty.call(partition, "deviceid"))
-        return null;
-    if (!Object.prototype.hasOwnProperty.call(partition, "freespace"))
-        return null;
-    if (!Object.prototype.hasOwnProperty.call(partition, "size"))
-        return null;
-    if (isNaN(+partition.freespace))
-        return null;
-    if (isNaN(+partition.size))
-        return null;
-    let node = { deviceid: partition.deviceid, freespace: +partition.freespace, size: +partition.size };
-    return node;
+exports.execCommand = execCommand;
+function parseData(stdout) {
+    const parsed = stdout
+        .trim()
+        .split("\n")
+        .slice(1)
+        .map(line => {
+        return line.trim().split(/\s+(?=[\d/])/);
+    });
+    const listPartition = parsed.map(partition => castToPartitionNode(partition));
+    return listPartition;
 }
-exports.caseToPartitionNode = caseToPartitionNode;
+exports.parseData = parseData;
+function castToPartitionNode(partition) {
+    const caption = partition[0];
+    const freespace = parseInt(partition[1]);
+    const size = parseInt(partition[2]);
+    return { caption, freespace, size };
+}
+exports.castToPartitionNode = castToPartitionNode;
+class win32 extends ASystem_1.DiskSystem {
+    readSystemPartition() {
+        return new Promise(async (resolve, reject) => {
+            const stdout = await execCommand("wmic logicaldisk get size,freespace,caption");
+            const listPartition = parseData(stdout);
+            resolve(listPartition);
+        });
+    }
+}
+exports.win32 = win32;
