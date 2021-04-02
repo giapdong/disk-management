@@ -7,7 +7,7 @@
   "author": "Giap Dong",
   "scripts": {
     "dev:api": "cross-env NODE_ENV=development ts-node-dev src/api/app.ts",
-    "build:ts": "tsc",
+    "build:ts": "node scripts/build.js && tsc",
     "test:ts": "jest --detectOpenHandles"
   },
   "dependencies": {
