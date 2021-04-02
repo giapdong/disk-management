@@ -79,15 +79,16 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
  * @param spinner Ora spinner
  * @param rootNode Hierachy node
  */
-export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy) {
+export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promise<void> {
   spinner.text = rootNode.name;
   try {
     let dirInfo: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
     let data: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, dirInfo);
 
-    let promise: Promise<void>[] = data?.map(item => {
-      return actionEachNodeItem(spinner, rootNode, item.path, item.stats);
-    });
+    let promise: Promise<void>[] = [];
+    if (data.length) {
+      promise = data.map(item => actionEachNodeItem(spinner, rootNode, item.path, item.stats));
+    }
 
     await Promise.all(promise);
   } catch (error) {
