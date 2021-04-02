@@ -1,13 +1,13 @@
+import os from "os";
 import path from "path";
 import { BigNode, IOptionsCompare, ScanMode } from "./interface";
 import Hierachy from "./bean/Hierachy";
+import DiskError from "./bean/DiskError";
 import { getDateByFormat } from "./helper/global-helper";
 import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
-import os from "os";
 import { win32 } from "./os/win32";
 import { darwin } from "./os/darwin";
-import DiskError from "./bean/DiskError";
 
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");

@@ -1,8 +1,5 @@
-/**
- * @extends Error
- */
 export default class DiskError extends Error {
-  [s: string]: any;
+  [keys: string]: any;
 
   constructor(error: any) {
     super(error.message);

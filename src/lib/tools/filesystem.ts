@@ -1,6 +1,6 @@
-import { StatsNode } from "../interface";
 import fs from "fs";
 import path from "path";
+import { StatsNode } from "../interface";
 import DiskError from "../bean/DiskError";
 
 /**

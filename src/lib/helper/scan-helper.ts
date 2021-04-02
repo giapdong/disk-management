@@ -1,11 +1,11 @@
+import { Ora } from "ora";
+import colors from "colors";
 import fs, { Stats } from "fs";
 import * as FS_TOOLS from "../tools/filesystem";
 import Hierachy from "../bean/Hierachy";
-import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
-import { Ora } from "ora";
-import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
-import colors from "colors";
 import DiskError from "../bean/DiskError";
+import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
+import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
 
 /**
  * Scan in filesystem
