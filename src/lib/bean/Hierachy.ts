@@ -1,6 +1,6 @@
 import { TypeNodeHierachy } from "../interface";
 
-export class Hierachy {
+export default class Hierachy {
   parent: Hierachy | null;
   name: string;
   storage: number;

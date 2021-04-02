@@ -1,12 +1,13 @@
 import path from "path";
 import { BigNode, IOptionsCompare, ScanMode } from "./interface";
-import { Hierachy } from "./bean/node-hierachy";
+import Hierachy from "./bean/Hierachy";
 import { getDateByFormat } from "./helper/global-helper";
 import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
 import os from "os";
 import { win32 } from "./os/win32";
 import { darwin } from "./os/darwin";
+import DiskError from "./bean/DiskError";
 
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
@@ -14,11 +15,7 @@ const compareDir = path.join(__dirname, "..", "..", "compare");
 export async function Scan(root: string): Promise<void>;
 export async function Scan(root: string, threshold: number): Promise<void>;
 export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<void>;
-export async function Scan(
-  root: string = __dirname,
-  threshold: number = 1000000,
-  mode: ScanMode = ScanMode.Normal
-): Promise<void> {
+export async function Scan(root: string = __dirname, threshold: number = 1000000, mode: ScanMode = ScanMode.Normal): Promise<void> {
   console.time("Disk-management-scanner");
 
   let HierachyTree: Hierachy = await ScanHelper.scanInFileSystem(root);
@@ -48,8 +45,7 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
   try {
     paramCompare = await CompareHelper.detectOptionsCompare(threshold, scanDir, pathToSourceFile, pathToTargetFile);
   } catch (error) {
-    console.log(error);
-    return;
+    return new DiskError(error).logToConsole();
   }
 
   let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);

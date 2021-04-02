@@ -1,6 +1,7 @@
 import { StatsNode } from "../interface";
 import fs from "fs";
 import path from "path";
+import DiskError from "../bean/DiskError";
 
 /**
  * Simulation ls command familiar in UNIX, LINUX system
@@ -29,8 +30,7 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
     });
     return await Promise.all(promise);
   } catch (error) {
-    // Catch NodeJS.ErrnoException error
-    console.log(error);
+    new DiskError(error).logToConsole();
     let newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
     if (!newDirInfo.length) return [];
 

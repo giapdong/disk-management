@@ -1,10 +1,11 @@
 import fs, { Stats } from "fs";
 import * as FS_TOOLS from "../tools/filesystem";
-import { Hierachy } from "../bean/node-hierachy";
+import Hierachy from "../bean/Hierachy";
 import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
 import { Ora } from "ora";
 import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
 import colors from "colors";
+import DiskError from "../bean/DiskError";
 
 /**
  * Scan in filesystem
@@ -15,7 +16,7 @@ export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
   const spinner = genDotsSpinner("[1/4] Scanning");
   spinner.start();
 
-  let HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
+  const HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
   await scanHierachyNode(spinner, HierachyTree);
   spinner.info(`Total storage: ${bytesToSize(HierachyTree.storage)}`);
   spinner.succeed("[1/4] Scanning");
@@ -67,7 +68,7 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
     spinner.info(colors.green("Finish!") + " Saved 1 new log file.");
     spinner.succeed("[4/4] Writting result");
   } catch (error) {
-    console.log(error);
+    new DiskError(error).logToConsole();
     spinner.info("Failed! Write file log return with Error");
     spinner.fail("[4/4] Writting result");
   }
@@ -82,17 +83,21 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
 export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promise<void> {
   spinner.text = rootNode.name;
   try {
-    let dirInfo: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
-    let data: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, dirInfo);
+    const childInDirectory: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
+    const stats: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, childInDirectory);
 
-    let promise: Promise<void>[] = [];
-    if (data.length) {
-      promise = data.map(item => actionEachNodeItem(spinner, rootNode, item.path, item.stats));
+    const files: StatsNode[] = stats.filter(file => file.stats.isFile());
+    const directories: StatsNode[] = stats.filter(dir => !dir.stats.isFile());
+
+    const tasksForFile: Promise<void>[] = files.map(item => actionEachNodeItem(spinner, rootNode, item.path, item.stats));
+    const tasksForDirectory: Promise<void>[] = directories.map(item => actionEachNodeItem(spinner, rootNode, item.path, item.stats));
+
+    await Promise.all(tasksForFile);
+    for (let i = 0; i < tasksForDirectory.length; i++) {
+      await tasksForDirectory[i];
     }
-
-    await Promise.all(promise);
   } catch (error) {
-    console.log(error);
+    new DiskError(error).logToConsole();
   }
 }
 
@@ -136,8 +141,8 @@ export function removeParent(root: Hierachy): void {
  */
 async function actionEachNodeItem(spinner: Ora, rootNode: Hierachy, pathToNode: string, stat: Stats): Promise<void> {
   if (stat) {
-    let type: TypeNodeHierachy = stat.isFile() ? TypeNodeHierachy.File : TypeNodeHierachy.Directory;
-    let node: Hierachy = new Hierachy(rootNode, pathToNode, 0, type);
+    const type: TypeNodeHierachy = stat.isFile() ? TypeNodeHierachy.File : TypeNodeHierachy.Directory;
+    const node: Hierachy = new Hierachy(rootNode, pathToNode, 0, type);
 
     rootNode.child.push(node);
 

@@ -1,4 +1,4 @@
-import { Hierachy } from "../node-hierachy";
+import Hierachy from "../Hierachy";
 import { TypeNodeHierachy } from "../../interface";
 
 describe("Hierachy class", () => {
