@@ -13,6 +13,7 @@ import { darwin } from "./os/darwin";
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
 
+export async function Scan(): Promise<DiskScanResult>;
 export async function Scan(root: string): Promise<DiskScanResult>;
 export async function Scan(root: string, threshold: number): Promise<DiskScanResult>;
 export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<DiskScanResult>;
@@ -56,7 +57,7 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
     return;
   }
 
-  let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
+  const listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
 
   await CompareHelper.storeResult(compareDir, listChangeStatus);
   console.timeEnd("Disk-management-compare");

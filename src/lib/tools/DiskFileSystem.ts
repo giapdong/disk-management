@@ -26,18 +26,16 @@ export default class DiskFileSystem {
    */
   async readStatDirPromise(pathToDir: string, dirInfo: string[]): Promise<StatsNode[]> {
     try {
-      let promise: Promise<StatsNode>[];
-      promise = dirInfo.map(element => {
+      const promise: Promise<StatsNode>[] = dirInfo.map(element => {
         return this.readStatPromise(path.join(pathToDir, element));
       });
       return await Promise.all(promise);
     } catch (error) {
       new ConsoleErrorHandler(new DiskError(error));
-      let newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
+      const newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
       if (!newDirInfo.length) return [];
 
-      let listStat: StatsNode[] = await this.readStatDirPromise(pathToDir, newDirInfo);
-      return listStat;
+      return await this.readStatDirPromise(pathToDir, newDirInfo);
     }
   }
 
@@ -60,10 +58,10 @@ export default class DiskFileSystem {
    *
    * @param {string} pathToNode Path to node in filesystem
    */
-  private async readStatPromise(pathToNode: string): Promise<StatsNode> {
+  async readStatPromise(pathToNode: string): Promise<StatsNode> {
     return new Promise((resolve, reject) => {
       fs.stat(pathToNode, function (err, data) {
-        let nodeStat: StatsNode = { path: pathToNode, stats: data };
+        const nodeStat: StatsNode = { path: pathToNode, stats: data };
         return err ? reject(err) : resolve(nodeStat);
       });
     });

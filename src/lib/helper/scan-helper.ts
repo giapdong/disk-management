@@ -35,7 +35,7 @@ export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, thresho
   const spinner = genDotsSpinner("[2/4] Scanning big directory");
   spinner.start();
 
-  let listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
+  const listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
   spinner.info(`[2/4] ${listBigNode.length} directory contrain total file file size >= ${threshold}`);
   spinner.succeed("[2/4] Scanning big directory");
 
@@ -109,7 +109,7 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promis
  * @param threshold Threshold storage
  */
 export function getBigDirectoryFromRootHierachy(rootNode: Hierachy, threshold: number): BigNode[] {
-  let result: BigNode[] = new Array<BigNode>();
+  const result: BigNode[] = new Array<BigNode>();
   recursiveScanBigDirectory(result, rootNode, threshold);
   return result;
 }

@@ -30,20 +30,20 @@ export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[
   const spinner = genDotsSpinner("[2/3] Resolving result");
   spinner.start();
 
-  let dataSource = fs.readFileSync(compareOptions.pathToSourceFile, "utf-8");
-  let dataTarget = fs.readFileSync(compareOptions.pathToTargetFile, "utf-8");
+  const dataSource = fs.readFileSync(compareOptions.pathToSourceFile, "utf-8");
+  const dataTarget = fs.readFileSync(compareOptions.pathToTargetFile, "utf-8");
 
-  let json1 = JSON.parse(dataSource).bigDirectory as BigNode[];
-  let json2 = JSON.parse(dataTarget).bigDirectory as BigNode[];
+  const json1 = JSON.parse(dataSource).bigDirectory as BigNode[];
+  const json2 = JSON.parse(dataTarget).bigDirectory as BigNode[];
 
   let listBigNode: string[] = json1.map(item => item.path).concat(json2.map(item => item.path));
   listBigNode = [...new Set(listBigNode)];
 
-  let listChangeStatus: ChangeNode[] = [];
+  const listChangeStatus: ChangeNode[] = [];
 
   listBigNode.forEach(node => {
-    let nodeInJSON1 = json1.find(item => item.path == node);
-    let nodeInJSON2 = json2.find(item => item.path == node);
+    const nodeInJSON1 = json1.find(item => item.path == node);
+    const nodeInJSON2 = json2.find(item => item.path == node);
 
     if (nodeInJSON1 && nodeInJSON2) {
       let change: number = nodeInJSON1?.storage - nodeInJSON2?.storage;
@@ -97,8 +97,8 @@ export async function storeResult(compareDir: string, data: any) {
 
   if (!fs.existsSync(compareDir)) fs.mkdirSync(compareDir);
 
-  let pathJSON = path.join(compareDir, getDateByFormat() + ".json");
-  var json = JSON.stringify(data, null, 4);
+  const pathJSON = path.join(compareDir, getDateByFormat() + ".json");
+  const json = JSON.stringify(data, null, 4);
   try {
     await new DiskFileSystem().writeFilePromise(pathJSON, json);
   } catch (error) {
