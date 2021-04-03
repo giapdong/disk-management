@@ -1,4 +1,4 @@
-import { lsCommandPromise, readStatDirPromise, writeFilePromise } from "../filesystem";
+import DiskFileSystem from "../DiskFileSystem";
 import path from "path";
 import fs from "fs";
 
@@ -6,7 +6,7 @@ describe("File system tool", () => {
   let lsData: any;
   let pathToDir = path.join(__dirname, "..");
   test("Init data", async () => {
-    lsData = await lsCommandPromise(pathToDir);
+    lsData = await new DiskFileSystem().lsCommandPromise(pathToDir);
   });
 
   test("lsCommandPromise()", async () => {
@@ -16,7 +16,7 @@ describe("File system tool", () => {
   });
 
   test("readStatDirPromise()", async () => {
-    let listStatInDir = await readStatDirPromise(pathToDir, lsData);
+    let listStatInDir = await new DiskFileSystem().readStatDirPromise(pathToDir, lsData);
     expect(Array.isArray(listStatInDir)).toBeTruthy();
     expect(listStatInDir.length).toBe(2);
     expect(typeof listStatInDir[0]).toBe("object");
@@ -26,10 +26,10 @@ describe("File system tool", () => {
   test("writeFilePromise()", async () => {
     let scanDir = path.join(__dirname, "../../../../scan");
     let fileName = path.join(scanDir, "source.test");
-    let result = await writeFilePromise(fileName, "Hello world");
+    let result = await new DiskFileSystem().writeFilePromise(fileName, "Hello world");
     expect(result).toBeTruthy();
 
-    let rejectResult = writeFilePromise(fileName, "Hello world", "giapdong");
+    let rejectResult = new DiskFileSystem().writeFilePromise(fileName, "Hello world", "giapdong");
     await expect(rejectResult).rejects.toThrowError();
 
     fs.unlinkSync(fileName);

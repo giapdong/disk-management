@@ -1,7 +1,7 @@
 import { Ora } from "ora";
 import colors from "colors";
 import fs, { Stats } from "fs";
-import * as FS_TOOLS from "../tools/filesystem";
+import DiskFileSystem from "../tools/DiskFileSystem";
 import Hierachy from "../bean/Hierachy";
 import DiskError from "../bean/DiskError";
 import ConsoleErrorHandler from "../bean/ConsoleErrorHandler";
@@ -64,7 +64,7 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
     if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
 
     // JSON.stringify(obj, null, 4)
-    await FS_TOOLS.writeFilePromise(pathJSON, JSON.stringify(obj));
+    await new DiskFileSystem().writeFilePromise(pathJSON, JSON.stringify(obj));
 
     spinner.info(colors.green("Finish!") + " Saved 1 new log file.");
     spinner.succeed("[4/4] Writting result");
@@ -84,8 +84,8 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
 export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promise<void> {
   spinner.text = rootNode.name;
   try {
-    const childInDirectory: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
-    const stats: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, childInDirectory);
+    const childInDirectory: string[] = await new DiskFileSystem().lsCommandPromise(rootNode.name);
+    const stats: StatsNode[] = await new DiskFileSystem().readStatDirPromise(rootNode.name, childInDirectory);
 
     const files: StatsNode[] = stats.filter(file => file.stats.isFile());
     const directories: StatsNode[] = stats.filter(dir => !dir.stats.isFile());

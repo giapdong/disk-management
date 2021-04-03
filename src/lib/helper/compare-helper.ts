@@ -3,7 +3,7 @@ import path from "path";
 import colors from "colors";
 import { BigNode, ChangeNode, IOptionsCompare } from "../interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
-import { lsCommandPromise, writeFilePromise } from "../tools/filesystem";
+import DiskFileSystem from "../tools/DiskFileSystem";
 
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
   const spinner = genDotsSpinner("[1/3] Reading result");
@@ -11,7 +11,7 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
 
   let listScanFile: string[];
   try {
-    listScanFile = await lsCommandPromise(pathToScanDir);
+    listScanFile = await new DiskFileSystem().lsCommandPromise(pathToScanDir);
   } catch (error) {
     spinner.fail(error.message);
     throw error;
@@ -99,7 +99,7 @@ export async function storeResult(compareDir: string, data: any) {
   let pathJSON = path.join(compareDir, getDateByFormat() + ".log");
   var json = JSON.stringify(data, null, 4);
   try {
-    await writeFilePromise(pathJSON, json);
+    await new DiskFileSystem().writeFilePromise(pathJSON, json);
   } catch (error) {
     throw error;
   }
