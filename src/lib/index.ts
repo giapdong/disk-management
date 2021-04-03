@@ -3,6 +3,7 @@ import path from "path";
 import { BigNode, IOptionsCompare, ScanMode } from "./interface";
 import Hierachy from "./bean/Hierachy";
 import DiskError from "./bean/DiskError";
+import ConsoleErrorHandler from "./bean/ConsoleErrorHandler";
 import { getDateByFormat } from "./helper/global-helper";
 import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
@@ -45,7 +46,8 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
   try {
     paramCompare = await CompareHelper.detectOptionsCompare(threshold, scanDir, pathToSourceFile, pathToTargetFile);
   } catch (error) {
-    return new DiskError(error).logToConsole();
+    new ConsoleErrorHandler(new DiskError(error));
+    return;
   }
 
   let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);

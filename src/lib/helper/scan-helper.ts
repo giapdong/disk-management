@@ -4,6 +4,7 @@ import fs, { Stats } from "fs";
 import * as FS_TOOLS from "../tools/filesystem";
 import Hierachy from "../bean/Hierachy";
 import DiskError from "../bean/DiskError";
+import ConsoleErrorHandler from "../bean/ConsoleErrorHandler";
 import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
 import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
 
@@ -68,7 +69,7 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
     spinner.info(colors.green("Finish!") + " Saved 1 new log file.");
     spinner.succeed("[4/4] Writting result");
   } catch (error) {
-    new DiskError(error).logToConsole();
+    new ConsoleErrorHandler(new DiskError(error));
     spinner.info("Failed! Write file log return with Error");
     spinner.fail("[4/4] Writting result");
   }
@@ -97,7 +98,7 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promis
       await tasksForDirectory[i];
     }
   } catch (error) {
-    new DiskError(error).logToConsole();
+    new ConsoleErrorHandler(new DiskError(error));
   }
 }
 

@@ -16,8 +16,4 @@ export default class DiskError extends Error {
     const errorKeys = Object.keys(error).filter(key => key != "message");
     errorKeys.forEach((key: string) => (this[key] = error[key]));
   }
-
-  logToConsole(): void {
-    console.log(this);
-  }
 }

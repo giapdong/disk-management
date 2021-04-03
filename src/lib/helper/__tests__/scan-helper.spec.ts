@@ -1,10 +1,5 @@
-import { Hierachy } from "../../bean/node-hierachy";
-import {
-  scanInFileSystem,
-  scanBigDirectoryInHierachy,
-  removeParentInHierachy,
-  writeResultToFile
-} from "../scan-helper";
+import Hierachy from "../../bean/Hierachy";
+import { scanInFileSystem, scanBigDirectoryInHierachy, removeParentInHierachy, writeResultToFile } from "../scan-helper";
 import { BigNode } from "../../interface";
 import path from "path";
 import fs from "fs";
