@@ -1,6 +1,6 @@
 import { ChildProcess, spawn } from "child_process";
-import { DiskSystem } from "../inheritable/ASystem";
 import { PartitionNode } from "../interface";
+import DiskSystem from "../inheritable/DiskSystem";
 
 const spawnCommand = function (command: string, options: string[]): Promise<any> {
   return new Promise((resolve, reject) => {

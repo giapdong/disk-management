@@ -1,5 +1,5 @@
 import { PartitionNode } from "../interface";
 
-export abstract class DiskSystem {
+export default abstract class DiskSystem {
   abstract readSystemPartition(): Promise<PartitionNode[]>;
 }

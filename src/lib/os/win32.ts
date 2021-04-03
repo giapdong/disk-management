@@ -1,6 +1,6 @@
 import { exec } from "child_process";
-import { DiskSystem } from "../inheritable/ASystem";
 import { PartitionNode } from "../interface";
+import DiskSystem from "../inheritable/DiskSystem";
 
 // Idea from https://github.com/Alex-D/check-disk-space/blob/master/index.js
 export function execCommand(command: string): Promise<string> {
