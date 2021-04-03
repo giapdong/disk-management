@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import colors from "colors";
+import DiskColor from "../helper/DiskColor";
 import { BigNode, ChangeNode, IOptionsCompare } from "../interface";
 import { getDateByFormat, genDotsSpinner } from "./global-helper";
 import DiskFileSystem from "../tools/DiskFileSystem";
@@ -18,8 +18,9 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
   }
 
   if (listScanFile.length < 2) {
-    spinner.fail(`[1/3] Failed, too little log file in ${pathToScanDir}`);
-    throw new Error(`[1/3] Failed, too little log file in ${pathToScanDir}`);
+    const titleError = DiskColor.red("[1/3] Failed") + `, too little log file in ${pathToScanDir}`;
+    spinner.fail(titleError);
+    throw new Error(titleError);
   }
   spinner.succeed("[1/3] Reading result");
   return listScanFile;
@@ -104,6 +105,6 @@ export async function storeResult(compareDir: string, data: any) {
     throw error;
   }
 
-  spinner.info(colors.green("Done!") + " Saved 1 new log file.");
+  spinner.info(DiskColor.green("Done!") + " Saved 1 new log file.");
   spinner.succeed("[3/3] Writting result");
 }
