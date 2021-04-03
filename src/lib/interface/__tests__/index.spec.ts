@@ -1,23 +1,7 @@
 import { Stats } from "fs";
-import { TypeNodeHierachy, ScanMode, StatsNode, BigNode, IOptionsCompare, ChangeNode, PartitionNode } from "../index";
+import { StatsNode, BigNode, IOptionsCompare, ChangeNode, PartitionNode } from "../index";
 
 describe("Interface test", () => {
-  test("TypeNodeHierachy enum", () => {
-    const fileType: TypeNodeHierachy = TypeNodeHierachy.File;
-    const directoryType: TypeNodeHierachy = TypeNodeHierachy.Directory;
-
-    expect(fileType).toEqual(0);
-    expect(directoryType).toEqual(1);
-  });
-
-  test("ScanMode enum", () => {
-    const normalMode: ScanMode = ScanMode.Normal;
-    const bigNodeMode: ScanMode = ScanMode.OnlyBigDirectory;
-
-    expect(normalMode).toEqual(1);
-    expect(bigNodeMode).toEqual(2);
-  });
-
   test("StatsNode interface", () => {
     const statNode: StatsNode = { path: "path/to/file", stats: new Stats() };
 

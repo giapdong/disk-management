@@ -1,15 +1,10 @@
 import { Stats } from "fs";
 
-// enum type
-export enum TypeNodeHierachy {
-  File,
-  Directory
-}
+export * from "./ScanResult";
 
-export enum ScanMode {
-  Normal = 1,
-  OnlyBigDirectory = 2
-}
+export * from "./Enum";
+
+export * from "./Type";
 
 // interface
 export interface StatsNode {

@@ -33,8 +33,8 @@ export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[
   let dataSource = fs.readFileSync(compareOptions.pathToSourceFile, "utf-8");
   let dataTarget = fs.readFileSync(compareOptions.pathToTargetFile, "utf-8");
 
-  let json1 = JSON.parse(dataSource).big_directory as BigNode[];
-  let json2 = JSON.parse(dataTarget).big_directory as BigNode[];
+  let json1 = JSON.parse(dataSource).bigDirectory as BigNode[];
+  let json2 = JSON.parse(dataTarget).bigDirectory as BigNode[];
 
   let listBigNode: string[] = json1.map(item => item.path).concat(json2.map(item => item.path));
   listBigNode = [...new Set(listBigNode)];
@@ -97,7 +97,7 @@ export async function storeResult(compareDir: string, data: any) {
 
   if (!fs.existsSync(compareDir)) fs.mkdirSync(compareDir);
 
-  let pathJSON = path.join(compareDir, getDateByFormat() + ".log");
+  let pathJSON = path.join(compareDir, getDateByFormat() + ".json");
   var json = JSON.stringify(data, null, 4);
   try {
     await new DiskFileSystem().writeFilePromise(pathJSON, json);

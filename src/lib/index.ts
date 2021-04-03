@@ -1,6 +1,6 @@
 import os from "os";
 import path from "path";
-import { BigNode, IOptionsCompare, ScanMode } from "./interface";
+import { BigNode, IOptionsCompare, ScanMode, DiskScanResult } from "./interface";
 import Hierachy from "./bean/Hierachy";
 import DiskError from "./bean/DiskError";
 import ConsoleErrorHandler from "./bean/ConsoleErrorHandler";
@@ -13,27 +13,33 @@ import { darwin } from "./os/darwin";
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
 
-export async function Scan(root: string): Promise<void>;
-export async function Scan(root: string, threshold: number): Promise<void>;
-export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<void>;
-export async function Scan(root: string = __dirname, threshold: number = 1000000, mode: ScanMode = ScanMode.Normal): Promise<void> {
+export async function Scan(root: string): Promise<DiskScanResult>;
+export async function Scan(root: string, threshold: number): Promise<DiskScanResult>;
+export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<DiskScanResult>;
+export async function Scan(root: string = __dirname, threshold: number = 1048576, mode: ScanMode = ScanMode.SaveToDisk): Promise<DiskScanResult> {
   console.time("Disk-management-scanner");
 
   let HierachyTree: Hierachy = await ScanHelper.scanInFileSystem(root);
-  let listBigNode: BigNode[] = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
+  const listBigNode: BigNode[] = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
   HierachyTree = await ScanHelper.removeParentInHierachy(HierachyTree);
 
-  let pathJSON = path.join(scanDir, getDateByFormat() + ".log");
-  let obj = {
+  const pathJSON = path.join(scanDir, getDateByFormat() + ".json");
+  const diskResult: DiskScanResult = {
     time: new Date(Date.now()),
     total: HierachyTree.storage,
-    big_directory: listBigNode,
-    root: mode == ScanMode.Normal ? HierachyTree : listBigNode
+    threshold,
+    bigDirectory: listBigNode,
+    root: HierachyTree
   };
 
-  await ScanHelper.writeResultToFile(scanDir, pathJSON, obj);
+  if (mode == ScanMode.ReturnResult) {
+    console.timeEnd("Disk-management-scanner");
+    return diskResult;
+  }
 
+  await ScanHelper.writeResultToFile(scanDir, pathJSON, diskResult);
   console.timeEnd("Disk-management-scanner");
+  return null;
 }
 
 export async function Compare(threshold: number): Promise<void>;
