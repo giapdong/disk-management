@@ -4,16 +4,16 @@ orbs:
   node: circleci/node@4.2.1
 
 jobs:
-  install-node-example:
+  install:
     docker:
       - image: "cimg/base:stable"
     steps:
       - checkout
       - node/install:
           install-yarn: true
-      - run: node --version
+      - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
   test_my_app:
     jobs:
-      - install-node-example
+      - install
