@@ -4,6 +4,8 @@ defaults: &defaults
   working_directory: ~/project/disk
   docker:
     - image: cimg/base:stable
+orbs:
+  node: circleci/node@4.2.1
 
 jobs:
   install:
