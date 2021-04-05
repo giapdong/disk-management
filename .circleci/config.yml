@@ -3,43 +3,15 @@ version: 2.1
 orbs:
   node: circleci/node@4.2.1
 
-base-system: &base-system
-  working_directory: ~/project/disk
-  docker:
-    - image: cimg/base:stable
-
-ubuntu-system: &ubuntu-system
-  working_directory: ~/project/disk
-  docker:
-    - image: ubuntu:18.04
-
-base-install: &base-install
-  steps:
-    - checkout
-    - restore_cache:
-        keys:
-          - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          - v1-disk-{{ .Branch }}-
-          - v1-disk-
-    - node/install:
-        install-yarn: true
-    - run: yarn
-    - save_cache:
-        key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-        paths:
-          - node_modules/
-    - persist_to_workspace:
-        root: ~/project
-        paths:
-          - disk
-
-base-examples: &base-examples
-  steps:
-    - attach_workspace:
-        at: ~/project
-    - node/install:
-        install-yarn: true
-    - run: yarn ts-node-dev examples/lib.ts
+executors:
+  circleci-executor:
+    working_directory: ~/project/disk
+    docker:
+      - image: cimg/base:stable
+  ubuntu-executor:
+    working_directory: ~/project/disk
+    docker:
+      - image: ubuntu:18.04
 
 commands:
   restore-cache-cmd:
@@ -82,21 +54,13 @@ commands:
 
 jobs:
   base-install-job:
-    <<: *base-system
+    executor: circleci-executor
     steps:
       - base-install
-
   base-examples-job:
-    <<: *base-system
-    <<: *base-examples
-
-  ubuntu-install-job:
-    <<: *ubuntu-system
-    <<: *base-install
-
-  ubuntu-examples-job:
-    <<: *ubuntu-system
-    <<: *base-examples
+    executor: circleci-executor
+    steps:
+      - base-examples
 
 workflows:
   test-base-system:
