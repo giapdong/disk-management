@@ -79,7 +79,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - run: apt-get install curl
+      - run: apt install curl
       - node/install:
           install-yarn: true
       - run: echo "kasjdf"
