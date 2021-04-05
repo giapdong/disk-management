@@ -16,7 +16,7 @@ executors:
     <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
-        command: [ls]
+        command: [ls, -l]
 
 commands:
   restore-cache-cmd:
@@ -77,12 +77,12 @@ jobs:
       - base-examples
 
 workflows:
-  test-base-system:
-    jobs:
-      - base-install-job
-      - base-examples-job:
-          requires:
-            - base-install-job
+  # test-base-system:
+  #   jobs:
+  #     - base-install-job
+  #     - base-examples-job:
+  #         requires:
+  #           - base-install-job
   test-ubuntu-system:
     jobs:
       - ubuntu-install-job
