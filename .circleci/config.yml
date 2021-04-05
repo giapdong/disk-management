@@ -44,22 +44,23 @@ base-examples: &base-examples
 commands:
   restore-cache-cmd:
     steps:
-      keys:
-        - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-        - v1-disk-{{ .Branch }}-
-        - v1-disk-
+      - restore_cache:
+          keys:
+            - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-disk-{{ .Branch }}-
+            - v1-disk-
   save-cache-cmd:
     steps:
       - save_cache:
-        key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-        paths:
-          - node_modules/
+          key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
   persist-to-workspace:
     steps:
       - persist_to_workspace:
-        root: ~/project
-        paths:
-          - disk
+          root: ~/project
+          paths:
+            - disk
 
   base-install:
     steps:
