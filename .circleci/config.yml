@@ -16,7 +16,6 @@ executors:
     <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
-        entrypoint: ls -l
 
 commands:
   restore-cache-cmd:
@@ -75,6 +74,14 @@ jobs:
     executor: ubuntu-executor
     steps:
       - base-examples
+  ubuntu-test:
+    executor: ubuntu-executor
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - node/install:
+          install-yarn: true
+      - run: ls
 
 workflows:
   # test-base-system:
@@ -83,9 +90,12 @@ workflows:
   #     - base-examples-job:
   #         requires:
   #           - base-install-job
-  test-ubuntu-system:
+  # test-ubuntu-system:
+  #   jobs:
+  #     - ubuntu-install-job
+  #     - ubuntu-examples-job:
+  #         requires:
+  #           - ubuntu-install-job
+  test-ubuntu:
     jobs:
-      - ubuntu-install-job
-      - ubuntu-examples-job:
-          requires:
-            - ubuntu-install-job
+      - ubuntu-test
