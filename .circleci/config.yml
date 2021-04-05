@@ -11,8 +11,9 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-      - run: ls
-      - run: yarn -v
+      - run: yarn
+  run-examples:
+    steps:
       - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
