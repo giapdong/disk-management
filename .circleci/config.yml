@@ -19,6 +19,8 @@ jobs:
   run-examples:
     <<: *defaults
     steps:
+      - node/install-packages:
+          pkg-manager: yarn
       - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
