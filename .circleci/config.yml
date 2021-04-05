@@ -42,25 +42,34 @@ base-examples: &base-examples
     - run: yarn ts-node-dev examples/lib.ts
 
 commands:
+  restore-cache-cmd:
+    steps:
+      keys:
+        - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        - v1-disk-{{ .Branch }}-
+        - v1-disk-
+  save-cache-cmd:
+    steps:
+      - save_cache:
+        key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        paths:
+          - node_modules/
+  persist-to-workspace:
+    steps:
+      - persist_to_workspace:
+        root: ~/project
+        paths:
+          - disk
+
   base-install:
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-disk-{{ .Branch }}-
-            - v1-disk-
+      - restore-cache-cmd
       - node/install:
           install-yarn: true
       - run: yarn
-      - save_cache:
-          key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules/
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - disk
+      - save-cache-cmd
+      - persist-to-workspace
 
   base-examples:
     steps:
@@ -95,10 +104,3 @@ workflows:
       - base-examples-job:
           requires:
             - base-install-job
-
-  test-ubuntu-system:
-    jobs:
-      - ubuntu-install-job
-      - ubuntu-examples-job:
-          requires:
-            - ubuntu-install-job
