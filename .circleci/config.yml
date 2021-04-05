@@ -35,8 +35,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install:
+          install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
