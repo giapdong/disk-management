@@ -16,7 +16,7 @@ executors:
     <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
-        command: [df, -bk]
+      - command: [df, -bk]
 
 commands:
   restore-cache-cmd:
