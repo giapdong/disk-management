@@ -76,15 +76,16 @@ jobs:
   ubuntu-examples-job:
     executor: ubuntu-executor
     steps:
+      - ubuntu-install-curl
       - base-examples
 
 workflows:
-  # test-base-system:
-  #   jobs:
-  #     - base-install-job
-  #     - base-examples-job:
-  #         requires:
-  #           - base-install-job
+  test-base-system:
+    jobs:
+      - base-install-job
+      - base-examples-job:
+          requires:
+            - base-install-job
   test-ubuntu-system:
     jobs:
       - ubuntu-install-job
