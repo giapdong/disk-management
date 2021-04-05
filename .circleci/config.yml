@@ -1,33 +1,37 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@4.2.1
+
 defaults: &defaults
   working_directory: ~/project/disk
   docker:
     - image: cimg/base:stable
-orbs:
-  node: circleci/node@4.2.1
+
+base-install: &base-install
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          - disk-{{ .Branch }}-
+          - disk-
+    - node/install:
+        install-yarn: true
+    - run: yarn
+    - save_cache:
+        key: disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+        paths:
+          - node_modules/
+    - persist_to_workspace:
+        root: ~/project
+        paths:
+          - disk
 
 jobs:
   install:
     <<: *defaults
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - disk-{{ .Branch }}-
-            - disk-
-      - node/install:
-          install-yarn: true
-      - run: yarn
-      - save_cache:
-          key: disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules/
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - disk
+    <<: *base-install
 
   run-examples:
     <<: *defaults
