@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   install:
+    <<: *defaults
     docker:
       - image: "cimg/base:stable"
     steps:
@@ -13,10 +14,14 @@ jobs:
           install-yarn: true
       - run: yarn
   run-examples:
+    <<: *defaults
     steps:
       - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
-  test_my_app:
+  install-and-test:
     jobs:
       - install
+      - run-examples:
+          requires:
+            - install
