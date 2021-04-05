@@ -1,6 +1,7 @@
 version: 2.1
 
 defaults: &defaults
+  app-dir: ~/project
   working_directory: ~/project
   docker:
     - image: cimg/base:stable
