@@ -3,13 +3,17 @@ version: 2.1
 orbs:
   node: circleci/node@4.2.1
 
+# Idea from vuejs
+default-root-dir: &default-root-dir
+  working_directory: ~/project/disk
+
 executors:
-  circleci-executor:
-    working_directory: ~/project/disk
+  base-executor:
+    <<: *default-root-dir
     docker:
       - image: cimg/base:stable
   ubuntu-executor:
-    working_directory: ~/project/disk
+    <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
 
@@ -54,11 +58,11 @@ commands:
 
 jobs:
   base-install-job:
-    executor: circleci-executor
+    executor: base-executor
     steps:
       - base-install
   base-examples-job:
-    executor: circleci-executor
+    executor: base-executor
     steps:
       - base-examples
 
