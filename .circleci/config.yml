@@ -5,9 +5,6 @@ defaults: &defaults
   docker:
     - image: cimg/base:stable
 
-orbs:
-  node: circleci/node@4.2.1
-
 jobs:
   install:
     <<: *defaults
@@ -40,7 +37,7 @@ jobs:
       - run: yarn ts-node-dev examples/lib.ts
 
 workflows:
-  install-and-test:
+  test-base-docker-system:
     jobs:
       - install
       - run-examples:
