@@ -79,9 +79,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
+      - run: ls
       - node/install:
           install-yarn: true
-      - run: ls
 
 workflows:
   # test-base-system:
