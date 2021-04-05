@@ -1,13 +1,16 @@
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/project
+  docker:
+    - image: cimg/base:stable
+
 orbs:
   node: circleci/node@4.2.1
 
 jobs:
   install:
     <<: *defaults
-    docker:
-      - image: "cimg/base:stable"
     steps:
       - checkout
       - node/install:
