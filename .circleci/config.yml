@@ -1,8 +1,7 @@
 version: 2.1
 
 defaults: &defaults
-  app-dir: ~/project
-  working_directory: ~/project
+  working_directory: ~/project/disk
   docker:
     - image: cimg/base:stable
 
@@ -14,12 +13,28 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
+      - restore_cache:
+          keys:
+            - disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - disk-{{ .Branch }}-
+            - disk-
+      - node/install-packages:
+          pkg-manager: yarn
       - run: yarn
+      - save_cache:
+          key: disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - disk
+
   run-examples:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/project
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn ts-node-dev examples/lib.ts
