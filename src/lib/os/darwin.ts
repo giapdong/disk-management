@@ -1,30 +1,5 @@
-import { ChildProcess, spawn } from "child_process";
 import { PartitionNode } from "../interface";
 import DiskSystem from "../inheritable/DiskSystem";
-
-const spawnCommand = function (command: string, options: string[]): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // https://en.wikipedia.org/wiki/Df_(Unix)#Specification
-    const ps: ChildProcess = spawn(command, options);
-    if (!ps || !ps.stdout) {
-      const err = new Error("Cannot spawn command!");
-      return reject(err);
-    }
-    let ret = "";
-
-    ps.stdout.on("data", function (data: any) {
-      ret = data.toString();
-    });
-
-    ps.on("error", function (err: Error) {
-      reject(err);
-    });
-
-    ps.on("close", function (code: number | null, signal: NodeJS.Signals | null) {
-      resolve(ret);
-    });
-  });
-};
 
 export function parseData(stdout: string): PartitionNode[] {
   const listRawPartition = stdout.split("\n").filter(Boolean);
@@ -56,7 +31,7 @@ export class darwin extends DiskSystem {
   readSystemPartition(): Promise<PartitionNode[]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const rawPartition = await spawnCommand("df", ["-bk"]);
+        const rawPartition = await this.spawnCommand("df", ["-bk"]);
         const partitions = parseData(rawPartition);
         resolve(partitions);
       } catch (error) {
