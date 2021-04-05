@@ -37,6 +37,9 @@ commands:
           root: ~/project
           paths:
             - disk
+  ubuntu-install-curl:
+    steps:
+      - run: apt-get update && apt-get install -y curl
 
   base-install:
     steps:
@@ -47,7 +50,6 @@ commands:
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace
-
   base-examples:
     steps:
       - attach_workspace:
@@ -69,20 +71,12 @@ jobs:
   ubuntu-install-job:
     executor: ubuntu-executor
     steps:
+      - ubuntu-install-curl
       - base-install
   ubuntu-examples-job:
     executor: ubuntu-executor
     steps:
       - base-examples
-  ubuntu-test:
-    executor: ubuntu-executor
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - run: apt-get update && apt-get install -y curl
-      - node/install:
-          install-yarn: true
-      - run: echo "Success!"
 
 workflows:
   # test-base-system:
@@ -91,12 +85,9 @@ workflows:
   #     - base-examples-job:
   #         requires:
   #           - base-install-job
-  # test-ubuntu-system:
-  #   jobs:
-  #     - ubuntu-install-job
-  #     - ubuntu-examples-job:
-  #         requires:
-  #           - ubuntu-install-job
-  test-ubuntu:
+  test-ubuntu-system:
     jobs:
-      - ubuntu-test
+      - ubuntu-install-job
+      - ubuntu-examples-job:
+          requires:
+            - ubuntu-install-job
