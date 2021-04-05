@@ -3,10 +3,15 @@ version: 2.1
 orbs:
   node: circleci/node@4.2.1
 
-defaults: &defaults
+base-system: &base-system
   working_directory: ~/project/disk
   docker:
     - image: cimg/base:stable
+
+ubuntu-system: &ubuntu-system
+  working_directory: ~/project/disk
+  docker:
+    - image: ubuntu:18.04
 
 base-install: &base-install
   steps:
@@ -28,24 +33,42 @@ base-install: &base-install
         paths:
           - disk
 
+base-examples: &base-examples
+  steps:
+    - attach_workspace:
+        at: ~/project
+    - node/install:
+        install-yarn: true
+    - run: yarn ts-node-dev examples/lib.ts
+
 jobs:
-  install:
-    <<: *defaults
+  base-install-job:
+    <<: *base-system
     <<: *base-install
 
-  run-examples:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/project
-      - node/install:
-          install-yarn: true
-      - run: yarn ts-node-dev examples/lib.ts
+  base-examples-job:
+    <<: *base-system
+    <<: *base-examples
+
+  ubuntu-install-job:
+    <<: *ubuntu-system
+    <<: *base-install
+
+  ubuntu-examples-job:
+    <<: *ubuntu-system
+    <<: *base-examples
 
 workflows:
-  test-base-docker-system:
+  test-base-system:
     jobs:
-      - install
-      - run-examples:
+      - base-install-job
+      - base-examples-job:
           requires:
-            - install
+            - base-install-job
+
+  test-ubuntu-system:
+    jobs:
+      - ubuntu-install-job
+      - ubuntu-examples-job:
+          requires:
+            - ubuntu-install-job
