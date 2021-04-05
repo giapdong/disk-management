@@ -17,7 +17,6 @@ executors:
     docker:
       - image: ubuntu:18.04
         command: [ls]
-        command: [ls, -l]
 
 commands:
   restore-cache-cmd:
