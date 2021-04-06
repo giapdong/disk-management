@@ -38,12 +38,6 @@ commands:
           root: ~/project
           paths:
             - disk
-  persist-to-workspace-win:
-    steps:
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - ./disk
   ubuntu-install-curl:
     steps:
       - run: apt-get update && apt-get install -y curl
