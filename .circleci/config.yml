@@ -92,6 +92,10 @@ jobs:
     executor: win/default
     steps:
       - base-examples
+  win-demo:
+    executor: win/default
+    steps:
+      - win-install
 
 workflows:
   # test-base-system:
@@ -108,4 +112,4 @@ workflows:
   #           - ubuntu-install-job
   test-win-system:
     jobs:
-      - win-install
+      - win-demo
