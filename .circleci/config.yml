@@ -51,6 +51,22 @@ commands:
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace
+  win-install-nodejs:
+    steps:
+      - run: Get-ExecutionPolicy
+      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      # - run: choco search nodejs
+      - run: choco install -y --force nodejs@v14.16.0
+      - run: node -v
+  win-install:
+    steps:
+      - checkout
+      - restore-cache-cmd
+      - win-install-nodejs
+      - run: echo "Success"
+      - save-cache-cmd
+      - persist-to-workspace
+
   base-examples:
     steps:
       - attach_workspace:
@@ -58,13 +74,6 @@ commands:
       - node/install:
           install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
-  win-install:
-    steps:
-      - run: Get-ExecutionPolicy
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      # - run: choco search nodejs
-      - run: choco install -y --force nodejs@v14.16.0
-      - run: node -v
 
 jobs:
   base-install-job:
