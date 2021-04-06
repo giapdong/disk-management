@@ -80,25 +80,31 @@ jobs:
       - ubuntu-install-curl
       - base-examples
 
-  build:
+  win-install-job:
     executor: win/default
     steps:
-      - checkout
-      - run: echo 'Hello, Windows'
+      - base-install
+  win-examples-job:
+    executor: win/default
+    steps:
+      - base-examples
 
 workflows:
-  test-base-system:
-    jobs:
-      - base-install-job
-      - base-examples-job:
-          requires:
-            - base-install-job
-  test-ubuntu-system:
-    jobs:
-      - ubuntu-install-job
-      - ubuntu-examples-job:
-          requires:
-            - ubuntu-install-job
+  # test-base-system:
+  #   jobs:
+  #     - base-install-job
+  #     - base-examples-job:
+  #         requires:
+  #           - base-install-job
+  # test-ubuntu-system:
+  #   jobs:
+  #     - ubuntu-install-job
+  #     - ubuntu-examples-job:
+  #         requires:
+  #           - ubuntu-install-job
   test-win-system:
     jobs:
-      - build
+      - win-install-job
+      - win-examples-job:
+          requires:
+            - win-install-job
