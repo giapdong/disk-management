@@ -41,7 +41,7 @@ commands:
   persist-to-workspace-win:
     steps:
       - persist_to_workspace:
-          root: $CIRCLE_WORKING_DIRECTORY
+          root: ~/project
           paths:
             - disk
   ubuntu-install-curl:
