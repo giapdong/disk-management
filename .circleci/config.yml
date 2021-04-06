@@ -43,7 +43,7 @@ commands:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - disk
+            - ~/project/disk
   ubuntu-install-curl:
     steps:
       - run: apt-get update && apt-get install -y curl
