@@ -4,13 +4,8 @@ orbs:
   node: circleci/node@4.2.1
   win: circleci/windows@2.4.0
 
-# Idea from vuejs
 default-root-dir: &default-root-dir
   working_directory: ~/project/disk
-default-workspace: &default-workspace
-  steps:
-    - attach_workspace:
-        at: ~/project
 
 executors:
   base-executor:
@@ -81,7 +76,8 @@ commands:
 
   base-examples:
     steps:
-      <<: *default-workspace
+      - attach_workspace:
+        at: ~/project
       - node/install:
           install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
