@@ -66,10 +66,8 @@ commands:
     steps:
       - checkout
       - restore-cache-cmd
-      # - win-install-nodejs
-      - run: echo "Success"
+      - win-install-nodejs
       - save-cache-cmd
-      - persist-to-workspace-win
 
   base-examples:
     steps:
