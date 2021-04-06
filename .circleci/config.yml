@@ -38,6 +38,12 @@ commands:
           root: ~/project
           paths:
             - disk
+  persist-to-workspace-win:
+    steps:
+      - persist_to_workspace:
+          root: C:\Users\circleci\project
+          paths:
+            - disk
   ubuntu-install-curl:
     steps:
       - run: apt-get update && apt-get install -y curl
@@ -65,7 +71,7 @@ commands:
       - win-install-nodejs
       - run: echo "Success"
       - save-cache-cmd
-      - persist-to-workspace
+      - persist-to-workspace-win
 
   base-examples:
     steps:
