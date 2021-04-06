@@ -2,21 +2,36 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.2.1
-  win: circleci/windows@2.3.0
+  win: circleci/windows@2.4.0
 
 # Idea from vuejs
 default-root-dir: &default-root-dir
   working_directory: ~/project/disk
+default-workspace: &default-workspace
+  - attach_workspace:
+      at: ~/project
 
 executors:
   base-executor:
     <<: *default-root-dir
     docker:
       - image: cimg/base:stable
-  ubuntu-executor:
+  ubuntu-executor-docker-common:
     <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
+  ubuntu-executor-docker-oldest:
+    <<: *default-root-dir
+    docker:
+      - image: ubuntu:14.04
+  ubuntu-executor-docker-latest:
+    <<: *default-root-dir
+    docker:
+      - image: ubuntu:latest
+  ubuntu-executor-machine:
+    <<: *default-root-dir
+    machine:
+      image: ubuntu-2004:202010-01
 
 commands:
   restore-cache-cmd:
@@ -65,8 +80,7 @@ commands:
 
   base-examples:
     steps:
-      - attach_workspace:
-          at: ~/project
+      <<: *default-workspace
       - node/install:
           install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
@@ -82,12 +96,12 @@ jobs:
       - base-examples
 
   ubuntu-install-job:
-    executor: ubuntu-executor
+    executor: ubuntu-executor-docker-common
     steps:
       - ubuntu-install-curl
       - base-install
   ubuntu-examples-job:
-    executor: ubuntu-executor
+    executor: ubuntu-executor-docker-common
     steps:
       - ubuntu-install-curl
       - base-examples
