@@ -60,8 +60,10 @@ commands:
       - run: yarn ts-node-dev examples/lib.ts
   win-install:
     steps:
-      - run: echo "Hello windows"
-      - run: "wmic logicaldisk get size,freespace,caption"
+      - run: Set-ExecutionPolicy AllSigned
+      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      - run: choco install -y --force nodejs@v12.13.0
+      - run: node -v
 
 jobs:
   base-install-job:
