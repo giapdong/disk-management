@@ -58,6 +58,10 @@ commands:
       - node/install:
           install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
+  win-install:
+    steps:
+      - run: echo "Hello windows"
+      - run: "wmic logicaldisk get size,freespace,caption"
 
 jobs:
   base-install-job:
@@ -104,7 +108,4 @@ workflows:
   #           - ubuntu-install-job
   test-win-system:
     jobs:
-      - win-install-job
-      - win-examples-job:
-          requires:
-            - win-install-job
+      - win-install
