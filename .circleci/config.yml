@@ -8,8 +8,9 @@ orbs:
 default-root-dir: &default-root-dir
   working_directory: ~/project/disk
 default-workspace: &default-workspace
-  - attach_workspace:
-      at: ~/project
+  steps:
+    - attach_workspace:
+        at: ~/project
 
 executors:
   base-executor:
