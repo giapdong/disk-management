@@ -70,9 +70,11 @@ commands:
     steps:
       - checkout
       - restore-cache-cmd
-      - win-install-nodejs
+      # - win-install-nodejs
       - run: echo "Success"
       - save-cache-cmd
+      - run: dir
+      - run: pwd
       - persist-to-workspace-win
 
   base-examples:
