@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@4.2.1
+  win: circleci/windows@2.3.0
 
 # Idea from vuejs
 default-root-dir: &default-root-dir
@@ -79,6 +80,12 @@ jobs:
       - ubuntu-install-curl
       - base-examples
 
+  build:
+    executor: win/default
+    steps:
+      - checkout
+      - run: echo 'Hello, Windows'
+
 workflows:
   test-base-system:
     jobs:
@@ -92,3 +99,6 @@ workflows:
       - ubuntu-examples-job:
           requires:
             - ubuntu-install-job
+  test-win-system:
+    jobs:
+      - build
