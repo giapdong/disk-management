@@ -147,4 +147,4 @@ workflows:
   test-reusable:
     jobs:
       - base-install-job:
-          executor: base-executor
+          e: base-executor
