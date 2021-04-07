@@ -89,9 +89,9 @@ commands:
 jobs:
   choose-executor:
     parameters:
-      executor:
+      e:
         type: executor
-    executor: << parameters.executor >>
+    executor: << parameters.e >>
     steps:
       - run: uname
       - run: uname -r
@@ -145,8 +145,8 @@ workflows:
   test-win-system:
     jobs:
       - choose-executor
-          executor:
+          e:
             base-executor
       - choose-executor
-          executor:
+          e:
             ubuntu-executor-docker-common
