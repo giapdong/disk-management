@@ -30,6 +30,10 @@ executors:
     <<: *default-root-dir
     machine:
       image: ubuntu-2004:202010-01
+  win-docker-common-executor:
+    <<: *default-root-dir
+    docker:
+      - image: mcr.microsoft.com/windows
 
 # Command
 commands:
@@ -173,6 +177,11 @@ jobs:
           commands:
             - example-cmd
 
+  windows-demo:
+    executor: win-docker-common-executor
+    steps:
+      - run: pwd
+
 # Workflows
 workflows:
   # ubuntu-docker-common-executor-testing:
@@ -220,11 +229,15 @@ workflows:
   #         requires:
   #           - unix-install-dependencies-job
 
+  # windows-testing:
+  #   jobs:
+  #     - windows-install-dependencies-job:
+  #         executor: win/default
+  #     - windows-run-command-job:
+  #         executor: win/default
+  #         requires:
+  #           - windows-install-dependencies-job
+
   windows-testing:
     jobs:
-      - windows-install-dependencies-job:
-          executor: win/default
-      - windows-run-command-job:
-          executor: win/default
-          requires:
-            - windows-install-dependencies-job
+      - windows-demo
