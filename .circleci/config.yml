@@ -96,11 +96,10 @@ jobs:
         type: executor
     executor: << parameters.e >>
     steps:
-      - run: echo "Success"
-      # - unix-install-dependencies:
-      #     command-injection:
-      #       - node/install:
-      #           install-yarn: true
+      - unix-install-dependencies:
+          command-injection:
+            - node/install:
+                install-yarn: true
   base-examples-job:
     executor: base-executor
     steps:
