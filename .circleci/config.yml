@@ -65,8 +65,6 @@ commands:
       - checkout
       - restore-cache-cmd
       - steps: << parameters.install-dependencies >>
-      # - node/install:
-      #     install-yarn: true
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace
@@ -101,7 +99,11 @@ jobs:
       - run: uname
       - run: uname -r
   base-install-job:
-    executor: base-executor
+    parameters:
+      executor:
+        type: executor
+    executor:
+      name: << parameters.executor >>
     steps:
       - base-install:
           install-dependencies:
@@ -156,4 +158,5 @@ workflows:
   #         e: base-executor
   test-reusable:
     jobs:
-      - base-install-job
+      - base-install-job:
+          executor: base-executor
