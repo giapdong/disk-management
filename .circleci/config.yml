@@ -91,10 +91,7 @@ commands:
 # Jobs
 jobs:
   choose-executor:
-    parameters:
-      e:
-        type: executor
-    executor: << parameters.e >>
+    executor: bionic
     steps:
       - run: uname
       - run: uname -r
@@ -148,4 +145,3 @@ workflows:
   test-win-system:
     jobs:
       - choose-executor
-          e: bionic
