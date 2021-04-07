@@ -132,13 +132,15 @@ commands:
         default: true
     steps:
       - steps: << parameters.install-application-commands >>
+      - attach_workspace:
+          at: ~/project
       - run: pwd
       - run: dir
-      - when:
-          condition: << parameters.attach-workspace >>
-          steps:
-            - attach_workspace:
-                at: ~/project
+      # - when:
+      #     condition: << parameters.attach-workspace >>
+      #     steps:
+      #       - attach_workspace:
+      #           at: ~/project
       - steps: << parameters.commands >>
 
 # Jobs
