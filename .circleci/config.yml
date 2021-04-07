@@ -91,7 +91,14 @@ commands:
       injection-command:
         type: steps
         default: []
+      install-curl:
+        type: boolean
+        default: false
     steps:
+      - when:
+          condition: <<parameters.install-curl>>
+          steps:
+            - run: apt-get update && apt-get install -y curl
       - attach_workspace:
           at: ~/project
       - steps: << parameters.injection-command >>
@@ -118,12 +125,16 @@ jobs:
     parameters:
       executor:
         type: executor
+      install-curl:
+        type: boolean
+        default: false
     executor: << parameters.executor >>
     steps:
       - base-examples:
           injection-command:
             - node/install:
                 install-yarn: true
+          install-curl: << parameters.install-curl >>
 
   ubuntu-install-job:
     executor: ubuntu-docker-common-executor
