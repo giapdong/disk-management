@@ -56,15 +56,15 @@ commands:
     steps:
       - run: apt-get update && apt-get install -y curl
 
-  base-install:
+  unix-install-dependencies:
     parameters:
-      install-dependencies:
+      command-injection:
         type: steps
         default: []
     steps:
       - checkout
       - restore-cache-cmd
-      - steps: << parameters.install-dependencies >>
+      - steps: << parameters.command-injection >>
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace
@@ -90,22 +90,14 @@ commands:
 
 # Jobs
 jobs:
-  choose-executor:
-    parameters:
-      e:
-        type: executor
-    executor: << parameters.e >>
-    steps:
-      - run: uname
-      - run: uname -r
   base-install-job:
     parameters:
       e:
         type: executor
     executor: << parameters.e >>
     steps:
-      - base-install:
-          install-dependencies:
+      - unix-install-dependencies:
+          command-injection:
             - node/install:
                 install-yarn: true
   base-examples-job:
@@ -117,7 +109,7 @@ jobs:
     executor: ubuntu-executor-docker-common
     steps:
       - ubuntu-install-curl
-      - base-install
+      unix-install-dependencies
   ubuntu-examples-job:
     executor: ubuntu-executor-docker-common
     steps:
@@ -127,7 +119,7 @@ jobs:
   win-install-job:
     executor: win/default
     steps:
-      - base-install
+      unix-install-dependencies
   win-examples-job:
     executor: win/default
     steps:
@@ -151,11 +143,7 @@ workflows:
   #     - ubuntu-examples-job:
   #         requires:
   #           - ubuntu-install-job
-  # test-win-system:
-  #   jobs:
-  #     - choose-executor:
-  #         e: base-executor
   test-reusable:
     jobs:
       - base-install-job:
-          e: base-executor
+          executor: base-executor
