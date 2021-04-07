@@ -56,25 +56,25 @@ commands:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
 
-  unix-install-dependencies:
+  install-dependencies:
     parameters:
-      injection-command:
+      install-application-commands:
         type: steps
         default: []
-      install-curl:
+      persist-to-workspace:
         type: boolean
-        default: false
+        default: true
     steps:
-      - when:
-          condition: <<parameters.install-curl>>
-          steps:
-            - run: apt-get update && apt-get install -y curl
+      - steps: << parameters.install-application-commands >>
       - checkout
       - restore-cache-cmd
-      - steps: << parameters.injection-command >>
       - run: yarn
       - save-cache-cmd
-      - persist-to-workspace-cmd
+      - when:
+          condition: << parameters.persist-to-workspace >>
+          steps:
+            - persist-to-workspace-cmd
+
   base-examples:
     parameters:
       injection-command:
@@ -112,16 +112,13 @@ jobs:
     parameters:
       executor:
         type: executor
-      install-curl:
-        type: boolean
-        default: false
     executor: << parameters.executor >>
     steps:
-      - unix-install-dependencies:
-          injection-command:
+      - install-dependencies:
+          install-application-commands:
+            - run: apt-get update && apt-get install -y curl
             - node/install:
                 install-yarn: true
-          install-curl: << parameters.install-curl >>
       - run: ls -l
   base-examples-job:
     parameters:
@@ -169,9 +166,7 @@ workflows:
     jobs:
       - base-install-job:
           executor: ubuntu-docker-common-executor
-          install-curl: true
-      - base-examples-job:
-          executor: ubuntu-docker-common-executor
-          install-curl: true
-          requires:
-            - base-install-job
+      # - base-examples-job:
+      #     executor: ubuntu-docker-common-executor
+      #     requires:
+      #       - base-install-job
