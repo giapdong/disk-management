@@ -150,4 +150,5 @@ workflows:
   test-reusable:
     jobs:
       - base-install-job:
-          executor: base-executor
+          executor: ubuntu-docker-common-executor
+          install-curl: true
