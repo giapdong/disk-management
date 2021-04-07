@@ -52,19 +52,23 @@ commands:
           root: ~/project
           paths:
             - disk
-  ubuntu-install-curl:
-    steps:
-      - run: apt-get update && apt-get install -y curl
 
   unix-install-dependencies:
     parameters:
-      command-injection:
+      injection-command:
         type: steps
         default: []
+      install-curl:
+        type: boolean
+        default: false
     steps:
+      - when:
+          condition: <<parameters.install-curl>>
+          steps:
+            - run: apt-get update && apt-get install -y curl
       - checkout
       - restore-cache-cmd
-      - steps: << parameters.command-injection >>
+      - steps: << parameters.injection-command >>
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace-cmd
@@ -97,7 +101,7 @@ jobs:
     executor: << parameters.executor >>
     steps:
       - unix-install-dependencies:
-          command-injection:
+          injection-command:
             - node/install:
                 install-yarn: true
   base-examples-job:
@@ -147,3 +151,6 @@ workflows:
     jobs:
       - base-install-job:
           executor: base-executor
+      - echo: "Success"
+          requires:
+            - base-install-job
