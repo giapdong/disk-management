@@ -111,13 +111,9 @@ commands:
       - steps: << parameters.install-application-commands >>
       - checkout
       - restore-cache-cmd
-      # - run: yarn
+      - run: yarn
       - save-cache-cmd
       - persist-to-workspace-cmd
-      # - when:
-      #     condition: << parameters.persist-to-workspace >>
-      #     steps:
-      #       - persist-to-workspace-cmd
 
   base-run-command:
     parameters:
@@ -127,20 +123,11 @@ commands:
       commands:
         type: steps
         default: []
-      attach-workspace:
-        type: boolean
-        default: true
     steps:
       - steps: << parameters.install-application-commands >>
       - attach_workspace:
           at: ~/project
-      - run: pwd
       - run: dir
-      # - when:
-      #     condition: << parameters.attach-workspace >>
-      #     steps:
-      #       - attach_workspace:
-      #           at: ~/project
       - steps: << parameters.commands >>
 
 # Jobs
@@ -187,7 +174,6 @@ jobs:
     executor: << parameters.executor >>
     steps:
       - base-run-command:
-          attach-workspace: false
           install-application-commands:
             - win-install-application-cmd
           commands:
