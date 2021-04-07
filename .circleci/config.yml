@@ -90,6 +90,13 @@ commands:
 
 # Jobs
 jobs:
+  test:
+    parameters:
+      e:
+        type: executor
+    executor: << parameters.e >>
+    steps:
+      - run: echo "Success"
   choose:
     parameters:
       e:
@@ -130,16 +137,9 @@ jobs:
     executor: win/default
     steps:
       - win-install
-  test:
-    parameters:
-      e:
-        type: executor
-    executor: << parameters.e >>
-    steps:
-      - run: echo "Success"
 
 workflows:
   workflow:
     jobs:
-      - test:
+      - choose:
           e: base-executor
