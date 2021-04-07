@@ -58,15 +58,11 @@ commands:
           if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
           $SUDO apt-get update > /dev/null 2>&1 || apt-get update > /dev/null 2>&1
           $SUDO apt-get install -y curl > /dev/null 2>&1 || apt-get install -y curl > /dev/null 2>&1
-
-          # DIR="/usr/bin/sudo"
-          # if [ -f "$DIR" ]; then
-          #   sudo apt-get update
-          #   sudo apt-get install -y curl
-          # else
-          #   apt-get update
-          #   apt-get install -y curl
-          # fi
+  win-install-application-cmd:
+    steps:
+      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      - run: choco install nodejs-lts --version=12.22.0
+      - run: choco install yarn
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
@@ -104,22 +100,9 @@ commands:
           at: ~/project
       - steps: << parameters.commands >>
 
-  win-install-nodejs-cmd:
-    steps:
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - run: choco install nodejs-lts --version=12.22.0
-      - run: choco install yarn
-  win-install-dependencies:
-    steps:
-      - checkout
-      - restore-cache-cmd
-      - win-install-nodejs-cmd
-      - run: yarn
-      - save-cache-cmd
-
 # Jobs
 jobs:
-  base-install-job:
+  install-dependencies-job:
     parameters:
       executor:
         type: executor
@@ -130,8 +113,7 @@ jobs:
             - install-curl-cmd
             - node/install:
                 install-yarn: true
-      - run: ls -l
-  base-examples-job:
+  run-command-job:
     parameters:
       executor:
         type: executor
@@ -162,25 +144,9 @@ jobs:
 workflows:
   test-reusable:
     jobs:
-      - base-install-job:
+      - install-dependencies-job:
           executor: base-executor
-      - base-examples-job:
+      - run-command-job:
           executor: base-executor
           requires:
-            - base-install-job
-  test-b:
-    jobs:
-      - base-install-job:
-          executor: ubuntu-docker-common-executor
-      - base-examples-job:
-          executor: ubuntu-docker-common-executor
-          requires:
-            - base-install-job
-  test-c:
-    jobs:
-      - base-install-job:
-          executor: ubuntu-machine-executor
-      - base-examples-job:
-          executor: ubuntu-machine-executor
-          requires:
-            - base-install-job
+            - install-dependencies-job
