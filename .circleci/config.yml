@@ -222,7 +222,7 @@ workflows:
     jobs:
       - windows-install-dependencies-job:
           executor: win/default
-      - unix-run-command-job:
+      - windows-run-command-job:
           executor: win/default
           requires:
-            - unix-install-dependencies-job
+            - windows-install-dependencies-job
