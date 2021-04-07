@@ -107,7 +107,7 @@ jobs:
         type: executor
     executor: << parameters.executor >>
     steps:
-      - install-dependencies:
+      - base-install-dependencies:
           install-application-commands:
             - run: apt-get update && apt-get install -y curl
             - node/install:
