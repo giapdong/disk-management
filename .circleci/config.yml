@@ -61,19 +61,10 @@ commands:
   win-install-application-cmd:
     steps:
       - run: choco -v
-      - run: |
-          # Only install chocolatey if it's not already installed
-          set "status=not installed"
-          if exist "./choco.exe" ( set "status=installed" )
-          for %%# in (choco.exe) do  if not "%%~f$PATH:#" equ "" set "status=installed"
-          echo %status%
-
-          if "%status%" equ "installed" (
-              echo "xyz"
-          )
-      # - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      # - run: choco install nodejs-lts --version=12.22.0
-      # - run: choco install yarn
+      - run: Set-ExecutionPolicy Bypass -Scope Process -Force;
+      - run: iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      - run: choco install nodejs-lts --version=12.22.0
+      - run: choco install yarn
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
