@@ -151,6 +151,3 @@ workflows:
     jobs:
       - base-install-job:
           executor: base-executor
-      - run: echo "Success"
-          requires:
-            - base-install-job
