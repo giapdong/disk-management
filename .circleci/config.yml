@@ -80,11 +80,14 @@ commands:
       install-application-commands:
         type: steps
         default: []
+      commands:
+        type: steps
+        default: []
     steps:
       - steps: << parameters.install-application-commands >>
       - attach_workspace:
           at: ~/project
-      - example-cmd
+      - steps: << parameters.commands >>
 
   win-install-nodejs-cmd:
     steps:
@@ -124,6 +127,8 @@ jobs:
             - run: apt-get update && apt-get install -y curl
             - node/install:
                 install-yarn: true
+          commands:
+            - example-cmd
 
   win-install-job:
     executor: win/default
