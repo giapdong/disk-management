@@ -30,10 +30,6 @@ executors:
     <<: *default-root-dir
     machine:
       image: ubuntu-2004:202010-01
-  win-docker-common-executor:
-    <<: *default-root-dir
-    docker:
-      - image: mcr.microsoft.com/windows:20H2
 
 # Command
 commands:
@@ -146,6 +142,9 @@ jobs:
     parameters:
       executor:
         type: executor
+      commands:
+        type: steps
+        default: []
     executor: << parameters.executor >>
     steps:
       - base-run-command:
@@ -153,8 +152,7 @@ jobs:
             - install-curl-cmd
             - node/install:
                 install-yarn: true
-          commands:
-            - example-cmd
+          commands: << parameters.commands >>
 
   windows-install-dependencies-job:
     parameters:
@@ -169,29 +167,28 @@ jobs:
     parameters:
       executor:
         type: executor
+      commands:
+        type: steps
+        default: []
     executor: << parameters.executor >>
     steps:
       - base-run-command:
           install-application-commands:
             - win-install-application-cmd
-          commands:
-            - example-cmd
-
-  windows-demo:
-    executor: win-docker-common-executor
-    steps:
-      - run: pwd
+          commands: << parameters.commands >>
 
 # Workflows
 workflows:
-  # ubuntu-docker-common-executor-testing:
-  #   jobs:
-  #     - unix-install-dependencies-job:
-  #         executor: ubuntu-docker-common-executor
-  #     - unix-run-command-job:
-  #         executor: ubuntu-docker-common-executor
-  #         requires:
-  #           - unix-install-dependencies-job
+  ubuntu-docker-common-executor-testing:
+    jobs:
+      - unix-install-dependencies-job:
+          executor: ubuntu-docker-common-executor
+      - unix-run-command-job:
+          executor: ubuntu-docker-common-executor
+          requires:
+            - unix-install-dependencies-job
+          commands:
+            - example-cmd
 
   # ubuntu-docker-oldest-executor-testing:
   #   jobs:
@@ -237,7 +234,3 @@ workflows:
   #         executor: win/default
   #         requires:
   #           - windows-install-dependencies-job
-
-  windows-testing:
-    jobs:
-      - windows-demo
