@@ -54,17 +54,19 @@ commands:
             - disk
   install-curl-cmd:
     steps:
-      - run: ls -al /usr/bin
       - run: |
-          DIR="/usr/bin/sudo"
-          if [ -f "$DIR" ]; then
-            echo "sudo already!"
-          else
-            echo "Error: ${DIR} not found. Can not continue."
-            exit 1
-          fi
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y curl
+          if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
+          $SUDO apt-get update > /dev/null 2>&1 || apt-get update > /dev/null 2>&1
+          $SUDO apt-get install -y curl > /dev/null 2>&1 || apt-get install -y curl > /dev/null 2>&1
+
+          # DIR="/usr/bin/sudo"
+          # if [ -f "$DIR" ]; then
+          #   sudo apt-get update
+          #   sudo apt-get install -y curl
+          # else
+          #   apt-get update
+          #   apt-get install -y curl
+          # fi
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
