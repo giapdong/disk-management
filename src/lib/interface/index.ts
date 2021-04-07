@@ -6,6 +6,8 @@ export * from "./Enum";
 
 export * from "./Type";
 
+export * from "./NodeInPathName";
+
 // interface
 export interface StatsNode {
   path: string;

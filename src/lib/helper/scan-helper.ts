@@ -5,7 +5,7 @@ import Hierachy from "../bean/Hierachy";
 import DiskError from "../bean/DiskError";
 import DiskColor from "../helper/DiskColor";
 import ConsoleErrorHandler from "../bean/ConsoleErrorHandler";
-import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
+import { BigNode, StatsNode, TypeNodeHierachy, NodeInPathName } from "../interface";
 import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
 
 /**
@@ -83,6 +83,7 @@ export async function writeResultToFile(scanDir: string, pathJSON: string, obj: 
  */
 export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promise<void> {
   spinner.text = rootNode.name;
+  if (!isValidDirectory(rootNode.name)) return;
   try {
     const childInDirectory: string[] = await new DiskFileSystem().lsCommandPromise(rootNode.name);
     const stats: StatsNode[] = await new DiskFileSystem().readStatDirPromise(rootNode.name, childInDirectory);
@@ -175,4 +176,22 @@ function recursiveScanBigDirectory(arrayResult: BigNode[], rootNode: Hierachy, t
   if (tempStroge > threshold) {
     arrayResult.push({ path: rootNode.name, storage: tempStroge });
   }
+}
+
+function isValidDirectory(pathToDirectory: string): boolean {
+  const regexCheck = /\/Volumes\//gi;
+  if (pathToDirectory.match(regexCheck)) return false;
+  if (checkRepeatPath(pathToDirectory)) return false;
+  return true;
+}
+
+function checkRepeatPath(pathToDirectory: string): boolean {
+  const listItem: string[] = pathToDirectory.split("/").filter(Boolean);
+  const mapItem: NodeInPathName = {};
+  listItem.forEach(item => {
+    if (mapItem[item]) mapItem[item]++;
+    else mapItem[item] = 1;
+  });
+  const values = Object.values(mapItem).filter(item => item >= 2);
+  return values.length >= 2;
 }
