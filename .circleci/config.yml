@@ -113,10 +113,11 @@ commands:
       - restore-cache-cmd
       - run: yarn
       - save-cache-cmd
-      - when:
-          condition: << parameters.persist-to-workspace >>
-          steps:
-            - persist-to-workspace-cmd
+      - persist-to-workspace-cmd
+      # - when:
+      #     condition: << parameters.persist-to-workspace >>
+      #     steps:
+      #       - persist-to-workspace-cmd
 
   base-run-command:
     parameters:
