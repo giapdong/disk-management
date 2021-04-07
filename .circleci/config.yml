@@ -13,7 +13,7 @@ executors:
         auth:
           username: mydockerhub-user
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-  bionic:
+  bionic-abcd:
     docker:
       - image: ubuntu:bionic
         auth:
@@ -33,7 +33,7 @@ workflows:
   workflow:
     jobs:
       - test:
-          e: bionic
+          e: bionic-abcd
       - test:
           e:
             name: xenial
