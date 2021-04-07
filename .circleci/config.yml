@@ -52,11 +52,11 @@ commands:
           root: ~/project
           paths:
             - disk
-  run-example-cmd:
+  example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
 
-  install-dependencies:
+  base-install-dependencies:
     parameters:
       install-application-commands:
         type: steps
@@ -75,23 +75,16 @@ commands:
           steps:
             - persist-to-workspace-cmd
 
-  base-examples:
+  base-run-command:
     parameters:
-      injection-command:
+      install-application-commands:
         type: steps
         default: []
-      install-curl:
-        type: boolean
-        default: false
     steps:
-      - when:
-          condition: <<parameters.install-curl>>
-          steps:
-            - run: apt-get update && apt-get install -y curl
+      - steps: << parameters.install-application-commands >>
       - attach_workspace:
           at: ~/project
-      - steps: << parameters.injection-command >>
-      - run-example-cmd
+      - example-cmd
 
   win-install-nodejs-cmd:
     steps:
@@ -124,16 +117,13 @@ jobs:
     parameters:
       executor:
         type: executor
-      install-curl:
-        type: boolean
-        default: false
     executor: << parameters.executor >>
     steps:
-      - base-examples:
-          injection-command:
+      - base-run-command:
+          install-application-commands:
+            - run: apt-get update && apt-get install -y curl
             - node/install:
                 install-yarn: true
-          install-curl: << parameters.install-curl >>
 
   win-install-job:
     executor: win/default
@@ -166,7 +156,7 @@ workflows:
     jobs:
       - base-install-job:
           executor: ubuntu-docker-common-executor
-      # - base-examples-job:
-      #     executor: ubuntu-docker-common-executor
-      #     requires:
-      #       - base-install-job
+      - base-examples-job:
+          executor: ubuntu-docker-common-executor
+          requires:
+            - base-install-job
