@@ -7,6 +7,8 @@ orbs:
 default-root-dir: &default-root-dir
   working_directory: ~/project/disk
 
+# Executors
+# I declared multi platform and hope that testcase pass all system and work perfect with it
 executors:
   base-executor:
     <<: *default-root-dir
@@ -29,6 +31,7 @@ executors:
     machine:
       image: ubuntu-2004:202010-01
 
+# Command
 commands:
   restore-cache-cmd:
     steps:
@@ -82,7 +85,16 @@ commands:
           install-yarn: true
       - run: yarn ts-node-dev examples/lib.ts
 
+# Jobs
 jobs:
+  choose-executor:
+    parameters:
+      executor:
+        type: executor
+    executor: << parameters.executor >>
+    steps:
+      - run: uname
+      - run: uname -r
   base-install-job:
     executor: base-executor
     steps:
@@ -114,9 +126,9 @@ jobs:
   win-demo:
     executor: win/default
     steps:
-      # - win-install
-      - run: echo "Success"
+      - win-install
 
+# Workflows
 workflows:
   # test-base-system:
   #   jobs:
@@ -132,4 +144,9 @@ workflows:
   #           - ubuntu-install-job
   test-win-system:
     jobs:
-      - win-demo
+      - choose-executor
+          executor:
+            base-executor
+      - choose-executor
+          executor:
+            ubuntu-executor-docker-common
