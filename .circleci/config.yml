@@ -60,13 +60,12 @@ commands:
           $SUDO apt-get install -y curl > /dev/null 2>&1 || apt-get install -y curl > /dev/null 2>&1
   win-install-application-cmd:
     steps:
-      - run: choco -v
       - run: |
           $chocoLocation = "C:\ProgramData\Chocolatey"
           # if (Test-Path $chocoLocation -PathType leaf) if check file
           if (Test-Path $chocoLocation)
           {
-            Write-Host "chocolatey is installed.";
+            Write-Host "chocolatey is installed. Skip install chocolatey";
           }
           else {
             Write-Host "chocolatey is NOT installed.";
@@ -74,16 +73,27 @@ commands:
             iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
           }
       - run: |
-          $Command = "node -v"
+          $CommandCheck = "node -v"
           $CommandInstall = "choco install nodejs-lts --version=12.22.0"
           try{
-            $NodeVersion = Invoke-Expression $Command
+            $Version = Invoke-Expression $CommandCheck
+            Write-Host $Version;
             Write-Host "Nodejs is installed. Skip install nodejs";
           }
           catch {
             Invoke-Expression $CommandInstall
           }
-      - run: choco install yarn
+      - run: |
+          $CommandCheck = "yarn -v"
+          $CommandInstall = "choco install yarn"
+          try{
+            $Version = Invoke-Expression $CommandCheck
+            Write-Host $Version;
+            Write-Host "Yarn is installed. Skip install nodejs";
+          }
+          catch {
+            Invoke-Expression $CommandInstall
+          }
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
