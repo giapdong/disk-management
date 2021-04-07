@@ -54,6 +54,7 @@ commands:
             - disk
   install-curl-cmd:
     steps:
+      - run: apt-get install sudo
       - run: sudo apt-get update
       - run: sudo apt-get install -y curl
   example-cmd:
