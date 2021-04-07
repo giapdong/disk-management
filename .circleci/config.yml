@@ -160,8 +160,8 @@ workflows:
   test-reusable:
     jobs:
       - base-install-job:
-          executor: ubuntu-docker-common-executor
+          executor: base-executor
       - base-examples-job:
-          executor: ubuntu-docker-common-executor
+          executor: base-executor
           requires:
             - base-install-job
