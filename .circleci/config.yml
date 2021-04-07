@@ -102,7 +102,7 @@ commands:
 
 # Jobs
 jobs:
-  install-dependencies-job:
+  unix-install-dependencies-job:
     parameters:
       executor:
         type: executor
@@ -113,7 +113,7 @@ jobs:
             - install-curl-cmd
             - node/install:
                 install-yarn: true
-  run-command-job:
+  unix-run-command-job:
     parameters:
       executor:
         type: executor
@@ -126,6 +126,16 @@ jobs:
                 install-yarn: true
           commands:
             - example-cmd
+
+  windows-install-dependencies-job:
+    parameters:
+      executor:
+        type: executor
+    executor: << parameters.executor >>
+    steps:
+      - base-install-dependencies:
+          install-application-commands:
+            - win-install-application-cmd
 
   win-install-job:
     executor: win/default
@@ -142,11 +152,15 @@ jobs:
 
 # Workflows
 workflows:
-  test-reusable:
+  ubuntu-system-testing:
     jobs:
-      - install-dependencies-job:
+      - unix-install-dependencies-job:
           executor: base-executor
-      - run-command-job:
+      - unix-run-command-job:
           executor: base-executor
           requires:
-            - install-dependencies-job
+            - unix-install-dependencies-job
+  windows-system-testing:
+    jobs:
+      - windows-install-dependencies-job:
+          executor: win/default
