@@ -103,7 +103,7 @@ jobs:
   base-install-job:
     executor: base-executor
     steps:
-      - base-install
+      - base-install:
           install-dependencies:
             - node/install:
                 install-yarn: true
