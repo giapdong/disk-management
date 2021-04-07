@@ -125,10 +125,15 @@ commands:
       commands:
         type: steps
         default: []
+      attach-workspace:
+        type: boolean
+        default: true
     steps:
       - steps: << parameters.install-application-commands >>
-      - attach_workspace:
-          at: ~/project
+      - when:
+          condition: << parameters.attach-workspace >>
+          - attach_workspace:
+              at: ~/project
       - steps: << parameters.commands >>
 
 # Jobs
@@ -182,41 +187,41 @@ jobs:
 
 # Workflows
 workflows:
-  ubuntu-docker-common-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: ubuntu-docker-common-executor
-      - unix-run-command-job:
-          executor: ubuntu-docker-common-executor
-          requires:
-            - unix-install-dependencies-job
+  # ubuntu-docker-common-executor-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: ubuntu-docker-common-executor
+  #     - unix-run-command-job:
+  #         executor: ubuntu-docker-common-executor
+  #         requires:
+  #           - unix-install-dependencies-job
 
-  ubuntu-docker-oldest-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: ubuntu-docker-oldest-executor
-      - unix-run-command-job:
-          executor: ubuntu-docker-oldest-executor
-          requires:
-            - unix-install-dependencies-job
+  # ubuntu-docker-oldest-executor-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: ubuntu-docker-oldest-executor
+  #     - unix-run-command-job:
+  #         executor: ubuntu-docker-oldest-executor
+  #         requires:
+  #           - unix-install-dependencies-job
 
-  ubuntu-docker-latest-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: ubuntu-docker-latest-executor
-      - unix-run-command-job:
-          executor: ubuntu-docker-latest-executor
-          requires:
-            - unix-install-dependencies-job
+  # ubuntu-docker-latest-executor-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: ubuntu-docker-latest-executor
+  #     - unix-run-command-job:
+  #         executor: ubuntu-docker-latest-executor
+  #         requires:
+  #           - unix-install-dependencies-job
 
-  ubuntu-machine-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: ubuntu-machine-executor
-      - unix-run-command-job:
-          executor: ubuntu-machine-executor
-          requires:
-            - unix-install-dependencies-job
+  # ubuntu-machine-executor-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: ubuntu-machine-executor
+  #     - unix-run-command-job:
+  #         executor: ubuntu-machine-executor
+  #         requires:
+  #           - unix-install-dependencies-job
 
   base-executor-testing:
     jobs:
