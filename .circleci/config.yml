@@ -166,11 +166,11 @@ workflows:
           executor: ubuntu-docker-common-executor
           requires:
             - base-install-job
-  # test-c:
-  #   jobs:
-  #     - base-install-job:
-  #         executor: ubuntu-machine-executor
-  #     - base-examples-job:
-  #         executor: ubuntu-machine-executor
-  #         requires:
-  #           - base-install-job
+  test-c:
+    jobs:
+      - base-install-job:
+          executor: ubuntu-machine-executor
+      - base-examples-job:
+          executor: ubuntu-machine-executor
+          requires:
+            - base-install-job
