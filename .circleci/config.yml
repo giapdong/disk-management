@@ -50,7 +50,7 @@ commands:
     steps:
       - persist_to_workspace:
           # root: ~/project
-          root: C:\Users\circleci\project
+          root: .
           paths:
             - disk
   install-curl-cmd:
@@ -111,7 +111,7 @@ commands:
       - steps: << parameters.install-application-commands >>
       - checkout
       - restore-cache-cmd
-      - run: yarn
+      # - run: yarn
       - save-cache-cmd
       - persist-to-workspace-cmd
       # - when:
