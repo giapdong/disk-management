@@ -33,7 +33,7 @@ executors:
   win-docker-common-executor:
     <<: *default-root-dir
     docker:
-      - image: mcr.microsoft.com/windows
+      - image: mcr.microsoft.com/windows:1903
 
 # Command
 commands:
