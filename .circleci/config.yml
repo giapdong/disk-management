@@ -52,7 +52,7 @@ commands:
           # root: ~/project
           root: .
           paths:
-            - disk
+            - .
   install-curl-cmd:
     steps:
       - run: |
