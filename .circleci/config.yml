@@ -54,7 +54,14 @@ commands:
             - disk
   install-curl-cmd:
     steps:
-      - run: ls /usr/bin | grep sudo
+      - run: |
+          DIR="/usr/bin/sudo"
+          if [ -d "$DIR" ]; then
+            echo "sudo already!"
+          else
+            echo "Error: ${DIR} not found. Can not continue."
+            exit 1
+          fi
       - run: sudo apt-get update
       - run: sudo apt-get install -y curl
   example-cmd:
