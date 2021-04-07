@@ -130,11 +130,13 @@ commands:
         default: true
     steps:
       - steps: << parameters.install-application-commands >>
+      - run: pwd
       - when:
           condition: << parameters.attach-workspace >>
           steps:
             - attach_workspace:
                 at: ~/project
+      - run: pwd
       - steps: << parameters.commands >>
 
 # Jobs
@@ -181,11 +183,11 @@ jobs:
     executor: << parameters.executor >>
     steps:
       - base-run-command:
+          attach-workspace: false
           install-application-commands:
             - win-install-application-cmd
           commands:
             - example-cmd
-          attach-workspace: false
 
 # Workflows
 workflows:
@@ -225,14 +227,14 @@ workflows:
   #         requires:
   #           - unix-install-dependencies-job
 
-  base-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: base-executor
-      - unix-run-command-job:
-          executor: base-executor
-          requires:
-            - unix-install-dependencies-job
+  # base-executor-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: base-executor
+  #     - unix-run-command-job:
+  #         executor: base-executor
+  #         requires:
+  #           - unix-install-dependencies-job
 
   windows-testing:
     jobs:
