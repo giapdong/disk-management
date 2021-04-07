@@ -136,6 +136,7 @@ jobs:
       - base-install-dependencies:
           install-application-commands:
             - win-install-application-cmd
+          persist-to-workspace: false
 
   win-install-job:
     executor: win/default
@@ -152,14 +153,14 @@ jobs:
 
 # Workflows
 workflows:
-  ubuntu-system-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: base-executor
-      - unix-run-command-job:
-          executor: base-executor
-          requires:
-            - unix-install-dependencies-job
+  # ubuntu-system-testing:
+  #   jobs:
+  #     - unix-install-dependencies-job:
+  #         executor: base-executor
+  #     - unix-run-command-job:
+  #         executor: base-executor
+  #         requires:
+  #           - unix-install-dependencies-job
   windows-system-testing:
     jobs:
       - windows-install-dependencies-job:
