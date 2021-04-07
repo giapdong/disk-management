@@ -14,19 +14,19 @@ executors:
     <<: *default-root-dir
     docker:
       - image: cimg/base:stable
-  ubuntu-executor-docker-common:
+  ubuntu-docker-common-executor:
     <<: *default-root-dir
     docker:
       - image: ubuntu:18.04
-  ubuntu-executor-docker-oldest:
+  ubuntu-docker-oldest-executor:
     <<: *default-root-dir
     docker:
       - image: ubuntu:14.04
-  ubuntu-executor-docker-latest:
+  ubuntu-docker-latest-executor:
     <<: *default-root-dir
     docker:
       - image: ubuntu:latest
-  ubuntu-executor-machine:
+  ubuntu-machine-executor:
     <<: *default-root-dir
     machine:
       image: ubuntu-2004:202010-01
@@ -46,7 +46,7 @@ commands:
           key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
-  persist-to-workspace:
+  persist-to-workspace-cmd:
     steps:
       - persist_to_workspace:
           root: ~/project
@@ -67,7 +67,7 @@ commands:
       - steps: << parameters.command-injection >>
       - run: yarn
       - save-cache-cmd
-      - persist-to-workspace
+      - persist-to-workspace-cmd
   win-install-nodejs:
     steps:
       - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
@@ -92,9 +92,9 @@ commands:
 jobs:
   base-install-job:
     parameters:
-      e:
+      executor:
         type: executor
-    executor: << parameters.e >>
+    executor: << parameters.executor >>
     steps:
       - unix-install-dependencies:
           command-injection:
@@ -106,12 +106,12 @@ jobs:
       - base-examples
 
   ubuntu-install-job:
-    executor: ubuntu-executor-docker-common
+    executor: ubuntu-docker-common-executor
     steps:
       - ubuntu-install-curl
       - unix-install-dependencies
   ubuntu-examples-job:
-    executor: ubuntu-executor-docker-common
+    executor: ubuntu-docker-common-executor
     steps:
       - ubuntu-install-curl
       - base-examples
@@ -146,4 +146,4 @@ workflows:
   test-reusable:
     jobs:
       - base-install-job:
-          e: base-executor
+          executor: base-executor
