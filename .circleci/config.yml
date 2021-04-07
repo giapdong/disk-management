@@ -170,5 +170,6 @@ workflows:
           install-curl: true
       - base-examples-job:
           executor: ubuntu-docker-common-executor
+          install-curl: true
           requires:
             - base-install-job
