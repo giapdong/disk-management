@@ -60,6 +60,7 @@ commands:
           $SUDO apt-get install -y curl > /dev/null 2>&1 || apt-get install -y curl > /dev/null 2>&1
   win-install-application-cmd:
     steps:
+      - run: choco -v
       - run: |
           # Only install chocolatey if it's not already installed
           set "status=not installed"
