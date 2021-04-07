@@ -1,147 +1,24 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@4.2.1
-  win: circleci/windows@2.4.0
-
-default-root-dir: &default-root-dir
-  working_directory: ~/project/disk
-
-# Executors
-# I declared multi platform and hope that testcase pass all system and work perfect with it
 executors:
-  base-executor:
-    <<: *default-root-dir
-    docker:
-      - image: cimg/base:stable
-  ubuntu-executor-docker-common:
-    <<: *default-root-dir
-    docker:
-      - image: ubuntu:18.04
-  ubuntu-executor-docker-oldest:
-    <<: *default-root-dir
-    docker:
-      - image: ubuntu:14.04
-  ubuntu-executor-docker-latest:
-    <<: *default-root-dir
-    docker:
-      - image: ubuntu:latest
-  ubuntu-executor-machine:
-    <<: *default-root-dir
-    machine:
-      image: ubuntu-2004:202010-01
   bionic:
     docker:
       - image: ubuntu:bionic
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
 
-# Command
-commands:
-  restore-cache-cmd:
-    steps:
-      - restore_cache:
-          keys:
-            - v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-disk-{{ .Branch }}-
-            - v1-disk-
-  save-cache-cmd:
-    steps:
-      - save_cache:
-          key: v1-disk-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules/
-  persist-to-workspace:
-    steps:
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - disk
-  ubuntu-install-curl:
-    steps:
-      - run: apt-get update && apt-get install -y curl
-
-  base-install:
-    steps:
-      - checkout
-      - restore-cache-cmd
-      - node/install:
-          install-yarn: true
-      - run: yarn
-      - save-cache-cmd
-      - persist-to-workspace
-  win-install-nodejs:
-    steps:
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - run: choco install nodejs-lts --version=12.22.0
-      - run: choco install yarn
-  win-install:
-    steps:
-      - checkout
-      - restore-cache-cmd
-      - win-install-nodejs
-      - save-cache-cmd
-
-  base-examples:
-    steps:
-      - attach_workspace:
-        at: ~/project
-      - node/install:
-          install-yarn: true
-      - run: yarn ts-node-dev examples/lib.ts
-
-# Jobs
 jobs:
-  choose-executor:
-    executor: bionic
+  test:
+    parameters:
+      e:
+        type: executor
+    executor: << parameters.e >>
     steps:
-      - run: uname
-      - run: uname -r
-  base-install-job:
-    executor: base-executor
-    steps:
-      - base-install
-  base-examples-job:
-    executor: base-executor
-    steps:
-      - base-examples
+      - run: echo "Success"
 
-  ubuntu-install-job:
-    executor: ubuntu-executor-docker-common
-    steps:
-      - ubuntu-install-curl
-      - base-install
-  ubuntu-examples-job:
-    executor: ubuntu-executor-docker-common
-    steps:
-      - ubuntu-install-curl
-      - base-examples
-
-  win-install-job:
-    executor: win/default
-    steps:
-      - base-install
-  win-examples-job:
-    executor: win/default
-    steps:
-      - base-examples
-  win-demo:
-    executor: win/default
-    steps:
-      - win-install
-
-# Workflows
 workflows:
-  # test-base-system:
-  #   jobs:
-  #     - base-install-job
-  #     - base-examples-job:
-  #         requires:
-  #           - base-install-job
-  # test-ubuntu-system:
-  #   jobs:
-  #     - ubuntu-install-job
-  #     - ubuntu-examples-job:
-  #         requires:
-  #           - ubuntu-install-job
-  test-win-system:
+  workflow:
     jobs:
-      - choose-executor
+      - test:
+          e: bionic
