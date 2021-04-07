@@ -54,9 +54,10 @@ commands:
             - disk
   install-curl-cmd:
     steps:
+      - run: ls -al /usr/bin
       - run: |
           DIR="/usr/bin/sudo"
-          if [ "$DIR" ]; then
+          if [ -f "$DIR" ]; then
             echo "sudo already!"
           else
             echo "Error: ${DIR} not found. Can not continue."
