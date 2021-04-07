@@ -66,16 +66,23 @@ commands:
           # if (Test-Path $chocoLocation -PathType leaf) if check file
           if (Test-Path $chocoLocation)
           {
-              Write-Host "chocolatey is installed.";
+            Write-Host "chocolatey is installed.";
           }
           else {
-              Write-Host "chocolatey is NOT installed.";
-              # Set-ExecutionPolicy Bypass -Scope Process -Force;
-              # iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
+            Write-Host "chocolatey is NOT installed.";
+            Set-ExecutionPolicy Bypass -Scope Process -Force;
+            iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
           }
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force;
-      - run: iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - run: choco install nodejs-lts --version=12.22.0
+      - run: |
+          $Command = "node -v"
+          $CommandInstall = "choco install nodejs-lts --version=12.22.0"
+          try{
+            $NodeVersion = Invoke-Expression $Command
+            Write-Host "Nodejs is installed. Skip install nodejs";
+          }
+          catch {
+            Invoke-Expression $CommandInstall
+          }
       - run: choco install yarn
   example-cmd:
     steps:
