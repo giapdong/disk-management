@@ -160,8 +160,8 @@ workflows:
   test-reusable:
     jobs:
       - base-install-job:
-          executor: base-executor
+          executor: ubuntu-machine-executor
       - base-examples-job:
-          executor: base-executor
+          executor: ubuntu-machine-executor
           requires:
             - base-install-job
