@@ -211,20 +211,20 @@ workflows:
   #         requires:
   #           - unix-install-dependencies-job
 
-  base-executor-testing:
-    jobs:
-      - unix-install-dependencies-job:
-          executor: base-executor
-      - unix-run-command-job:
-          executor: base-executor
-          requires:
-            - unix-install-dependencies-job
-
-  # windows-testing:
+  # base-executor-testing:
   #   jobs:
-  #     - windows-install-dependencies-job:
-  #         executor: win/default
-  #     - windows-run-command-job:
-  #         executor: win/default
+  #     - unix-install-dependencies-job:
+  #         executor: base-executor
+  #     - unix-run-command-job:
+  #         executor: base-executor
   #         requires:
-  #           - windows-install-dependencies-job
+  #           - unix-install-dependencies-job
+
+  windows-testing:
+    jobs:
+      - windows-install-dependencies-job:
+          executor: win/default
+      - windows-run-command-job:
+          executor: win/default
+          requires:
+            - windows-install-dependencies-job
