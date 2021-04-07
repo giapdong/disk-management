@@ -1,16 +1,36 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@4.2.1
+  win: circleci/windows@2.4.0
+
 default-root-dir: &default-root-dir
   working_directory: ~/project/disk
 
 executors:
-  bionic-executor-common:
-    docker:
-      - image: ubuntu:bionic
   base-executor:
     <<: *default-root-dir
     docker:
       - image: cimg/base:stable
+  ubuntu-executor-docker-common:
+    <<: *default-root-dir
+    docker:
+      - image: ubuntu:18.04
+  ubuntu-executor-docker-oldest:
+    <<: *default-root-dir
+    docker:
+      - image: ubuntu:14.04
+  ubuntu-executor-docker-latest:
+    <<: *default-root-dir
+    docker:
+      - image: ubuntu:latest
+  ubuntu-executor-machine:
+    <<: *default-root-dir
+    machine:
+      image: ubuntu-2004:202010-01
+  bionic:
+    docker:
+      - image: ubuntu:bionic
 
 jobs:
   test:
