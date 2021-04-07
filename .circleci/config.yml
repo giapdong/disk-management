@@ -52,6 +52,9 @@ commands:
           root: ~/project
           paths:
             - disk
+  run-example-cmd:
+    steps:
+      - run: yarn ts-node-dev examples/lib.ts
 
   unix-install-dependencies:
     parameters:
@@ -72,20 +75,6 @@ commands:
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace-cmd
-
-  win-install-nodejs-cmd:
-    steps:
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - run: choco install nodejs-lts --version=12.22.0
-      - run: choco install yarn
-  win-install-dependencies:
-    steps:
-      - checkout
-      - restore-cache-cmd
-      - win-install-nodejs-cmd
-      - run: yarn
-      - save-cache-cmd
-
   base-examples:
     parameters:
       injection-command:
@@ -102,7 +91,20 @@ commands:
       - attach_workspace:
           at: ~/project
       - steps: << parameters.injection-command >>
-      - run: yarn ts-node-dev examples/lib.ts
+      - run-example-cmd
+
+  win-install-nodejs-cmd:
+    steps:
+      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      - run: choco install nodejs-lts --version=12.22.0
+      - run: choco install yarn
+  win-install-dependencies:
+    steps:
+      - checkout
+      - restore-cache-cmd
+      - win-install-nodejs-cmd
+      - run: yarn
+      - save-cache-cmd
 
 # Jobs
 jobs:
@@ -135,17 +137,6 @@ jobs:
             - node/install:
                 install-yarn: true
           install-curl: << parameters.install-curl >>
-
-  ubuntu-install-job:
-    executor: ubuntu-docker-common-executor
-    steps:
-      - ubuntu-install-curl
-      - unix-install-dependencies
-  ubuntu-examples-job:
-    executor: ubuntu-docker-common-executor
-    steps:
-      - ubuntu-install-curl
-      - base-examples
 
   win-install-job:
     executor: win/default
