@@ -168,18 +168,61 @@ jobs:
           install-application-commands:
             - win-install-application-cmd
           persist-to-workspace: false
+  windows-run-command-job:
+    parameters:
+      executor:
+        type: executor
+    executor: << parameters.executor >>
+    steps:
+      - base-run-command:
+          install-application-commands:
+            - win-install-application-cmd
+          commands:
+            - example-cmd
 
 # Workflows
 workflows:
-  # ubuntu-system-testing:
-  #   jobs:
-  #     - unix-install-dependencies-job:
-  #         executor: base-executor
-  #     - unix-run-command-job:
-  #         executor: base-executor
-  #         requires:
-  #           - unix-install-dependencies-job
+  ubuntu-system-testing:
+    jobs:
+      - unix-install-dependencies-job:
+          executor: base-executor
+      - unix-run-command-job:
+          executor: base-executor
+          requires:
+            - unix-install-dependencies-job
+
+      - unix-install-dependencies-job:
+          executor: ubuntu-docker-common-executor
+      - unix-run-command-job:
+          executor: ubuntu-docker-common-executor
+          requires:
+            - unix-install-dependencies-job
+
+      - unix-install-dependencies-job:
+          executor: ubuntu-docker-oldest-executor
+      - unix-run-command-job:
+          executor: ubuntu-docker-oldest-executor
+          requires:
+            - unix-install-dependencies-job
+
+      - unix-install-dependencies-job:
+          executor: ubuntu-docker-latest-executor
+      - unix-run-command-job:
+          executor: ubuntu-docker-latest-executor
+          requires:
+            - unix-install-dependencies-job
+
+      - unix-install-dependencies-job:
+          executor: ubuntu-machine-executor
+      - unix-run-command-job:
+          executor: ubuntu-machine-executor
+          requires:
+            - unix-install-dependencies-job
   windows-system-testing:
     jobs:
       - windows-install-dependencies-job:
           executor: win/default
+      - unix-run-command-job:
+          executor: win/default
+          requires:
+            - unix-install-dependencies-job
