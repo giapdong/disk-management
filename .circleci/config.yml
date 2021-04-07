@@ -30,9 +30,6 @@ executors:
     <<: *default-root-dir
     machine:
       image: ubuntu-2004:202010-01
-  bionic:
-    docker:
-      - image: ubuntu:bionic
 
 # Command
 commands:
@@ -60,11 +57,16 @@ commands:
       - run: apt-get update && apt-get install -y curl
 
   base-install:
+    parameters:
+      install-dependencies:
+        type: steps
+        default: []
     steps:
       - checkout
       - restore-cache-cmd
-      - node/install:
-          install-yarn: true
+      - steps: << parameters.install-dependencies >>
+      # - node/install:
+      #     install-yarn: true
       - run: yarn
       - save-cache-cmd
       - persist-to-workspace
@@ -90,14 +92,7 @@ commands:
 
 # Jobs
 jobs:
-  test:
-    parameters:
-      e:
-        type: executor
-    executor: << parameters.e >>
-    steps:
-      - run: echo "Success"
-  choose:
+  choose-executor:
     parameters:
       e:
         type: executor
@@ -109,6 +104,9 @@ jobs:
     executor: base-executor
     steps:
       - base-install
+          install-dependencies:
+            - node/install:
+                install-yarn: true
   base-examples-job:
     executor: base-executor
     steps:
@@ -152,7 +150,10 @@ workflows:
   #     - ubuntu-examples-job:
   #         requires:
   #           - ubuntu-install-job
-  test-win-system:
+  # test-win-system:
+  #   jobs:
+  #     - choose-executor:
+  #         e: base-executor
+  test-reusable:
     jobs:
-      - choose:
-          e: base-executor
+      - base-install-job
