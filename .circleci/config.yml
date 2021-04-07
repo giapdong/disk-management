@@ -10,6 +10,9 @@ default-root-dir: &default-root-dir
 # Executors
 # I declared multi platform and hope that testcase pass all system and work perfect with it
 executors:
+  bionic-executor-common:
+    docker:
+      - image: ubuntu:bionic
   base-executor:
     <<: *default-root-dir
     docker:
@@ -148,4 +151,4 @@ workflows:
   test-win-system:
     jobs:
       - choose-executor
-          e: base-executor
+          e: bionic-executor-common
