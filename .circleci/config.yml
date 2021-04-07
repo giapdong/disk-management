@@ -56,7 +56,7 @@ commands:
     steps:
       - run: |
           DIR="/usr/bin/sudo"
-          if [ -d "$DIR" ]; then
+          if [ "$DIR" ]; then
             echo "sudo already!"
           else
             echo "Error: ${DIR} not found. Can not continue."
