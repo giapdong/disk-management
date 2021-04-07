@@ -149,23 +149,27 @@ jobs:
 
 # Workflows
 workflows:
-  # test-base-system:
-  #   jobs:
-  #     - base-install-job
-  #     - base-examples-job:
-  #         requires:
-  #           - base-install-job
-  # test-ubuntu-system:
-  #   jobs:
-  #     - ubuntu-install-job
-  #     - ubuntu-examples-job:
-  #         requires:
-  #           - ubuntu-install-job
   test-reusable:
     jobs:
       - base-install-job:
-          executor: ubuntu-machine-executor
+          executor: base-executor
       - base-examples-job:
-          executor: ubuntu-machine-executor
+          executor: base-executor
           requires:
             - base-install-job
+  test-b:
+    jobs:
+      - base-install-job:
+          executor: ubuntu-docker-common-executor
+      - base-examples-job:
+          executor: ubuntu-docker-common-executor
+          requires:
+            - base-install-job
+  # test-c:
+  #   jobs:
+  #     - base-install-job:
+  #         executor: ubuntu-machine-executor
+  #     - base-examples-job:
+  #         executor: ubuntu-machine-executor
+  #         requires:
+  #           - base-install-job
