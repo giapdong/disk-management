@@ -138,8 +138,21 @@ jobs:
     steps:
       - win-install
 
+# Workflows
 workflows:
-  workflow:
+  # test-base-system:
+  #   jobs:
+  #     - base-install-job
+  #     - base-examples-job:
+  #         requires:
+  #           - base-install-job
+  # test-ubuntu-system:
+  #   jobs:
+  #     - ubuntu-install-job
+  #     - ubuntu-examples-job:
+  #         requires:
+  #           - ubuntu-install-job
+  test-win-system:
     jobs:
       - choose:
           e: base-executor
