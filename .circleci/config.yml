@@ -132,8 +132,9 @@ commands:
       - steps: << parameters.install-application-commands >>
       - when:
           condition: << parameters.attach-workspace >>
-          - attach_workspace:
-              at: ~/project
+          steps:
+            - attach_workspace:
+                at: ~/project
       - steps: << parameters.commands >>
 
 # Jobs
@@ -184,6 +185,7 @@ jobs:
             - win-install-application-cmd
           commands:
             - example-cmd
+          attach-workspace: false
 
 # Workflows
 workflows:
