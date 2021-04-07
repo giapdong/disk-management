@@ -145,6 +145,6 @@ workflows:
   test-win-system:
     jobs:
       - choose-executor
-          e: base-executor
+          e: "base-executor"
       - choose-executor
-          e: ubuntu-executor-docker-common
+          e: "ubuntu-executor-docker-common"
