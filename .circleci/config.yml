@@ -52,6 +52,9 @@ commands:
           root: ~/project
           paths:
             - disk
+  install-curl-cmd:
+    steps:
+      - run: sudo apt-get update && apt-get install -y curl
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
@@ -112,7 +115,7 @@ jobs:
     steps:
       - base-install-dependencies:
           install-application-commands:
-            - run: apt-get update && apt-get install -y curl
+            - install-curl-cmd
             - node/install:
                 install-yarn: true
       - run: ls -l
@@ -124,7 +127,7 @@ jobs:
     steps:
       - base-run-command:
           install-application-commands:
-            - run: apt-get update && apt-get install -y curl
+            - install-curl-cmd
             - node/install:
                 install-yarn: true
           commands:
