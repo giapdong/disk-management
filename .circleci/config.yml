@@ -4,9 +4,6 @@ executors:
   bionic-executor-common:
     docker:
       - image: ubuntu:bionic
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
 
 jobs:
   test:
