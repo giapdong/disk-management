@@ -109,7 +109,7 @@ jobs:
     executor: ubuntu-executor-docker-common
     steps:
       - ubuntu-install-curl
-      unix-install-dependencies
+      - unix-install-dependencies
   ubuntu-examples-job:
     executor: ubuntu-executor-docker-common
     steps:
@@ -119,7 +119,7 @@ jobs:
   win-install-job:
     executor: win/default
     steps:
-      unix-install-dependencies
+      - unix-install-dependencies
   win-examples-job:
     executor: win/default
     steps:
