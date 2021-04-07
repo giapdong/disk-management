@@ -60,9 +60,19 @@ commands:
           $SUDO apt-get install -y curl > /dev/null 2>&1 || apt-get install -y curl > /dev/null 2>&1
   win-install-application-cmd:
     steps:
-      - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - run: choco install nodejs-lts --version=12.22.0
-      - run: choco install yarn
+      - run: |
+          # Only install chocolatey if it's not already installed
+          set "status=not installed"
+          if exist "./choco.exe" ( set "status=installed" )
+          for %%# in (choco.exe) do  if not "%%~f$PATH:#" equ "" set "status=installed"
+          echo %status%
+
+          if "%status%" equ "installed" (
+              echo "xyz"
+          )
+      # - run: Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+      # - run: choco install nodejs-lts --version=12.22.0
+      # - run: choco install yarn
   example-cmd:
     steps:
       - run: yarn ts-node-dev examples/lib.ts
@@ -137,19 +147,6 @@ jobs:
           install-application-commands:
             - win-install-application-cmd
           persist-to-workspace: false
-
-  win-install-job:
-    executor: win/default
-    steps:
-      - unix-install-dependencies
-  win-examples-job:
-    executor: win/default
-    steps:
-      - base-examples
-  win-demo:
-    executor: win/default
-    steps:
-      - win-install
 
 # Workflows
 workflows:
