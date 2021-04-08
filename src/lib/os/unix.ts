@@ -27,7 +27,7 @@ export function parseData(stdout: string): PartitionNode[] {
   });
 }
 
-export class darwin extends DiskSystem {
+export class unix extends DiskSystem {
   readSystemPartition(): Promise<PartitionNode[]> {
     return new Promise(async (resolve, reject) => {
       try {
