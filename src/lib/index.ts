@@ -9,6 +9,8 @@ import * as CompareHelper from "./helper/compare-helper";
 import * as ScanHelper from "./helper/scan-helper";
 import { win32 } from "./os/win32";
 import { unix } from "./os/unix";
+import { linux } from "./os/linux";
+import DiskSystem from "./inheritable/DiskSystem";
 
 const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
@@ -65,16 +67,17 @@ export async function Compare(threshold: number, pathToSourceFile?: string, path
 
 export function readSystemPartition(): Promise<any> {
   return new Promise(async (resolve, reject) => {
+    let diskInstance: DiskSystem;
     switch (os.platform()) {
-      case "win32": {
-        const data = await new win32().readSystemPartition();
-        return resolve(data);
-      }
-
-      default: {
-        const data = await new unix().readSystemPartition();
-        return resolve(data);
-      }
+      case "win32":
+        diskInstance = new win32();
+      case "linux":
+        diskInstance = new linux();
+      default:
+        diskInstance = new unix();
     }
+
+    const data = diskInstance.readSystemPartition();
+    resolve(data);
   });
 }
