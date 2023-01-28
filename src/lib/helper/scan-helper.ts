@@ -100,6 +100,7 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promis
     }
   } catch (error) {
     new ConsoleErrorHandler(new DiskError(error));
+	DiskFileSystem.handleError('scanHierachyNode', error);
   }
 }
 

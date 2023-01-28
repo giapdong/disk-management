@@ -29,8 +29,17 @@ export default class DiskFileSystem {
       const promise: Promise<StatsNode>[] = dirInfo.map(element => {
         return this.readStatPromise(path.join(pathToDir, element));
       });
-      return await Promise.all(promise);
+      let dirNodes = await Promise.all(promise);
+		dirNodes = dirNodes.filter(item => {
+			if (item.stats.isSymbolicLink()) {
+				return false;
+			}
+
+			return true;
+		});
+		return dirNodes;
     } catch (error) {
+		DiskFileSystem.handleError('readStatDirPromise', error);
       new ConsoleErrorHandler(new DiskError(error));
       const newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
       if (!newDirInfo.length) return [];
@@ -60,10 +69,34 @@ export default class DiskFileSystem {
    */
   async readStatPromise(pathToNode: string): Promise<StatsNode> {
     return new Promise((resolve, reject) => {
-      fs.stat(pathToNode, function (err, data) {
+      fs.lstat(pathToNode, function (err, data) {
         const nodeStat: StatsNode = { path: pathToNode, stats: data };
         return err ? reject(err) : resolve(nodeStat);
       });
     });
   }
+
+
+  	/**
+	 * @desc Handle error
+	 *
+	 * @param {String} prefix Prefix for log
+	 * @param {JSON} data Any
+	 */
+	static handleError(prefix: string, error: any) {
+
+		if (error.code == 'ENOTDIR' || error.errno == -20) {
+
+		} else if (error.code == 'ELOOP' || error.errno == -40) {
+
+		} else if (error.code == 'ENOENT' || error.errno == -2) { // resource not found, e.g: symlink
+
+		} else if (error.code == 'EBUSY' || error.errno == -4082) { // resource busy or locked
+
+		} else if (error.code == 'EACCES' || error.errno == -4092) { // resource permission denied
+
+		} else {
+			console.log('\n', prefix, error);
+		}
+	}
 }

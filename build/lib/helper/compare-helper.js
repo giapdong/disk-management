@@ -6,23 +6,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.storeResult = exports.detectOptionsCompare = exports.resolveCompareData = exports.getListScanFile = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const colors_1 = __importDefault(require("colors"));
+const DiskColor_1 = __importDefault(require("../helper/DiskColor"));
 const global_helper_1 = require("./global-helper");
-const filesystem_1 = require("../tools/filesystem");
+const DiskFileSystem_1 = __importDefault(require("../tools/DiskFileSystem"));
 async function getListScanFile(pathToScanDir) {
     const spinner = global_helper_1.genDotsSpinner("[1/3] Reading result");
     spinner.start();
     let listScanFile;
     try {
-        listScanFile = await filesystem_1.lsCommandPromise(pathToScanDir);
+        listScanFile = await new DiskFileSystem_1.default().lsCommandPromise(pathToScanDir);
     }
     catch (error) {
         spinner.fail(error.message);
         throw error;
     }
     if (listScanFile.length < 2) {
-        spinner.fail(`[1/3] Failed, too little log file in ${pathToScanDir}`);
-        throw new Error(`[1/3] Failed, too little log file in ${pathToScanDir}`);
+        const titleError = DiskColor_1.default.red("[1/3] Failed") + `, too little log file in ${pathToScanDir}`;
+        spinner.fail(titleError);
+        throw new Error(titleError);
     }
     spinner.succeed("[1/3] Reading result");
     return listScanFile;
@@ -31,16 +32,16 @@ exports.getListScanFile = getListScanFile;
 function resolveCompareData(compareOptions) {
     const spinner = global_helper_1.genDotsSpinner("[2/3] Resolving result");
     spinner.start();
-    let dataSource = fs_1.default.readFileSync(compareOptions.pathToSourceFile, "utf-8");
-    let dataTarget = fs_1.default.readFileSync(compareOptions.pathToTargetFile, "utf-8");
-    let json1 = JSON.parse(dataSource).big_directory;
-    let json2 = JSON.parse(dataTarget).big_directory;
+    const dataSource = fs_1.default.readFileSync(compareOptions.pathToSourceFile, "utf-8");
+    const dataTarget = fs_1.default.readFileSync(compareOptions.pathToTargetFile, "utf-8");
+    const json1 = JSON.parse(dataSource).bigDirectory;
+    const json2 = JSON.parse(dataTarget).bigDirectory;
     let listBigNode = json1.map(item => item.path).concat(json2.map(item => item.path));
     listBigNode = [...new Set(listBigNode)];
-    let listChangeStatus = [];
+    const listChangeStatus = [];
     listBigNode.forEach(node => {
-        let nodeInJSON1 = json1.find(item => item.path == node);
-        let nodeInJSON2 = json2.find(item => item.path == node);
+        const nodeInJSON1 = json1.find(item => item.path == node);
+        const nodeInJSON2 = json2.find(item => item.path == node);
         if (nodeInJSON1 && nodeInJSON2) {
             let change = (nodeInJSON1 === null || nodeInJSON1 === void 0 ? void 0 : nodeInJSON1.storage) - (nodeInJSON2 === null || nodeInJSON2 === void 0 ? void 0 : nodeInJSON2.storage);
             if (Math.abs(change) > compareOptions.threshold)
@@ -89,15 +90,15 @@ async function storeResult(compareDir, data) {
     spinner.start();
     if (!fs_1.default.existsSync(compareDir))
         fs_1.default.mkdirSync(compareDir);
-    let pathJSON = path_1.default.join(compareDir, global_helper_1.getDateByFormat() + ".log");
-    var json = JSON.stringify(data, null, 4);
+    const pathJSON = path_1.default.join(compareDir, global_helper_1.getDateByFormat() + ".json");
+    const json = JSON.stringify(data, null, 4);
     try {
-        await filesystem_1.writeFilePromise(pathJSON, json);
+        await new DiskFileSystem_1.default().writeFilePromise(pathJSON, json);
     }
     catch (error) {
         throw error;
     }
-    spinner.info(colors_1.default.green("Done!") + " Saved 1 new log file.");
+    spinner.info(DiskColor_1.default.green("Done!") + " Saved 1 new log file.");
     spinner.succeed("[3/3] Writting result");
 }
 exports.storeResult = storeResult;

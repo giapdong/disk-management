@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Hierachy = void 0;
 class Hierachy {
     constructor(parent, name, storage, type) {
         this.parent = parent;
@@ -15,4 +14,4 @@ class Hierachy {
             this.parent.addStorage(value);
     }
 }
-exports.Hierachy = Hierachy;
+exports.default = Hierachy;
