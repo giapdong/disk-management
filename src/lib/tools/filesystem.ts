@@ -27,10 +27,19 @@ export async function readStatDirPromise(pathToDir: string, dirInfo: string[]): 
     promise = dirInfo.map(element => {
       return readStatPromise(path.join(pathToDir, element));
     });
-    return await Promise.all(promise);
+
+	let dirNodes = await Promise.all(promise);
+	dirNodes = dirNodes.filter(item => {
+		if (item.stats.isSymbolicLink()) {
+			return false;
+		}
+
+		return true;
+	});
+    return dirNodes;
   } catch (error) {
     // Catch NodeJS.ErrnoException error
-    console.log(error);
+	log('readStatDirPromise', error);
     let newDirInfo = dirInfo.filter(item => path.join(pathToDir, item) != error.path);
     if (!newDirInfo.length) return [];
 
@@ -53,6 +62,30 @@ export function writeFilePromise(path: string, data: any, options = "utf-8") {
   });
 }
 
+
+/**
+ * @desc Handle error
+ *
+ * @param {String} prefix Prefix for log
+ * @param {JSON} data Any
+ */
+export function log(prefix: string, error: any) {
+
+	if (error.code == 'ENOTDIR' || error.errno == -20) {
+
+	} else if (error.code == 'ELOOP' || error.errno == -40) {
+
+	} else if (error.code == 'ENOENT' || error.errno == -2) { // resource not found, e.g: symlink
+
+	} else if (error.code == 'EBUSY' || error.errno == -4082) { // resource busy or locked
+
+	} else if (error.code == 'EACCES' || error.errno == -4092) { // resource permission denied
+
+	} else {
+		console.log('\n', prefix, error);
+	}
+}
+
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
@@ -65,7 +98,7 @@ export function writeFilePromise(path: string, data: any, options = "utf-8") {
  */
 async function readStatPromise(pathToNode: string): Promise<StatsNode> {
   return new Promise((resolve, reject) => {
-    fs.stat(pathToNode, function (err, data) {
+    fs.lstat(pathToNode, function (err, data) {
       let nodeStat: StatsNode = { path: pathToNode, stats: data };
       return err ? reject(err) : resolve(nodeStat);
     });

@@ -84,7 +84,7 @@ async function scanHierachyNode(spinner, rootNode) {
         await Promise.all(promise);
     }
     catch (error) {
-        console.log(error);
+        FS_TOOLS.log('scanHierachyNode', error);
     }
 }
 exports.scanHierachyNode = scanHierachyNode;

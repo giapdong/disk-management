@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeFilePromise = exports.readStatDirPromise = exports.lsCommandPromise = void 0;
+exports.log = exports.writeFilePromise = exports.readStatDirPromise = exports.lsCommandPromise = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 function lsCommandPromise(pathToDir) {
@@ -20,10 +20,17 @@ async function readStatDirPromise(pathToDir, dirInfo) {
         promise = dirInfo.map(element => {
             return readStatPromise(path_1.default.join(pathToDir, element));
         });
-        return await Promise.all(promise);
+        let dirNodes = await Promise.all(promise);
+        dirNodes = dirNodes.filter(item => {
+            if (item.stats.isSymbolicLink()) {
+                return false;
+            }
+            return true;
+        });
+        return dirNodes;
     }
     catch (error) {
-        console.log(error);
+        log('readStatDirPromise', error);
         let newDirInfo = dirInfo.filter(item => path_1.default.join(pathToDir, item) != error.path);
         if (!newDirInfo.length)
             return [];
@@ -40,9 +47,25 @@ function writeFilePromise(path, data, options = "utf-8") {
     });
 }
 exports.writeFilePromise = writeFilePromise;
+function log(prefix, error) {
+    if (error.code == 'ENOTDIR' || error.errno == -20) {
+    }
+    else if (error.code == 'ELOOP' || error.errno == -40) {
+    }
+    else if (error.code == 'ENOENT' || error.errno == -2) {
+    }
+    else if (error.code == 'EBUSY' || error.errno == -4082) {
+    }
+    else if (error.code == 'EACCES' || error.errno == -4092) {
+    }
+    else {
+        console.log('\n', prefix, error);
+    }
+}
+exports.log = log;
 async function readStatPromise(pathToNode) {
     return new Promise((resolve, reject) => {
-        fs_1.default.stat(pathToNode, function (err, data) {
+        fs_1.default.lstat(pathToNode, function (err, data) {
             let nodeStat = { path: pathToNode, stats: data };
             return err ? reject(err) : resolve(nodeStat);
         });

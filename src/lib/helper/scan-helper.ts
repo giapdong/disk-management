@@ -91,7 +91,7 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy) {
 
     await Promise.all(promise);
   } catch (error) {
-    console.log(error);
+	FS_TOOLS.log('scanHierachyNode', error);
   }
 }
 
