@@ -44,8 +44,15 @@ function resolveCompareData(compareOptions) {
         const nodeInJSON2 = json2.find(item => item.path == node);
         if (nodeInJSON1 && nodeInJSON2) {
             let change = (nodeInJSON1 === null || nodeInJSON1 === void 0 ? void 0 : nodeInJSON1.storage) - (nodeInJSON2 === null || nodeInJSON2 === void 0 ? void 0 : nodeInJSON2.storage);
-            if (Math.abs(change) > compareOptions.threshold)
-                listChangeStatus.push({ name: node, change: change });
+            if (Math.abs(change) > compareOptions.threshold) {
+                listChangeStatus.push({
+                    name: node,
+                    change: {
+                        size: change,
+                        hsize: global_helper_1.bytesToSize(change)
+                    }
+                });
+            }
         }
         else if (nodeInJSON1 || nodeInJSON2) {
             let change = 0;
@@ -53,8 +60,15 @@ function resolveCompareData(compareOptions) {
                 change = nodeInJSON1.storage;
             if (nodeInJSON2)
                 change = -nodeInJSON2.storage;
-            if (Math.abs(change) > compareOptions.threshold)
-                listChangeStatus.push({ name: node, change: change });
+            if (Math.abs(change) > compareOptions.threshold) {
+                listChangeStatus.push({
+                    name: node,
+                    change: {
+                        size: change,
+                        hsize: global_helper_1.bytesToSize(change)
+                    }
+                });
+            }
         }
     });
     spinner.succeed("[2/3] Resolving result");

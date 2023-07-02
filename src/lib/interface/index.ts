@@ -1,4 +1,5 @@
 import { Stats } from "fs";
+import { NodeSizing } from "./Sizing";
 
 export * from "./ScanResult";
 
@@ -7,6 +8,8 @@ export * from "./Enum";
 export * from "./Type";
 
 export * from "./NodeInPathName";
+
+export * from "./Sizing";
 
 // interface
 export interface StatsNode {
@@ -27,7 +30,7 @@ export interface IOptionsCompare {
 
 export interface ChangeNode {
   name: string;
-  change: number;
+  change: NodeSizing;
 }
 
 export interface PartitionNode {

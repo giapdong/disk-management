@@ -14,3 +14,4 @@ __exportStar(require("./ScanResult"), exports);
 __exportStar(require("./Enum"), exports);
 __exportStar(require("./Type"), exports);
 __exportStar(require("./NodeInPathName"), exports);
+__exportStar(require("./Sizing"), exports);

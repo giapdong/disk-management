@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const DiskError_1 = __importDefault(require("../bean/DiskError"));
+const ConsoleErrorHandler_1 = __importDefault(require("../bean/ConsoleErrorHandler"));
 class DiskFileSystem {
     lsCommandPromise(pathToDir) {
         return new Promise((resolve, reject) => {
@@ -29,6 +31,7 @@ class DiskFileSystem {
         }
         catch (error) {
             DiskFileSystem.handleError("readStatDirPromise", error);
+            new ConsoleErrorHandler_1.default(new DiskError_1.default(error));
             const newDirInfo = dirInfo.filter(item => path_1.default.join(pathToDir, item) != error.path);
             if (!newDirInfo.length)
                 return [];

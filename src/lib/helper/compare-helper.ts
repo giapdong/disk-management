@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import DiskColor from "../helper/DiskColor";
 import { BigNode, ChangeNode, IOptionsCompare } from "../interface";
-import { getDateByFormat, genDotsSpinner } from "./global-helper";
+import { getDateByFormat, genDotsSpinner, bytesToSize } from "./global-helper";
 import DiskFileSystem from "../tools/DiskFileSystem";
 
 export async function getListScanFile(pathToScanDir: string): Promise<string[]> {
@@ -47,13 +47,29 @@ export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[
 
     if (nodeInJSON1 && nodeInJSON2) {
       let change: number = nodeInJSON1?.storage - nodeInJSON2?.storage;
-      if (Math.abs(change) > compareOptions.threshold) listChangeStatus.push({ name: node, change: change });
+      if (Math.abs(change) > compareOptions.threshold) {
+        listChangeStatus.push({
+          name: node,
+          change: {
+            size: change,
+            hsize: bytesToSize(change)
+          }
+        });
+      }
     } else if (nodeInJSON1 || nodeInJSON2) {
       let change: number = 0;
       if (nodeInJSON1) change = nodeInJSON1.storage;
       if (nodeInJSON2) change = -nodeInJSON2.storage;
 
-      if (Math.abs(change) > compareOptions.threshold) listChangeStatus.push({ name: node, change: change });
+      if (Math.abs(change) > compareOptions.threshold) {
+        listChangeStatus.push({
+          name: node,
+          change: {
+            size: change,
+            hsize: bytesToSize(change)
+          }
+        });
+      }
     }
   });
 

@@ -10,7 +10,8 @@ describe("Global helper", () => {
     expect(bytesToSize(1024 * 1024 * 1024 * 1024 * 2)).toBe("2.00 TB (2,199,023,255,552 Bytes)");
 
     expect(bytesToSize(0)).toBe("n/a");
-    expect(bytesToSize(-5)).toBe("n/a");
+    expect(bytesToSize(-5)).toBe("-5 Bytes");
+    expect(bytesToSize(-77872872832)).toBe("-72.52 GB (-77,872,872,832 Bytes)");
   });
 
   test("getDateByFormat()", () => {
