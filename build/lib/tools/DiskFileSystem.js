@@ -5,8 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const DiskError_1 = __importDefault(require("../bean/DiskError"));
-const ConsoleErrorHandler_1 = __importDefault(require("../bean/ConsoleErrorHandler"));
 class DiskFileSystem {
     lsCommandPromise(pathToDir) {
         return new Promise((resolve, reject) => {
@@ -30,8 +28,7 @@ class DiskFileSystem {
             return dirNodes;
         }
         catch (error) {
-            DiskFileSystem.handleError('readStatDirPromise', error);
-            new ConsoleErrorHandler_1.default(new DiskError_1.default(error));
+            DiskFileSystem.handleError("readStatDirPromise", error);
             const newDirInfo = dirInfo.filter(item => path_1.default.join(pathToDir, item) != error.path);
             if (!newDirInfo.length)
                 return [];
@@ -54,18 +51,18 @@ class DiskFileSystem {
         });
     }
     static handleError(prefix, error) {
-        if (error.code == 'ENOTDIR' || error.errno == -20) {
+        if (error.code == "ENOTDIR" || error.errno == -20) {
         }
-        else if (error.code == 'ELOOP' || error.errno == -40) {
+        else if (error.code == "ELOOP" || error.errno == -40) {
         }
-        else if (error.code == 'ENOENT' || error.errno == -2) {
+        else if (error.code == "ENOENT" || error.errno == -2) {
         }
-        else if (error.code == 'EBUSY' || error.errno == -4082) {
+        else if (error.code == "EBUSY" || error.errno == -4082) {
         }
-        else if (error.code == 'EACCES' || error.errno == -4092) {
+        else if (error.code == "EACCES" || error.errno == -4092) {
         }
         else {
-            console.log('\n', prefix, error);
+            console.log("\n", prefix, error);
         }
     }
 }

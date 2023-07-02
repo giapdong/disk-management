@@ -16,9 +16,16 @@ const scanDir = path.join(__dirname, "..", "..", "scan");
 const compareDir = path.join(__dirname, "..", "..", "compare");
 
 export async function Scan(): Promise<DiskScanResult>;
-export async function Scan(root: string): Promise<DiskScanResult>;
+export async function Scan(root?: string): Promise<DiskScanResult>;
 export async function Scan(root: string, threshold: number): Promise<DiskScanResult>;
 export async function Scan(root: string, threshold: number, mode: ScanMode): Promise<DiskScanResult>;
+/**
+ * @desc Scan file system and response result
+ * @param root Root folder for scan
+ * @param threshold Size of folder which it will become `Big Node`
+ * @param mode Scan mode
+ * @returns {DiskScanResult}
+ */
 export async function Scan(root: string = __dirname, threshold: number = 1048576, mode: ScanMode = ScanMode.SaveToDisk): Promise<DiskScanResult> {
   console.time("Disk-management-scanner");
 

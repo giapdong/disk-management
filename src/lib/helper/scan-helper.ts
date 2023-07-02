@@ -9,9 +9,9 @@ import { BigNode, StatsNode, TypeNodeHierachy, NodeInPathName } from "../interfa
 import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
 
 /**
- * Scan in filesystem
- *
+ * @desc Scan in filesystem
  * @param rootPath Path pass by argument
+ * @returns {Hierachy}
  */
 export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
   const spinner = genDotsSpinner("[1/4] Scanning");
@@ -100,7 +100,7 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy): Promis
     }
   } catch (error) {
     new ConsoleErrorHandler(new DiskError(error));
-	DiskFileSystem.handleError('scanHierachyNode', error);
+    DiskFileSystem.handleError("scanHierachyNode", error);
   }
 }
 

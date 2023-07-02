@@ -74,7 +74,7 @@ async function scanHierachyNode(spinner, rootNode) {
     }
     catch (error) {
         new ConsoleErrorHandler_1.default(new DiskError_1.default(error));
-        DiskFileSystem_1.default.handleError('scanHierachyNode', error);
+        DiskFileSystem_1.default.handleError("scanHierachyNode", error);
     }
 }
 exports.scanHierachyNode = scanHierachyNode;
