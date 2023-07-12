@@ -1,14 +1,14 @@
 export enum ScanMode {
-  SaveToDisk = 1,
-  ReturnResult = 2
+	SaveToDisk = 1,
+	ReturnResult = 2
 }
 
 export interface ScanResult {
-  time: Date;
-  total: number;
-  threshold: number;
-  bigDirectory: Array<BigNode>;
-  root: Hierachy;
+	time: Date;
+	total: number;
+	threshold: number;
+	bigDirectory: Array<BigNode>;
+	root: Hierachy;
 }
 
 export type DiskScanResult = ScanResult | null;

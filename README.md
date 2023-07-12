@@ -42,13 +42,13 @@ npm install disk-management # Or yarn add disk-management
 ## Importing
 
 ```javascript
-const DiskManagement = require("disk-management");
+const DiskManagement = require('disk-management');
 ```
 
 If you need micro function, import with ES6 systax
 
 ```javascript
-const { ScanMode, Scan, Compare } = require("disk-management");
+const { ScanMode, Scan, Compare } = require('disk-management');
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ Base guide for application
 Create 1 `<file-name>`.js, here we create file run.js
 
 ```javascript
-const { Scan, ScanMode } = require("disk-management");
+const { Scan, ScanMode } = require('disk-management');
 
 Scan(__dirname, 10000, ScanMode.OnlyBigDirectory);
 ```
@@ -68,7 +68,7 @@ Scan(__dirname, 10000, ScanMode.OnlyBigDirectory);
 Or you need compare change in your disk
 
 ```javascript
-const { Compare } = require("disk-management");
+const { Compare } = require('disk-management');
 
 Compare(10000);
 ```
@@ -131,6 +131,10 @@ node bin/cli.js
 
 ```bash
 node bin/cli.js scan -r "C:\\"
+```
+
+```bash
+bash build.sh && node bin/cli.js scan -r "C:\\"
 ```
 
 # Issues

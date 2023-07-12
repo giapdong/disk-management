@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScanMode = exports.TypeNodeHierachy = void 0;
+exports.CompareEngine = exports.ScanMode = exports.TypeNodeHierachy = void 0;
 var TypeNodeHierachy;
 (function (TypeNodeHierachy) {
     TypeNodeHierachy[TypeNodeHierachy["File"] = 0] = "File";
@@ -11,3 +11,8 @@ var ScanMode;
     ScanMode[ScanMode["SaveToDisk"] = 1] = "SaveToDisk";
     ScanMode[ScanMode["ReturnResult"] = 2] = "ReturnResult";
 })(ScanMode = exports.ScanMode || (exports.ScanMode = {}));
+var CompareEngine;
+(function (CompareEngine) {
+    CompareEngine[CompareEngine["JSON"] = 1] = "JSON";
+    CompareEngine[CompareEngine["HTML"] = 2] = "HTML";
+})(CompareEngine = exports.CompareEngine || (exports.CompareEngine = {}));

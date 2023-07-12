@@ -3,14 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.storeResult = exports.detectOptionsCompare = exports.resolveCompareData = exports.getListScanFile = void 0;
+exports.toHTML = exports.storeResult = exports.detectOptionsCompare = exports.resolveCompareData = exports.getListScanFile = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const DiskColor_1 = __importDefault(require("../helper/DiskColor"));
 const global_helper_1 = require("./global-helper");
 const DiskFileSystem_1 = __importDefault(require("../tools/DiskFileSystem"));
+const __1 = require("..");
 async function getListScanFile(pathToScanDir) {
-    const spinner = global_helper_1.genDotsSpinner("[1/3] Reading result");
+    const spinner = global_helper_1.genDotsSpinner('[1/3] Reading result');
     spinner.start();
     let listScanFile;
     try {
@@ -21,19 +22,19 @@ async function getListScanFile(pathToScanDir) {
         throw error;
     }
     if (listScanFile.length < 2) {
-        const titleError = DiskColor_1.default.red("[1/3] Failed") + `, too little log file in ${pathToScanDir}`;
+        const titleError = DiskColor_1.default.red('[1/3] Failed') + `, too little log file in ${pathToScanDir}`;
         spinner.fail(titleError);
         throw new Error(titleError);
     }
-    spinner.succeed("[1/3] Reading result");
+    spinner.succeed('[1/3] Reading result');
     return listScanFile;
 }
 exports.getListScanFile = getListScanFile;
 function resolveCompareData(compareOptions) {
-    const spinner = global_helper_1.genDotsSpinner("[2/3] Resolving result");
+    const spinner = global_helper_1.genDotsSpinner('[2/3] Resolving result');
     spinner.start();
-    const dataSource = fs_1.default.readFileSync(compareOptions.pathToSourceFile, "utf-8");
-    const dataTarget = fs_1.default.readFileSync(compareOptions.pathToTargetFile, "utf-8");
+    const dataSource = fs_1.default.readFileSync(compareOptions.pathToSourceFile, 'utf-8');
+    const dataTarget = fs_1.default.readFileSync(compareOptions.pathToTargetFile, 'utf-8');
     const json1 = JSON.parse(dataSource).bigDirectory;
     const json2 = JSON.parse(dataTarget).bigDirectory;
     let listBigNode = json1.map(item => item.path).concat(json2.map(item => item.path));
@@ -71,12 +72,12 @@ function resolveCompareData(compareOptions) {
             }
         }
     });
-    spinner.succeed("[2/3] Resolving result");
+    spinner.succeed('[2/3] Resolving result');
     return listChangeStatus;
 }
 exports.resolveCompareData = resolveCompareData;
 async function detectOptionsCompare(threshold, pathToScanDir, pathToSourceFile, pathToTargetFile) {
-    let optionsCompare = { threshold, pathToSourceFile: "", pathToTargetFile: "" };
+    let optionsCompare = { threshold, pathToSourceFile: '', pathToTargetFile: '' };
     let listScanFile;
     try {
         listScanFile = await getListScanFile(pathToScanDir);
@@ -100,11 +101,11 @@ async function detectOptionsCompare(threshold, pathToScanDir, pathToSourceFile, 
 }
 exports.detectOptionsCompare = detectOptionsCompare;
 async function storeResult(compareDir, data) {
-    const spinner = global_helper_1.genDotsSpinner("[3/3] Writting result");
+    const spinner = global_helper_1.genDotsSpinner('[3/3] Writting result');
     spinner.start();
     if (!fs_1.default.existsSync(compareDir))
         fs_1.default.mkdirSync(compareDir);
-    const pathJSON = path_1.default.join(compareDir, global_helper_1.getDateByFormat() + ".json");
+    const pathJSON = path_1.default.join(compareDir, global_helper_1.getDateByFormat() + '.json');
     const json = JSON.stringify(data, null, 4);
     try {
         await new DiskFileSystem_1.default().writeFilePromise(pathJSON, json);
@@ -112,7 +113,40 @@ async function storeResult(compareDir, data) {
     catch (error) {
         throw error;
     }
-    spinner.info(DiskColor_1.default.green("Done!") + " Saved 1 new log file.");
-    spinner.succeed("[3/3] Writting result");
+    spinner.info(DiskColor_1.default.green('Done!') + ' Saved 1 new log file.');
+    spinner.succeed('[3/3] Writting result');
 }
 exports.storeResult = storeResult;
+async function toHTML(changes, filename = 'disk.html') {
+    var filepath = path_1.default.join(__dirname, '../../static/disk.template.html');
+    var template = fs_1.default.readFileSync(filepath, 'utf-8');
+    var html = '';
+    for (var i = 0; i < changes.length; i++) {
+        var node = changes[i];
+        var num = node.change.size;
+        html += `
+			<tr>
+				<td>${node.name}</td>
+				<td>${num.toLocaleString('en-US')}</td>
+				<td>${node.change.hsize}</td>
+			</tr>
+		`;
+    }
+    html = `
+		<table>
+			<thead>
+				<th class='folder'>Folder</th>
+				<th class='size'>Size (Bytes)</th>
+				<th class='hsize'>Human Size</th>
+			</thead>
+
+			<tbody>
+				${html}
+			</tbody>
+		</table>
+	`;
+    template = template.replace('{{content}}', html);
+    var filename = path_1.default.join(__1.compareDir, filename);
+    fs_1.default.writeFileSync(filename, template);
+}
+exports.toHTML = toHTML;

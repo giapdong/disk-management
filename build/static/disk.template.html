@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Disk Comparator</title>
+
+	<style>
+		table {
+			max-width: 1600px;
+			min-width: 1200px;
+			margin: auto;
+		}
+
+		thead>tr {
+			background: #c0ddf7;
+		}
+
+		table th.hsize {
+			width: 220px;
+		}
+
+		tr:hover {
+			background: aliceblue;
+		}
+	</style>
+
+	<script src='https://code.jquery.com/jquery-3.7.0.min.js'></script>
+	<script src='https://rawgit.com/padolsey/jQuery-Plugins/master/sortElements/jquery.sortElements.js'></script>
+</head>
+
+<body>
+	{{content}}
+
+	<script>
+		var table = $('table');
+
+		$('th.size')
+			.wrapInner('<span title="sort this column"/>')
+			.each(function () {
+
+				var th = $(this),
+					thIndex = th.index(),
+					inverse = false;
+
+				th.click(function () {
+
+					table.find('td').filter(function () {
+
+						return $(this).index() === thIndex;
+
+					}).sortElements(function (a, b) {
+
+						var vala = parseInt($.text([a]).replace(/,/g, ''));
+						var valb = parseInt($.text([b]).replace(/,/g, ''));
+
+						return vala > valb ?
+							inverse ? -1 : 1
+							: inverse ? 1 : -1;
+
+					}, function () {
+
+						// parentNode is the element we want to move
+						return this.parentNode;
+
+					});
+
+					inverse = !inverse;
+
+				});
+
+			});
+
+	</script>
+</body>
+
+</html>
