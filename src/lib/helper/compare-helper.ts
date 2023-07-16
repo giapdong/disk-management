@@ -177,3 +177,12 @@ export async function toHTML(changes: ChangeNode[], filename: string = 'disk.htm
 	var filename = path.join(compareDir, filename);
 	fs.writeFileSync(filename, template);
 }
+
+export async function toSmartHTML() {
+	var patterns = [
+		{ pattern: /C:\\\$Recycle\.Bin/, alias: 'Recycle Bin' },
+		{ pattern: /C:\\Users\\admin\\AppData\\Local\\Yarn\\Cache\\[\w]+/, alias: 'Yarn Cache' },
+		{ pattern: /([\\\/\w-\.\$\:]+)package\.json/, alias: '$1' },
+		{ pattern: /([\\\/\w-\.\$\:]+)\.git/, alias: '$1' }
+	];
+}

@@ -55,10 +55,11 @@ const compare_qa = [
 		}
 	}
 ];
+
 program
 	.command('compare')
 	.option('-t, --threshold <threshold>', 'Threshold compare two File | Directory')
-	.option('-e, --engine <engine>', "Result engine 'JSON' | 'HTML'")
+	.option('-e, --engine <engine>', "Result engine 'JSON' | 'HTML' | 'SmartHTML'")
 	.description('Compare two log file')
 	.action(function (cmd) {
 		let threshold = cmd.threshold || 10000;

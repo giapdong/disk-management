@@ -141,6 +141,8 @@ bash build.sh && node bin/cli.js scan -r "C:\\"
 
 If you using npm version 5.6.0 or appear [Not support version 10.15.x](https://github.com/nodejs/help/issues/1877) [Cannot install ts-node-dev](https://github.com/wclr/ts-node-dev/issues/224). Please upgrage to newest version npm
 
+If using Apache for serve HTML result, notice with error related authz_core: [ServerFault](https://serverfault.com/questions/418101/apache-client-denied-by-server-configuration-despite-allowing-access-to-direc)
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)

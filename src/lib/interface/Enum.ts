@@ -10,5 +10,6 @@ export enum ScanMode {
 
 export enum CompareEngine {
 	JSON = 1,
-	HTML = 2
+	HTML = 2,
+	SmartHTML = 3
 }

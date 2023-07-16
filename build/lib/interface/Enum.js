@@ -15,4 +15,5 @@ var CompareEngine;
 (function (CompareEngine) {
     CompareEngine[CompareEngine["JSON"] = 1] = "JSON";
     CompareEngine[CompareEngine["HTML"] = 2] = "HTML";
+    CompareEngine[CompareEngine["SmartHTML"] = 3] = "SmartHTML";
 })(CompareEngine = exports.CompareEngine || (exports.CompareEngine = {}));
