@@ -1,4 +1,5 @@
 import os from 'os';
+import fs from 'fs';
 import path from 'path';
 import { BigNode, IOptionsCompare, ScanMode, DiskScanResult, CompareEngine, ChangeNode } from './interface';
 import Hierachy from './bean/Hierachy';
@@ -33,6 +34,8 @@ export async function Scan(
 	mode: ScanMode = ScanMode.SaveToDisk
 ): Promise<DiskScanResult> {
 	console.time('Disk-management-scanner');
+
+	await ensureEnviroment();
 
 	let HierachyTree: Hierachy = await ScanHelper.scanInFileSystem(root);
 	const listBigNode: BigNode[] = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
@@ -75,6 +78,8 @@ export async function Compare(
 ): Promise<void> {
 	console.time('Disk-management-compare');
 
+	await ensureEnviroment();
+
 	let paramCompare: IOptionsCompare;
 	try {
 		paramCompare = await CompareHelper.detectOptionsCompare(threshold, scanDir, pathToSourceFile, pathToTargetFile);
@@ -109,4 +114,11 @@ export function readSystemPartition(): Promise<any> {
 		const data = diskInstance.readSystemPartition();
 		resolve(data);
 	});
+}
+
+
+export function ensureEnviroment() {
+
+	fs.mkdirSync(scanDir, {recursive: true});
+	fs.mkdirSync(compareDir, {recursive: true});
 }

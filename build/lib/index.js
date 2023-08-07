@@ -22,8 +22,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readSystemPartition = exports.Compare = exports.Scan = exports.compareDir = exports.scanDir = void 0;
+exports.ensureEnviroment = exports.readSystemPartition = exports.Compare = exports.Scan = exports.compareDir = exports.scanDir = void 0;
 const os_1 = __importDefault(require("os"));
+const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const interface_1 = require("./interface");
 const DiskError_1 = __importDefault(require("./bean/DiskError"));
@@ -38,6 +39,7 @@ exports.scanDir = path_1.default.join(__dirname, '..', '..', 'scan');
 exports.compareDir = path_1.default.join(__dirname, '..', '..', 'compare');
 async function Scan(root = __dirname, threshold = 1048576, mode = interface_1.ScanMode.SaveToDisk) {
     console.time('Disk-management-scanner');
+    await ensureEnviroment();
     let HierachyTree = await ScanHelper.scanInFileSystem(root);
     const listBigNode = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
     HierachyTree = await ScanHelper.removeParentInHierachy(HierachyTree);
@@ -60,6 +62,7 @@ async function Scan(root = __dirname, threshold = 1048576, mode = interface_1.Sc
 exports.Scan = Scan;
 async function Compare(threshold, pathToSourceFile, pathToTargetFile, engine = interface_1.CompareEngine.JSON) {
     console.time('Disk-management-compare');
+    await ensureEnviroment();
     let paramCompare;
     try {
         paramCompare = await CompareHelper.detectOptionsCompare(threshold, exports.scanDir, pathToSourceFile, pathToTargetFile);
@@ -94,3 +97,8 @@ function readSystemPartition() {
     });
 }
 exports.readSystemPartition = readSystemPartition;
+function ensureEnviroment() {
+    fs_1.default.mkdirSync(exports.scanDir, { recursive: true });
+    fs_1.default.mkdirSync(exports.compareDir, { recursive: true });
+}
+exports.ensureEnviroment = ensureEnviroment;
