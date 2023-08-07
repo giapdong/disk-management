@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toHTML = exports.storeResult = exports.detectOptionsCompare = exports.resolveCompareData = exports.getListScanFile = void 0;
+exports.toSmartHTML = exports.toHTML = exports.storeResult = exports.detectOptionsCompare = exports.resolveCompareData = exports.getListScanFile = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const DiskColor_1 = __importDefault(require("../helper/DiskColor"));
@@ -150,3 +150,12 @@ async function toHTML(changes, filename = 'disk.html') {
     fs_1.default.writeFileSync(filename, template);
 }
 exports.toHTML = toHTML;
+async function toSmartHTML() {
+    var patterns = [
+        { pattern: /C:\\\$Recycle\.Bin/, alias: 'Recycle Bin' },
+        { pattern: /C:\\Users\\admin\\AppData\\Local\\Yarn\\Cache\\[\w]+/, alias: 'Yarn Cache' },
+        { pattern: /([\\\/\w-\.\$\:]+)package\.json/, alias: '$1' },
+        { pattern: /([\\\/\w-\.\$\:]+)\.git/, alias: '$1' }
+    ];
+}
+exports.toSmartHTML = toSmartHTML;
