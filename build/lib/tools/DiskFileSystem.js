@@ -7,7 +7,38 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const DiskError_1 = __importDefault(require("../bean/DiskError"));
 const ConsoleErrorHandler_1 = __importDefault(require("../bean/ConsoleErrorHandler"));
+const zlib_1 = __importDefault(require("zlib"));
 class DiskFileSystem {
+    static async generateSafeFilePath(filepath) {
+        if (fs_1.default.existsSync(filepath)) {
+            var files = fs_1.default.readdirSync(path_1.default.dirname(filepath));
+            var filename = path_1.default.parse(filepath).name;
+            var fileext = path_1.default.parse(filepath).ext;
+            var index = 0;
+            for (var i = 0; i < files.length; i++) {
+                let file = files[i];
+                let pattern = new RegExp(filename + "(\\s*\\((\\d+)\\)\\s*)?" + fileext);
+                let match = file.match(pattern);
+                if (match && match[2]) {
+                    var idx = parseInt(match[2]);
+                    if (idx > index) {
+                        index = idx;
+                    }
+                }
+            }
+            index++;
+            return path_1.default.join(path_1.default.dirname(filepath), `${filename} (${index})${fileext}`);
+        }
+        return filepath;
+    }
+    static async compressFile(data) {
+        return zlib_1.default.deflateSync(Buffer.from(data), { level: zlib_1.default.Z_BEST_COMPRESSION });
+    }
+    static async extractFile(filepath) {
+        var tiny_txt = fs_1.default.readFileSync(filepath);
+        var restore = zlib_1.default.inflateSync(Buffer.from(tiny_txt), { level: zlib_1.default.Z_BEST_COMPRESSION });
+        return restore;
+    }
     lsCommandPromise(pathToDir) {
         return new Promise((resolve, reject) => {
             fs_1.default.readdir(pathToDir, "utf-8", function (err, data) {

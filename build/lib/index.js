@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ensureEnviroment = exports.readSystemPartition = exports.Compare = exports.Scan = exports.compareDir = exports.scanDir = void 0;
+exports.ensureEnviroment = exports.readSystemPartition = exports.analyze = exports.Compare = exports.Scan = exports.compareDir = exports.scanDir = void 0;
 const os_1 = __importDefault(require("os"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -35,6 +35,7 @@ const ScanHelper = __importStar(require("./helper/scan-helper"));
 const win32_1 = require("./os/win32");
 const unix_1 = require("./os/unix");
 const linux_1 = require("./os/linux");
+const analyzer_1 = __importDefault(require("./modues/analyzer"));
 exports.scanDir = path_1.default.join(__dirname, '..', '..', 'scan');
 exports.compareDir = path_1.default.join(__dirname, '..', '..', 'compare');
 async function Scan(root = __dirname, threshold = 1048576, mode = interface_1.ScanMode.SaveToDisk) {
@@ -81,6 +82,11 @@ async function Compare(threshold, pathToSourceFile, pathToTargetFile, engine = i
     console.timeEnd('Disk-management-compare');
 }
 exports.Compare = Compare;
+async function analyze(filepath) {
+    await analyzer_1.default.run(filepath);
+}
+exports.analyze = analyze;
+;
 function readSystemPartition() {
     return new Promise(async (resolve, reject) => {
         let diskInstance;

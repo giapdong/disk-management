@@ -3,8 +3,53 @@ import path from "path";
 import { StatsNode } from "../interface";
 import DiskError from "../bean/DiskError";
 import ConsoleErrorHandler from "../bean/ConsoleErrorHandler";
+import zlib from 'zlib';
 
 export default class DiskFileSystem {
+
+	static async generateSafeFilePath(filepath: string) {
+
+		if (fs.existsSync(filepath)) {
+			var files = fs.readdirSync(path.dirname(filepath));
+			var filename = path.parse(filepath).name;
+			var fileext = path.parse(filepath).ext;
+
+			var index = 0;
+			for (var i = 0; i < files.length; i++) {
+				let file = files[i];
+				let pattern = new RegExp(filename + "(\\s*\\((\\d+)\\)\\s*)?" + fileext);
+				let match = file.match(pattern);
+				if (match && match[2]) {
+					var idx = parseInt(match[2]);
+					if (idx > index) {
+						index = idx;
+					}
+				}
+			}
+
+			index++;
+
+			return path.join(path.dirname(filepath), `${filename} (${index})${fileext}`);
+		}
+
+		return filepath;
+	}
+
+	static async compressFile(data: any) {
+
+		return zlib.deflateSync(Buffer.from(data), {level: zlib.Z_BEST_COMPRESSION});
+	}
+
+
+	static async extractFile(filepath: string) {
+
+		var tiny_txt = fs.readFileSync(filepath);
+
+		var restore = zlib.inflateSync(Buffer.from(tiny_txt), {level: zlib.Z_BEST_COMPRESSION});
+
+		return restore;
+	}
+
   /**
    * Simulation ls command familiar in UNIX, LINUX system
    *

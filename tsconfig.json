@@ -19,7 +19,10 @@
 		"allowJs": true,
 		"removeComments": true,
 		"allowSyntheticDefaultImports": true,
-		"noImplicitThis": true,
+
+		// For using this inside function decalration
+		// https://stackoverflow.com/questions/41944650/this-implicitly-has-type-any-because-it-does-not-have-a-type-annotation
+		"noImplicitThis": false,
 		"strictNullChecks": true,
 		"moduleResolution": "Node",
 		"types": ["node", "jest", "express", "cors"]

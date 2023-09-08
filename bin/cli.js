@@ -6,7 +6,7 @@ const colors = require('colors');
 const package = require('../package.json');
 const { program } = require('commander');
 const inquirer = require('inquirer');
-const { Scan, Compare, scanDir } = require('../index.js');
+const { Scan, Compare, analyze, scanDir } = require('../index.js');
 const { ScanMode, CompareEngine } = require('../build/lib/interface/index');
 
 const cliVersion = [
@@ -70,6 +70,29 @@ program
 			var target = path.join(scanDir, answers.target);
 
 			Compare(threshold, source, target, engine);
+		});
+	});
+
+
+program
+	.command('analyze')
+	.description('Analyze scan file')
+	.action(function (cmd) {
+
+		inquirer.prompt([
+			{
+				type: 'list',
+				name: 'source',
+				message: 'Choose source file',
+				choices: results,
+				filter(val) {
+					return val.toLowerCase();
+				}
+			}
+		]).then(answers => {
+			var source = path.join(scanDir, answers.source);
+
+			analyze(source);
 		});
 	});
 

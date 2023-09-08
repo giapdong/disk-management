@@ -47,7 +47,8 @@ async function writeResultToFile(scanDir, pathJSON, obj) {
     try {
         if (!fs_1.default.existsSync(scanDir))
             fs_1.default.mkdirSync(scanDir);
-        await new DiskFileSystem_1.default().writeFilePromise(pathJSON, JSON.stringify(obj));
+        const compressed_data = await DiskFileSystem_1.default.compressFile(JSON.stringify(obj));
+        await new DiskFileSystem_1.default().writeFilePromise(pathJSON + '.xjson', compressed_data);
         spinner.info(DiskColor_1.default.green('Finish!') + ' Saved 1 new log file.');
         spinner.succeed('[4/4] Writting result');
     }

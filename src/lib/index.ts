@@ -12,6 +12,7 @@ import { win32 } from './os/win32';
 import { unix } from './os/unix';
 import { linux } from './os/linux';
 import DiskSystem from './inheritable/DiskSystem';
+import DiskAnalyzer from './modues/analyzer';
 
 export const scanDir = path.join(__dirname, '..', '..', 'scan');
 export const compareDir = path.join(__dirname, '..', '..', 'compare');
@@ -98,6 +99,11 @@ export async function Compare(
 
 	console.timeEnd('Disk-management-compare');
 }
+
+export async function analyze(filepath: string) : Promise<void> {
+
+	await DiskAnalyzer.run(filepath);
+};
 
 export function readSystemPartition(): Promise<any> {
 	return new Promise(async (resolve, reject) => {
