@@ -89,7 +89,7 @@ export async function Compare(
 		return;
 	}
 
-	const listChangeStatus: ChangeNode[] = CompareHelper.resolveCompareData(paramCompare);
+	const listChangeStatus: ChangeNode[] = await CompareHelper.resolveCompareData(paramCompare);
 
 	if (engine == CompareEngine.JSON) {
 		await CompareHelper.storeResult(compareDir, listChangeStatus);

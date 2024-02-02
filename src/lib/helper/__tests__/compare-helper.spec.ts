@@ -19,6 +19,7 @@ describe("Compare helper", () => {
 
   test("Init data into scan folder", async () => {
     if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
+
     let json = JSON.stringify({ bigDirectory: [] });
     await new DiskFileSystem().writeFilePromise(sourceFile, json);
     await new DiskFileSystem().writeFilePromise(targetFile, json);

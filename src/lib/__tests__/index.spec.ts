@@ -2,7 +2,7 @@ import * as lib from "../index";
 
 describe("Main library", () => {
 	test("Scan function", async () => {
-		await lib.Scan(process.env.PWD);
+		await lib.Scan(process.env.PWD || __dirname);
 	});
 
 	test("Scan function", async () => {

@@ -27,15 +27,15 @@ export async function getListScanFile(pathToScanDir: string): Promise<string[]> 
 	return listScanFile;
 }
 
-export function resolveCompareData(compareOptions: IOptionsCompare): ChangeNode[] {
+export async function resolveCompareData(compareOptions: IOptionsCompare): Promise<ChangeNode[]> {
 	const spinner = genDotsSpinner('[2/3] Resolving result');
 	spinner.start();
 
-	const dataSource = fs.readFileSync(compareOptions.pathToSourceFile, 'utf-8');
-	const dataTarget = fs.readFileSync(compareOptions.pathToTargetFile, 'utf-8');
+	const dataSource = await DiskFileSystem.extractFile(compareOptions.pathToSourceFile);
+	const dataTarget = await DiskFileSystem.extractFile(compareOptions.pathToTargetFile);
 
-	const json1 = JSON.parse(dataSource).bigDirectory as BigNode[];
-	const json2 = JSON.parse(dataTarget).bigDirectory as BigNode[];
+	const json1 = JSON.parse(dataSource.toString()).bigDirectory as BigNode[];
+	const json2 = JSON.parse(dataTarget.toString()).bigDirectory as BigNode[];
 
 	let listBigNode: string[] = json1.map(item => item.path).concat(json2.map(item => item.path));
 	listBigNode = [...new Set(listBigNode)];

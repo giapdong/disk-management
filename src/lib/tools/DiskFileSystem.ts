@@ -41,6 +41,11 @@ export default class DiskFileSystem {
 	}
 
 
+	/**
+	 * @desc Read from encoded file and un-compress file data
+	 * @param filepath
+	 * @returns {Buffer}
+	 */
 	static async extractFile(filepath: string) {
 
 		var tiny_txt = fs.readFileSync(filepath);

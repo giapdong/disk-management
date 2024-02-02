@@ -53,7 +53,7 @@ describe("Scan helper", () => {
 
   test("Cleanup test data", async () => {
     const scanDir = path.join(__dirname, "../../../../scan");
-    let sourceFile = path.join(scanDir, "source-log.test");
+    let sourceFile = path.join(scanDir, "source-log.test.xjson");
     fs.unlinkSync(sourceFile);
   });
 });
