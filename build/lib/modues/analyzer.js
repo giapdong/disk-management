@@ -196,9 +196,9 @@ class DiskAnalyzer {
         template = template.replace("{{content}}", html);
         var today = new Date().toISOString().replace(/:/g, '.').substring(0, 10);
         var targetFilePath = path.join(rootPath, '../compare', `index-${today}.html`);
-        var targetfilepath = await DiskFileSystem_1.default.generateSafeFilePath(targetFilePath);
-        fs.writeFileSync(targetfilepath, template, { flag: "as+", encoding: "utf8" });
-        console.log('See analyze file here: ', targetFilePath);
+        var targetfilepathSafe = await DiskFileSystem_1.default.generateSafeFilePath(targetFilePath);
+        fs.writeFileSync(targetfilepathSafe, template, { flag: "as+", encoding: "utf8" });
+        console.log('See analyze file here: ', targetfilepathSafe);
     }
     ;
 }

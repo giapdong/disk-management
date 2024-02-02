@@ -239,9 +239,9 @@ export default class DiskAnalyzer {
 
 		var today = new Date().toISOString().replace(/:/g, '.').substring(0, 10);
 		var targetFilePath = path.join(rootPath, '../compare', `index-${today}.html`);
-		var targetfilepath = await DiskFileSystem.generateSafeFilePath(targetFilePath);
-		fs.writeFileSync(targetfilepath, template, {flag: "as+", encoding: "utf8"});
+		var targetfilepathSafe = await DiskFileSystem.generateSafeFilePath(targetFilePath);
+		fs.writeFileSync(targetfilepathSafe, template, {flag: "as+", encoding: "utf8"});
 
-		console.log('See analyze file here: ', targetFilePath);
+		console.log('See analyze file here: ', targetfilepathSafe);
 	};
 };
