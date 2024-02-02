@@ -1,18 +1,18 @@
 {
 	"name": "disk-management",
 	"version": "0.5.2",
-	"description": "Module/application for manage your disk",
+	"description": "Module/application for management your disk",
 	"main": "index.js",
 	"license": "MIT",
 	"author": "Giap Dong",
 	"scripts": {
 		"dev:api": "cross-env NODE_ENV=development ts-node-dev src/api/app.ts",
-		"dev:ts": "yarn build:ts && node bin/cli.js",
-		"build:ts": "rm -rf build && tsc",
+		"build:ts": "tsc",
 		"test:ts": "jest --detectOpenHandles"
 	},
 	"dependencies": {
-		"axios": "^0.21.1",
+		"axios": "^1.6.0",
+		"colors": "^1.4.0",
 		"commander": "^6.1.0",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
