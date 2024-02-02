@@ -1,23 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.win32 = exports.castToPartitionNode = exports.parseData = exports.execCommand = void 0;
-const child_process_1 = require("child_process");
-const ASystem_1 = require("../inheritable/ASystem");
-function execCommand(command) {
-    return new Promise((resolve, reject) => {
-        child_process_1.exec(command, (error, stdout) => {
-            if (error)
-                return reject(error);
-            try {
-                resolve(stdout);
-            }
-            catch (error) {
-                reject(error);
-            }
-        });
-    });
-}
-exports.execCommand = execCommand;
+exports.win32 = exports.castToPartitionNode = exports.parseData = void 0;
+const DiskSystem_1 = __importDefault(require("../inheritable/DiskSystem"));
 function parseData(stdout) {
     const parsed = stdout
         .trim()
@@ -37,12 +24,17 @@ function castToPartitionNode(partition) {
     return { caption, freespace, size };
 }
 exports.castToPartitionNode = castToPartitionNode;
-class win32 extends ASystem_1.DiskSystem {
+class win32 extends DiskSystem_1.default {
     readSystemPartition() {
         return new Promise(async (resolve, reject) => {
-            const stdout = await execCommand("wmic logicaldisk get size,freespace,caption");
-            const listPartition = parseData(stdout);
-            resolve(listPartition);
+            try {
+                const stdout = await this.spawnCommand("wmic", ["logicaldisk", "get", "size,freespace,caption"]);
+                const listPartition = parseData(stdout);
+                resolve(listPartition);
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
 }

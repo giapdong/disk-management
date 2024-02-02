@@ -1,21 +1,5 @@
-import { exec } from "child_process";
-import { DiskSystem } from "../inheritable/ASystem";
 import { PartitionNode } from "../interface";
-
-// Idea from https://github.com/Alex-D/check-disk-space/blob/master/index.js
-export function execCommand(command: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout) => {
-      if (error) return reject(error);
-
-      try {
-        resolve(stdout as string);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  });
-}
+import DiskSystem from "../inheritable/DiskSystem";
 
 export function parseData(stdout: string): PartitionNode[] {
   const parsed = stdout
@@ -41,9 +25,13 @@ export function castToPartitionNode(partition: string[]): PartitionNode {
 export class win32 extends DiskSystem {
   readSystemPartition(): Promise<PartitionNode[]> {
     return new Promise(async (resolve, reject) => {
-      const stdout = await execCommand("wmic logicaldisk get size,freespace,caption");
-      const listPartition = parseData(stdout);
-      resolve(listPartition);
+      try {
+        const stdout = await this.spawnCommand("wmic", ["logicaldisk", "get", "size,freespace,caption"]);
+        const listPartition = parseData(stdout);
+        resolve(listPartition);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }

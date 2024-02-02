@@ -1,7 +1,7 @@
 import { getListScanFile, resolveCompareData, detectOptionsCompare, storeResult } from "../compare-helper";
 import path from "path";
 import fs from "fs";
-import { writeFilePromise } from "../../tools/filesystem";
+import DiskFileSystem from "../../tools/DiskFileSystem";
 import { IOptionsCompare, ChangeNode } from "../../interface";
 
 jest.mock("ora", () => {
@@ -19,16 +19,16 @@ describe("Compare helper", () => {
 
   test("Init data into scan folder", async () => {
     if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
-    let json = JSON.stringify({ big_directory: [] });
-    await writeFilePromise(sourceFile, json);
-    await writeFilePromise(targetFile, json);
+    let json = JSON.stringify({ bigDirectory: [] });
+    await new DiskFileSystem().writeFilePromise(sourceFile, json);
+    await new DiskFileSystem().writeFilePromise(targetFile, json);
   });
 
   describe("getListScanFile()", () => {
     test("getListScanFile() success", async () => {
       let data = await getListScanFile(path.join(__dirname, ".."));
       expect(Array.isArray(data)).toBeTruthy();
-      expect(data.length).toEqual(4);
+      expect(data.length).toEqual(5);
       expect(data.includes("__tests__")).toBeTruthy();
       expect(typeof data[0]).toBe("string");
     });

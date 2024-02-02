@@ -1,23 +1,23 @@
 import ora from "ora";
 
 /**
- * Pretty unit storage
- *
+ * @desc Pretty unit storage
  * @param {number} bytes Size of folder/file with bytes unit
+ * @see {@link https://gist.github.com/lanqy/5193417|GitHub}
+ * @returns {string}
  */
 export function bytesToSize(bytes: number) {
-  // from https://gist.github.com/lanqy/5193417
   const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
-  if (bytes === 0 || isNaN(bytes) || bytes < 0) return "n/a";
+  if (bytes === 0 || isNaN(bytes)) return "n/a";
 
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  const i = Math.floor(Math.log(Math.abs(bytes)) / Math.log(1024));
   if (i === 0) return `${bytes} ${sizes[i]}`;
   return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]} (${bytes.toLocaleString()} ${sizes[0]})`;
 }
 
 /**
- * Return string like YYYY-MM-DD_HH.MM.SS from Date.now()
- *
+ * @desc Return string like YYYY-MM-DD_HH.MM.SS from Date.now()
+ * @returns {string}
  */
 export function getDateByFormat() {
   let now = new Date(Date.now());
@@ -31,7 +31,8 @@ export function getDateByFormat() {
 }
 
 /**
- * Return spinner with dots options
+ * @desc Return spinner with dots options
+ * @returns {ora}
  */
 export function genDotsSpinner(text: string) {
   return ora({

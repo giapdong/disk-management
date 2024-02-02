@@ -1,15 +1,15 @@
 import { Stats } from "fs";
+import { NodeSizing } from "./Sizing";
 
-// enum type
-export enum TypeNodeHierachy {
-  File,
-  Directory
-}
+export * from "./ScanResult";
 
-export enum ScanMode {
-  Normal = 1,
-  OnlyBigDirectory = 2
-}
+export * from "./Enum";
+
+export * from "./Type";
+
+export * from "./NodeInPathName";
+
+export * from "./Sizing";
 
 // interface
 export interface StatsNode {
@@ -30,7 +30,7 @@ export interface IOptionsCompare {
 
 export interface ChangeNode {
   name: string;
-  change: number;
+  change: NodeSizing;
 }
 
 export interface PartitionNode {

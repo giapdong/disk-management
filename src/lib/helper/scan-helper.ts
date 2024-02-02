@@ -1,26 +1,30 @@
-import fs, { Stats } from "fs";
-import * as FS_TOOLS from "../tools/filesystem";
-import { Hierachy } from "../bean/node-hierachy";
-import { BigNode, StatsNode, TypeNodeHierachy } from "../interface";
-import { Ora } from "ora";
-import { bytesToSize, genDotsSpinner } from "../helper/global-helper";
-import colors from "colors";
+import fs from 'fs';
+import DiskFileSystem from '../tools/DiskFileSystem';
+import Hierachy from '../bean/Hierachy';
+import DiskError from '../bean/DiskError';
+import DiskColor from '../helper/DiskColor';
+import ConsoleErrorHandler from '../bean/ConsoleErrorHandler';
+import { BigNode, TypeNodeHierachy } from '../interface';
+import { bytesToSize, genDotsSpinner } from '../helper/global-helper';
+import HierachyScanner from '../engine/scanner';
 
 /**
- * Scan in filesystem
- *
+ * @desc Scan in filesystem
  * @param rootPath Path pass by argument
+ * @returns {Hierachy}
  */
 export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
-  const spinner = genDotsSpinner("[1/4] Scanning");
-  spinner.start();
+	const spinner = genDotsSpinner('[1/4] Scanning');
+	spinner.start();
 
-  let HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
-  await scanHierachyNode(spinner, HierachyTree);
-  spinner.info(`Total storage: ${bytesToSize(HierachyTree.storage)}`);
-  spinner.succeed("[1/4] Scanning");
+	const HierachyTree: Hierachy = new Hierachy(null, rootPath, 0, TypeNodeHierachy.Directory);
+	var scanner = new HierachyScanner(HierachyTree, spinner);
+	await scanner.run();
 
-  return HierachyTree;
+	spinner.info(`Total storage: ${bytesToSize(HierachyTree.storage)}`);
+	spinner.succeed('[1/4] Scanning');
+
+	return HierachyTree;
 }
 
 /**
@@ -30,14 +34,14 @@ export async function scanInFileSystem(rootPath: string): Promise<Hierachy> {
  * @param threshold Threshold wanna filter
  */
 export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, threshold: number): Promise<BigNode[]> {
-  const spinner = genDotsSpinner("[2/4] Scanning big directory");
-  spinner.start();
+	const spinner = genDotsSpinner('[2/4] Scanning big directory');
+	spinner.start();
 
-  let listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
-  spinner.info(`[2/4] ${listBigNode.length} directory contrain total file file size >= ${threshold}`);
-  spinner.succeed("[2/4] Scanning big directory");
+	const listBigNode: BigNode[] = getBigDirectoryFromRootHierachy(rootHierachy, threshold);
+	spinner.info(`[2/4] ${listBigNode.length} directory contrain total file file size >= ${threshold}`);
+	spinner.succeed('[2/4] Scanning big directory');
 
-  return listBigNode;
+	return listBigNode;
 }
 
 /**
@@ -46,53 +50,32 @@ export async function scanBigDirectoryInHierachy(rootHierachy: Hierachy, thresho
  * @param rootHierachy Root Hierachy
  */
 export async function removeParentInHierachy(rootHierachy: Hierachy): Promise<Hierachy> {
-  const spinner = genDotsSpinner("[3/4] Formatting data");
-  spinner.start();
-  removeParent(rootHierachy);
-  spinner.succeed("[3/4] Formatting data");
-  return rootHierachy;
+	const spinner = genDotsSpinner('[3/4] Formatting data');
+	spinner.start();
+	removeParent(rootHierachy);
+	spinner.succeed('[3/4] Formatting data');
+	return rootHierachy;
 }
 
 export async function writeResultToFile(scanDir: string, pathJSON: string, obj: any) {
-  const spinner = genDotsSpinner("[4/4] Writting result");
-  spinner.start();
+	const spinner = genDotsSpinner('[4/4] Writting result');
+	spinner.start();
 
-  try {
-    //Create scanDir
-    if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
+	try {
+		//Create scanDir
+		if (!fs.existsSync(scanDir)) fs.mkdirSync(scanDir);
 
-    // JSON.stringify(obj, null, 4)
-    await FS_TOOLS.writeFilePromise(pathJSON, JSON.stringify(obj));
+		// JSON.stringify(obj, null, 4)
+		const compressed_data = await DiskFileSystem.compressFile(JSON.stringify(obj));
+		await new DiskFileSystem().writeFilePromise(pathJSON + '.xjson', compressed_data);
 
-    spinner.info(colors.green("Finish!") + " Saved 1 new log file.");
-    spinner.succeed("[4/4] Writting result");
-  } catch (error) {
-    console.log(error);
-    spinner.info("Failed! Write file log return with Error");
-    spinner.fail("[4/4] Writting result");
-  }
-}
-
-/**
- * Scan and fill to Hierachy node
- *
- * @param spinner Ora spinner
- * @param rootNode Hierachy node
- */
-export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy) {
-  spinner.text = rootNode.name;
-  try {
-    let dirInfo: string[] = await FS_TOOLS.lsCommandPromise(rootNode.name);
-    let data: StatsNode[] = await FS_TOOLS.readStatDirPromise(rootNode.name, dirInfo);
-
-    let promise: Promise<void>[] = data?.map(item => {
-      return actionEachNodeItem(spinner, rootNode, item.path, item.stats);
-    });
-
-    await Promise.all(promise);
-  } catch (error) {
-    console.log(error);
-  }
+		spinner.info(DiskColor.green('Finish!') + ' Saved 1 new log file.');
+		spinner.succeed('[4/4] Writting result');
+	} catch (error) {
+		new ConsoleErrorHandler(new DiskError(error));
+		spinner.info('Failed! Write file log return with Error');
+		spinner.fail('[4/4] Writting result');
+	}
 }
 
 /**
@@ -102,9 +85,9 @@ export async function scanHierachyNode(spinner: Ora, rootNode: Hierachy) {
  * @param threshold Threshold storage
  */
 export function getBigDirectoryFromRootHierachy(rootNode: Hierachy, threshold: number): BigNode[] {
-  let result: BigNode[] = new Array<BigNode>();
-  recursiveScanBigDirectory(result, rootNode, threshold);
-  return result;
+	const result: BigNode[] = new Array<BigNode>();
+	recursiveScanBigDirectory(result, rootNode, threshold);
+	return result;
 }
 
 /**
@@ -113,42 +96,17 @@ export function getBigDirectoryFromRootHierachy(rootNode: Hierachy, threshold: n
  * @param root Root Hierachy
  */
 export function removeParent(root: Hierachy): void {
-  root.parent = null;
-  root.child.forEach(child => {
-    child.parent = null;
-    if (child.type == TypeNodeHierachy.Directory) removeParent(child);
-  });
+	root.parent = null;
+	root.child.forEach(child => {
+		child.parent = null;
+		if (child.type == TypeNodeHierachy.Directory) removeParent(child);
+	});
 }
 
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
 /* ********************************************************************************************************* */
-
-/**
- * Describe action for each Node
- *
- * @param spinner Ora spinner
- * @param rootNode Hierachy node will scan
- * @param pathToNode Path to node will take an action
- * @param stat Status of node
- */
-async function actionEachNodeItem(spinner: Ora, rootNode: Hierachy, pathToNode: string, stat: Stats): Promise<void> {
-  if (stat) {
-    let type: TypeNodeHierachy = stat.isFile() ? TypeNodeHierachy.File : TypeNodeHierachy.Directory;
-    let node: Hierachy = new Hierachy(rootNode, pathToNode, 0, type);
-
-    rootNode.child.push(node);
-
-    if (type == TypeNodeHierachy.File) {
-      node.addStorage(stat.size);
-    }
-
-    if (type == TypeNodeHierachy.Directory) {
-      await scanHierachyNode(spinner, node);
-    }
-  }
-}
 
 /**
  * Recursive scan all big directory from root of hierachy
@@ -158,14 +116,14 @@ async function actionEachNodeItem(spinner: Ora, rootNode: Hierachy, pathToNode: 
  * @param threshold Threshold that folder bigger will push to arrayResult
  */
 function recursiveScanBigDirectory(arrayResult: BigNode[], rootNode: Hierachy, threshold: number): void {
-  let tempStroge = 0;
+	let tempStroge = 0;
 
-  rootNode.child.forEach(child => {
-    if (child.type === TypeNodeHierachy.File) tempStroge += child.storage;
-    else recursiveScanBigDirectory(arrayResult, child, threshold);
-  });
+	rootNode.child.forEach(child => {
+		if (child.type === TypeNodeHierachy.File) tempStroge += child.storage;
+		else recursiveScanBigDirectory(arrayResult, child, threshold);
+	});
 
-  if (tempStroge > threshold) {
-    arrayResult.push({ path: rootNode.name, storage: tempStroge });
-  }
+	if (tempStroge > threshold) {
+		arrayResult.push({ path: rootNode.name, storage: tempStroge });
+	}
 }

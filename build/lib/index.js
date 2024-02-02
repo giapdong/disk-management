@@ -22,63 +22,89 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readSystemPartition = exports.Compare = exports.Scan = void 0;
+exports.ensureEnviroment = exports.readSystemPartition = exports.analyze = exports.Compare = exports.Scan = exports.compareDir = exports.scanDir = void 0;
+const os_1 = __importDefault(require("os"));
+const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const interface_1 = require("./interface");
+const DiskError_1 = __importDefault(require("./bean/DiskError"));
+const ConsoleErrorHandler_1 = __importDefault(require("./bean/ConsoleErrorHandler"));
 const global_helper_1 = require("./helper/global-helper");
 const CompareHelper = __importStar(require("./helper/compare-helper"));
 const ScanHelper = __importStar(require("./helper/scan-helper"));
-const os_1 = __importDefault(require("os"));
 const win32_1 = require("./os/win32");
-const darwin_1 = require("./os/darwin");
-const scanDir = path_1.default.join(__dirname, "..", "..", "scan");
-const compareDir = path_1.default.join(__dirname, "..", "..", "compare");
-async function Scan(root = __dirname, threshold = 1000000, mode = interface_1.ScanMode.Normal) {
-    console.time("Disk-management-scanner");
+const unix_1 = require("./os/unix");
+const linux_1 = require("./os/linux");
+const analyzer_1 = __importDefault(require("./modues/analyzer"));
+exports.scanDir = path_1.default.join(__dirname, '..', '..', 'scan');
+exports.compareDir = path_1.default.join(__dirname, '..', '..', 'compare');
+async function Scan(root = __dirname, threshold = 1048576, mode = interface_1.ScanMode.SaveToDisk) {
+    console.time('Disk-management-scanner');
+    await ensureEnviroment();
     let HierachyTree = await ScanHelper.scanInFileSystem(root);
-    let listBigNode = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
+    const listBigNode = await ScanHelper.scanBigDirectoryInHierachy(HierachyTree, threshold);
     HierachyTree = await ScanHelper.removeParentInHierachy(HierachyTree);
-    let pathJSON = path_1.default.join(scanDir, global_helper_1.getDateByFormat() + ".log");
-    let obj = {
+    const pathJSON = path_1.default.join(exports.scanDir, global_helper_1.getDateByFormat() + '.json');
+    const diskResult = {
         time: new Date(Date.now()),
         total: HierachyTree.storage,
-        big_directory: listBigNode,
-        root: mode == interface_1.ScanMode.Normal ? HierachyTree : listBigNode
+        threshold,
+        bigDirectory: listBigNode,
+        root: HierachyTree
     };
-    await ScanHelper.writeResultToFile(scanDir, pathJSON, obj);
-    console.timeEnd("Disk-management-scanner");
+    if (mode == interface_1.ScanMode.ReturnResult) {
+        console.timeEnd('Disk-management-scanner');
+        return diskResult;
+    }
+    await ScanHelper.writeResultToFile(exports.scanDir, pathJSON, diskResult);
+    console.timeEnd('Disk-management-scanner');
+    return null;
 }
 exports.Scan = Scan;
-async function Compare(threshold, pathToSourceFile, pathToTargetFile) {
-    console.time("Disk-management-compare");
+async function Compare(threshold, pathToSourceFile, pathToTargetFile, engine = interface_1.CompareEngine.JSON) {
+    console.time('Disk-management-compare');
+    await ensureEnviroment();
     let paramCompare;
     try {
-        paramCompare = await CompareHelper.detectOptionsCompare(threshold, scanDir, pathToSourceFile, pathToTargetFile);
+        paramCompare = await CompareHelper.detectOptionsCompare(threshold, exports.scanDir, pathToSourceFile, pathToTargetFile);
     }
     catch (error) {
-        console.log(error);
+        new ConsoleErrorHandler_1.default(new DiskError_1.default(error));
         return;
     }
-    let listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
-    await CompareHelper.storeResult(compareDir, listChangeStatus);
-    console.timeEnd("Disk-management-compare");
+    const listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
+    if (engine == interface_1.CompareEngine.JSON) {
+        await CompareHelper.storeResult(exports.compareDir, listChangeStatus);
+    }
+    else {
+        await CompareHelper.toHTML(listChangeStatus);
+    }
+    console.timeEnd('Disk-management-compare');
 }
 exports.Compare = Compare;
+async function analyze(filepath) {
+    await analyzer_1.default.run(filepath);
+}
+exports.analyze = analyze;
+;
 function readSystemPartition() {
     return new Promise(async (resolve, reject) => {
+        let diskInstance;
         switch (os_1.default.platform()) {
-            case "win32": {
-                const data = await new win32_1.win32().readSystemPartition();
-                return resolve(data);
-            }
-            case "darwin": {
-                const data = await new darwin_1.darwin().readSystemPartition();
-                return resolve(data);
-            }
+            case 'win32':
+                diskInstance = new win32_1.win32();
+            case 'linux':
+                diskInstance = new linux_1.linux();
             default:
-                resolve(null);
-                break;
+                diskInstance = new unix_1.unix();
         }
+        const data = diskInstance.readSystemPartition();
+        resolve(data);
     });
 }
 exports.readSystemPartition = readSystemPartition;
+function ensureEnviroment() {
+    fs_1.default.mkdirSync(exports.scanDir, { recursive: true });
+    fs_1.default.mkdirSync(exports.compareDir, { recursive: true });
+}
+exports.ensureEnviroment = ensureEnviroment;

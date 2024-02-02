@@ -1,10 +1,5 @@
-import { Hierachy } from "../../bean/node-hierachy";
-import {
-  scanInFileSystem,
-  scanBigDirectoryInHierachy,
-  removeParentInHierachy,
-  writeResultToFile
-} from "../scan-helper";
+import Hierachy from "../../bean/Hierachy";
+import { scanInFileSystem, scanBigDirectoryInHierachy, removeParentInHierachy, writeResultToFile } from "../scan-helper";
 import { BigNode } from "../../interface";
 import path from "path";
 import fs from "fs";
@@ -25,7 +20,7 @@ describe("Scan helper", () => {
 
   test("scanInFileSystem()", async () => {
     expect(rootHierachy).not.toBeNull();
-    expect(rootHierachy.child.length).toBe(4);
+    expect(rootHierachy.child.length).toBe(5);
   });
 
   test("scanBigDirectoryInHierachy()", async () => {
