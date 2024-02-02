@@ -41,9 +41,14 @@ class DiskFileSystem {
     }
     lsCommandPromise(pathToDir) {
         return new Promise((resolve, reject) => {
-            fs_1.default.readdir(pathToDir, "utf-8", function (err, data) {
-                return err ? reject(err) : resolve(data);
-            });
+            if (fs_1.default.existsSync(pathToDir)) {
+                fs_1.default.readdir(pathToDir, "utf-8", function (err, data) {
+                    return err ? reject(err) : resolve(data);
+                });
+            }
+            else {
+                resolve([]);
+            }
         });
     }
     async readStatDirPromise(pathToDir, dirInfo) {

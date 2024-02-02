@@ -55,18 +55,22 @@ export default class DiskFileSystem {
 		return restore;
 	}
 
-  /**
-   * Simulation ls command familiar in UNIX, LINUX system
-   *
-   * @param {string} pathToDir Path to node in filesystem
-   */
-  lsCommandPromise(pathToDir: string): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      fs.readdir(pathToDir, "utf-8", function (err, data) {
-        return err ? reject(err) : resolve(data);
-      });
-    });
-  }
+	/**
+	 * Simulation ls command familiar in UNIX, LINUX system
+	 *
+	 * @param {string} pathToDir Path to node in filesystem
+	 */
+	lsCommandPromise(pathToDir: string): Promise<string[]> {
+		return new Promise((resolve, reject) => {
+			if (fs.existsSync(pathToDir)) {
+				fs.readdir(pathToDir, "utf-8", function (err, data) {
+					return err ? reject(err) : resolve(data);
+				});
+			} else {
+				resolve([]);
+			}
+		});
+	}
 
   /**
    * Get directory status of element in dir

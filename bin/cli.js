@@ -9,8 +9,6 @@ const inquirer = require('inquirer');
 const { Scan, Compare, analyze, scanDir } = require('../index.js');
 const { ScanMode, CompareEngine } = require('../build/lib/interface/index');
 
-const results = fs.readdirSync(scanDir, 'utf-8');
-
 const cliVersion = [
 	colors.blue('Disk management current CLI version:'),
 	colors.green(package.version),
@@ -45,6 +43,12 @@ program
 		let threshold = cmd.threshold || 10000;
 		let engine = CompareEngine[cmd.engine] || CompareEngine.JSON;
 
+		if (fs.existsSync(scanDir)) {
+			var results = fs.readdirSync(scanDir, 'utf-8');
+		} else {
+			var results = [];
+		}
+
 		inquirer.prompt([
 			{
 				type: 'list',
@@ -77,6 +81,12 @@ program
 	.command('analyze')
 	.description('Analyze scan file')
 	.action(function (cmd) {
+
+		if (fs.existsSync(scanDir)) {
+			var results = fs.readdirSync(scanDir, 'utf-8');
+		} else {
+			var results = [];
+		}
 
 		inquirer.prompt([
 			{
