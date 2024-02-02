@@ -72,7 +72,7 @@ async function Compare(threshold, pathToSourceFile, pathToTargetFile, engine = i
         new ConsoleErrorHandler_1.default(new DiskError_1.default(error));
         return;
     }
-    const listChangeStatus = CompareHelper.resolveCompareData(paramCompare);
+    const listChangeStatus = await CompareHelper.resolveCompareData(paramCompare);
     if (engine == interface_1.CompareEngine.JSON) {
         await CompareHelper.storeResult(exports.compareDir, listChangeStatus);
     }

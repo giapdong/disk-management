@@ -20,24 +20,59 @@ npm install disk-management # Or yarn add disk-management
 ## Table of Contents
 
 <ul>
-    <li><a href="#importing">Importing</a></li>
-    <li>
-        <a href="#usage">Usage</a>
-        <ul>
-            <li><a href="#simple-demo">Simple demo</a></li>
-        </ul>
-    </li>
-    <li>
-        <a href="#api">API</a>
-        <ul>
-            <li><a href="#scan">Scan</a></li>
-            <li><a href="#compare">Compare</a></li>
-            <li><a href="#scanmode">ScanMode</a></li>
-        </ul>
-    </li>
-    <li><a href="#cli">CLI</a></li>
-    <li><a href="#issues">Issues</a></li>
+	<li><a href="#cli">CLI Guide</a></li>
+	<li><a href="#importing">Importing</a></li>
+	<li>
+		<a href="#usage">Usage</a>
+		<ul>
+			<li><a href="#simple-demo">Simple demo</a></li>
+		</ul>
+	</li>
+	<li>
+		<a href="#api">API</a>
+		<ul>
+			<li><a href="#scan">Scan</a></li>
+			<li><a href="#compare">Compare</a></li>
+			<li><a href="#scanmode">ScanMode</a></li>
+		</ul>
+	</li>
+	<li><a href="#issues">Issues</a></li>
 </ul>
+
+## CLI
+
+We built-in with powerful cli command.
+
+First thing first, `disk-management` will helpful when install as **global** module
+
+### Scan directory CLI
+And now, you should be focus to first and most common task: `Scan`.
+```bash
+disk-management scan --root "C:\\" --threshold 1024
+```
+
+Command above will scan all file in `"C:\\"` and report all file size `> 1024B (1KB)`. Special notice: Total storage value still equal total files. See in below example, value of directory contain 2 files still equal 3000 Bytes, but only file `tsconfig.json` will report to files for optimize file size
+```
+.
+├── tsconfig.json (2000 Bytes)
+└── yarn.lock (1000 Bytes)
+```
+
+### Analyze disk CLI
+After you using scan command, you will have demand for see overview all files and `big files/folders` e.g question for **How much size of temporary folder?** will have answer by this feature
+```bash
+disk-management analyze
+
+? Choose source file (Use arrow keys)
+> 2023-01-28_09.38.56.sys0.log.xjson
+  2023-01-28_10.20.39.sys1.json.xjson
+  2023-07-13_15.08.28.sys2.json.xjson
+  2023-08-07_09.59.53.sys3.json.xjson
+  2023-09-07_17.23.07.sys4.json.xjson
+  2024-02-02_14.49.49.json.xjson
+  2024-02-02_14.54.48.json.xjson
+```
+
 
 ## Importing
 
@@ -51,7 +86,7 @@ If you need micro function, import with ES6 systax
 const { ScanMode, Scan, Compare } = require('disk-management');
 ```
 
-## Usage
+## API Usage
 
 Base guide for application
 
@@ -79,7 +114,7 @@ Run application
 node run.js
 ```
 
-## API
+## API References
 
 ### Scan
 
@@ -111,30 +146,12 @@ Description: In `Normal` mode, application will store all infomation of tree dir
 
 For example, you have folder with 3 file and 5 folder, we will calcute size of folder same as size of 3 file.
 
-## CLI
-
-We built-in with cli command. See help follow below guide.
-
-If you use yarn as package management, you can install disk-management cli as dependencies in your nodejs application. Run cli follow command: `yarn disk-management`
-
-If you use npm, you need install **disk-management** in global. Run cli follow command: `disk-management`
-
 # Development
+[NPM parameter](https://stackoverflow.com/questions/11580961/sending-command-line-arguments-to-npm-script)
 
 ```bash
-yarn
-```
-
-```bash
-node bin/cli.js
-```
-
-```bash
-node bin/cli.js scan -r "C:\\"
-```
-
-```bash
-bash build.sh && node bin/cli.js scan -r "C:\\"
+npm run run -- --version
+npm run run -- scan -r "C:\\"
 ```
 
 # Issues

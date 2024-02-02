@@ -30,13 +30,13 @@ async function getListScanFile(pathToScanDir) {
     return listScanFile;
 }
 exports.getListScanFile = getListScanFile;
-function resolveCompareData(compareOptions) {
+async function resolveCompareData(compareOptions) {
     const spinner = global_helper_1.genDotsSpinner('[2/3] Resolving result');
     spinner.start();
-    const dataSource = fs_1.default.readFileSync(compareOptions.pathToSourceFile, 'utf-8');
-    const dataTarget = fs_1.default.readFileSync(compareOptions.pathToTargetFile, 'utf-8');
-    const json1 = JSON.parse(dataSource).bigDirectory;
-    const json2 = JSON.parse(dataTarget).bigDirectory;
+    const dataSource = await DiskFileSystem_1.default.extractFile(compareOptions.pathToSourceFile);
+    const dataTarget = await DiskFileSystem_1.default.extractFile(compareOptions.pathToTargetFile);
+    const json1 = JSON.parse(dataSource.toString()).bigDirectory;
+    const json2 = JSON.parse(dataTarget.toString()).bigDirectory;
     let listBigNode = json1.map(item => item.path).concat(json2.map(item => item.path));
     listBigNode = [...new Set(listBigNode)];
     const listChangeStatus = [];

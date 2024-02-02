@@ -9,10 +9,12 @@ const inquirer = require('inquirer');
 const { Scan, Compare, analyze, scanDir } = require('../index.js');
 const { ScanMode, CompareEngine } = require('../build/lib/interface/index');
 
+const results = fs.readdirSync(scanDir, 'utf-8');
+
 const cliVersion = [
 	colors.blue('Disk management current CLI version:'),
 	colors.green(package.version),
-	'\nView latest version in registry: ',
+	'\nView latest version in registry by command: ',
 	colors.blue('npm view disk-management version')
 ].join(' ');
 
@@ -33,28 +35,6 @@ program
 		Scan(root, threshold, mode);
 	});
 
-var results = fs.readdirSync(scanDir, 'utf-8');
-
-const compare_qa = [
-	{
-		type: 'list',
-		name: 'source',
-		message: 'Choose source file',
-		choices: results,
-		filter(val) {
-			return val.toLowerCase();
-		}
-	},
-	{
-		type: 'list',
-		name: 'target',
-		message: 'Choose target file',
-		choices: results,
-		filter(val) {
-			return val.toLowerCase();
-		}
-	}
-];
 
 program
 	.command('compare')
@@ -65,7 +45,26 @@ program
 		let threshold = cmd.threshold || 10000;
 		let engine = CompareEngine[cmd.engine] || CompareEngine.JSON;
 
-		inquirer.prompt(compare_qa).then(answers => {
+		inquirer.prompt([
+			{
+				type: 'list',
+				name: 'source',
+				message: 'Choose source file',
+				choices: results,
+				filter(val) {
+					return val.toLowerCase();
+				}
+			},
+			{
+				type: 'list',
+				name: 'target',
+				message: 'Choose target file',
+				choices: results,
+				filter(val) {
+					return val.toLowerCase();
+				}
+			}
+		]).then(answers => {
 			var source = path.join(scanDir, answers.source);
 			var target = path.join(scanDir, answers.target);
 
@@ -95,6 +94,7 @@ program
 			analyze(source);
 		});
 	});
+
 
 program.parse(process.argv);
 if (!program.args.length) program.help();

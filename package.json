@@ -8,7 +8,8 @@
 	"scripts": {
 		"dev:api": "cross-env NODE_ENV=development ts-node-dev src/api/app.ts",
 		"build:ts": "tsc",
-		"test:ts": "jest --detectOpenHandles"
+		"test:ts": "jest --detectOpenHandles",
+		"run": "bash build.sh && node bin/cli.js"
 	},
 	"dependencies": {
 		"axios": "^1.6.0",

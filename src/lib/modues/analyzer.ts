@@ -241,5 +241,7 @@ export default class DiskAnalyzer {
 		var targetFilePath = path.join(rootPath, '../compare', `index-${today}.html`);
 		var targetfilepath = await DiskFileSystem.generateSafeFilePath(targetFilePath);
 		fs.writeFileSync(targetfilepath, template, {flag: "as+", encoding: "utf8"});
+
+		console.log('See analyze file here: ', targetFilePath);
 	};
 };
