@@ -152,6 +152,8 @@ For example, you have folder with 3 file and 5 folder, we will calcute size of f
 ```bash
 npm run run -- --version
 npm run run -- scan -r "C:\\"
+
+node bin/cli.js analyze
 ```
 
 # Issues
