@@ -146,6 +146,8 @@ export default class DiskFileSystem {
       // resource busy or locked
     } else if (error.code == "EACCES" || error.errno == -4092) {
       // resource permission denied
+    } else if (error.code == "EPERM" || error.errno == -1) {
+      // resource permission denied
     } else {
       console.log("\n", prefix, error);
     }

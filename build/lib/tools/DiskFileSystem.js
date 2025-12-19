@@ -100,6 +100,8 @@ class DiskFileSystem {
         }
         else if (error.code == "EACCES" || error.errno == -4092) {
         }
+        else if (error.code == "EPERM" || error.errno == -1) {
+        }
         else {
             console.log("\n", prefix, error);
         }
