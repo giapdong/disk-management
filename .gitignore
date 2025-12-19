@@ -3,6 +3,7 @@
 
 # Development folders
 node_modules/
+.yarn/
 scan/
 compare/
 
